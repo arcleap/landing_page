@@ -23,20 +23,20 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "Arcleap — Frontier AI, shipped as consumer products",
+  title: "ArcLeap — Frontier AI, shipped as consumer products",
   description:
-    "Arcleap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products. Dreamist is our first.",
+    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products. Dreamist is our first.",
   openGraph: {
-    title: "Arcleap — Frontier AI, shipped as consumer products",
+    title: "ArcLeap — Frontier AI, shipped as consumer products",
     description:
       "Consumer deep-tech from San Francisco. We build world models, neural rendering, and on-device inference, and ship them inside products people keep. Dreamist is the first.",
     url: "https://arcleap.ai",
-    siteName: "Arcleap",
+    siteName: "ArcLeap",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Arcleap — Frontier AI, shipped as consumer products",
+    title: "ArcLeap — Frontier AI, shipped as consumer products",
     description:
       "Consumer deep-tech. We build world models, neural rendering, and on-device inference, and ship them inside products people keep. Dreamist is the first.",
   },
@@ -47,14 +47,11 @@ export const metadata: Metadata = {
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Arcleap",
+  name: "ArcLeap",
   url: "https://arcleap.ai",
   description:
     "Deep-tech and advanced AI company building consumer products.",
-  founder: [
-    { "@type": "Person", name: "Jin Miao" },
-    { "@type": "Person", name: "Vijay Karunamurthy" },
-  ],
+  founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "San Francisco, CA",
 };

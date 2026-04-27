@@ -7,9 +7,9 @@ export function Nav() {
         <a
           href="#top"
           className="font-display text-xl tracking-tight text-ink hover:text-accent transition-colors"
-          aria-label="Arcleap home"
+          aria-label="ArcLeap home"
         >
-          arcleap
+          ArcLeap
         </a>
         <nav aria-label="Primary" className="flex items-center gap-7">
           {nav.map((item) => {
@@ -28,7 +28,7 @@ export function Nav() {
             );
           })}
           <a
-            href="mailto:hello@arcleap.ai"
+            href="mailto:contact@arcleap.ai"
             className="text-caption hover:text-ink transition-colors sm:hidden"
             rel="noopener noreferrer"
           >

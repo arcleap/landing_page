@@ -1,20 +1,20 @@
-# Arcleap — Brand Spec
+# ArcLeap — Brand Spec
 
 **Status:** Draft v0.1 · Needs sign-off before code starts
 **Owner:** Jin
 **Last updated:** 2026-04-24
 
-> This document defines how Arcleap *sounds*, *feels*, and *looks* on its public surfaces. It is the arbiter when copy or design decisions are ambiguous. Dreamist has its own brand system; Arcleap is the quieter parent above it.
+> This document defines how ArcLeap *sounds*, *feels*, and *looks* on its public surfaces. It is the arbiter when copy or design decisions are ambiguous. Dreamist has its own brand system; ArcLeap is the quieter parent above it.
 
 ---
 
-## 1. What Arcleap Is
+## 1. What ArcLeap Is
 
-Arcleap is a **deep-tech and advanced AI company building consumer products**. We invest in foundational systems — world models, neural rendering, on-device inference, cryptographic provenance — and ship them inside products that normal people love. **Dreamist is the first.**
+ArcLeap is a **deep-tech and advanced AI company building consumer products**. We invest in foundational systems — world models, neural rendering, on-device inference, cryptographic provenance — and ship them inside products that normal people love. **Dreamist is the first.**
 
 The landing page's job is to make three things unambiguous to a first-time visitor in under 10 seconds:
 
-1. Arcleap is a *company*, not a product. (A parent. More is coming.)
+1. ArcLeap is a *company*, not a product. (A parent. More is coming.)
 2. We do *real* research, not wrappers.
 3. The research is pointed at *consumer* experiences, not enterprise infra.
 
@@ -34,12 +34,12 @@ The landing page's job is to make three things unambiguous to a first-time visit
 - The house that makes Dreamist, and whatever comes after it.
 
 **One-liner (proposed, lock this):**
-> *Arcleap builds frontier AI into products worth keeping.*
+> *ArcLeap builds frontier AI into products worth keeping.*
 
 **Alternates — pick one before build:**
 - (A) *Frontier AI, shipped as consumer products.*
 - (B) *We build deep-tech for the moments people keep.*
-- (C) *Arcleap is a consumer deep-tech company. Dreamist is the first thing we've built.*
+- (C) *ArcLeap is a consumer deep-tech company. Dreamist is the first thing we've built.*
 
 **Recommendation:** primary one-liner + (C) as the sub-hero paragraph.
 
@@ -95,7 +95,7 @@ leverage, unlock, empower, seamless(ly), revolutionary, game-changing, disrupt, 
 | Rule | `#1E1D1B` | Hairline dividers, 1px. |
 | Accent (warm) | `#F3B85B` | Amber. Used sparingly: CTA underlines, single "keep" glyph, focus rings. |
 | Accent (cool, secondary) | `#7E8CFF` | Violet-blue. For research-pillar tags only. |
-| Signal green | `#A4F66B` | Reserved for "Lived & Animated ✓" badge contexts only (Dreamist). Do not use on Arcleap chrome. |
+| Signal green | `#A4F66B` | Reserved for "Lived & Animated ✓" badge contexts only (Dreamist). Do not use on ArcLeap chrome. |
 
 **Decision needed:** amber (recommended — warmth of memory, avoids default AI-blue) vs violet-blue primary. Recommend amber; keep violet as a secondary tag color.
 
@@ -134,7 +134,7 @@ mono      0.8125 (13px) uppercase tracked
 
 ### Photography / media
 
-- If we show Dreamist output on the Arcleap page: present it as a **framed film still with a title card**, not a product screenshot. Black matte border, title slug + timestamp in mono type.
+- If we show Dreamist output on the ArcLeap page: present it as a **framed film still with a title card**, not a product screenshot. Black matte border, title slug + timestamp in mono type.
 - No stock photography. No lifestyle people-laughing-at-laptops. Ever.
 
 ### Iconography
@@ -145,7 +145,7 @@ mono      0.8125 (13px) uppercase tracked
 
 ## 5. Logo & Wordmark
 
-- **Arcleap wordmark:** set in Fraunces, medium weight, slight optical adjustment on the `rcl` junction. Lowercase. Tracking: -0.01em.
+- **ArcLeap wordmark:** set in Fraunces, medium weight, slight optical adjustment on the `rcl` junction. Lowercase. Tracking: -0.01em.
 - **No logomark for v1.** (Adding a mark invites the wrong comparisons. Type is enough until we've earned the glyph.)
 - Favicon: stacked `a` letterform in amber on near-black, 32×32.
 - Clear space: 1× cap-height on all sides.
@@ -167,12 +167,12 @@ mono      0.8125 (13px) uppercase tracked
 
 | # | Decision | Options | Recommended |
 |---|---|---|---|
-| B1 | Primary one-liner | See §2 | *"Arcleap builds frontier AI into products worth keeping."* |
+| B1 | Primary one-liner | See §2 | *"ArcLeap builds frontier AI into products worth keeping."* |
 | B2 | Accent color | amber `#F3B85B` / violet `#7E8CFF` / green `#A4F66B` | **amber** |
 | B3 | Display serif | Fraunces (free) / Tiempos (licensed) / PP Editorial (licensed) | **Fraunces** for v1, revisit in v1.1 |
 | B4 | Hero motif | 3DGS drift / framed film still / pure type | **pure type + small framed still** |
 | B5 | Mark vs wordmark only | type-only / add minimal mark | **type-only for v1** |
-| B6 | Contact email | hello@ / jin@ / careers@ | **hello@arcleap.ai + careers@arcleap.ai** |
+| B6 | Contact email | contact@ / jinmiao@ / careers@ | **contact@arcleap.ai + careers@arcleap.ai** |
 
 ---
 

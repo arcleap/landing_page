@@ -1,5 +1,6 @@
 import { company } from "@/content/company";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { cn } from "@/lib/cn";
 
 export function Company() {
   return (
@@ -21,7 +22,13 @@ export function Company() {
         </div>
       </div>
 
-      <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
+      <div
+        className={cn(
+          "mt-16 md:mt-24 grid grid-cols-1 gap-10 md:gap-14",
+          company.founders.length > 1 && "md:grid-cols-2",
+          company.founders.length === 1 && "max-w-[44rem]",
+        )}
+      >
         {company.founders.map((f) => (
           <article key={f.name} className="flex flex-col">
             <h3 className="text-h3 text-ink">{f.name}</h3>

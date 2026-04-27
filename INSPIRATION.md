@@ -1,10 +1,10 @@
-# Arcleap Landing — Inspiration & Visual Direction
+# ArcLeap Landing — Inspiration & Visual Direction
 
 **Status:** Draft v0.1 · Needs sign-off before code starts
 **Owner:** Jin
 **Last updated:** 2026-04-24
 
-> References we're borrowing from, specifically what we're borrowing, and — maybe more importantly — what we refuse to borrow. The goal is a site that feels unmistakably *Arcleap* without being a pastiche.
+> References we're borrowing from, specifically what we're borrowing, and — maybe more importantly — what we refuse to borrow. The goal is a site that feels unmistakably *ArcLeap* without being a pastiche.
 
 ---
 
@@ -61,7 +61,7 @@ Pinned decisions, not vibes:
 
 ## 4. Anti-references (explicitly refuse)
 
-These patterns are off-limits for Arcleap's page. If a mock leans this way, reject.
+These patterns are off-limits for ArcLeap's page. If a mock leans this way, reject.
 
 - **The AI-landing-page starter pack:** glassmorphism, neon purple-blue gradients, floating 3D mesh balls, "sparkle" emojis, "✨" anywhere.
 - **The SaaS homepage grid:** 3×3 feature cards with icons, each with a two-word bold title and a two-line gray subhead.

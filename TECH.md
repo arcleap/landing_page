@@ -1,4 +1,4 @@
-# Arcleap Landing — Technical Spec
+# ArcLeap Landing — Technical Spec
 
 **Status:** Draft v0.1 · Needs sign-off before code starts
 **Owner:** Jin
@@ -269,7 +269,7 @@ Deploy: Vercel auto-deploys `main` → production, PRs → preview URLs.
 - Apex: `arcleap.ai` → Vercel A records.
 - `www.arcleap.ai` → Vercel CNAME → apex redirect.
 - Email: leave MX untouched (handled elsewhere). Do **not** change MX on DNS switch-over.
-- Pre-launch check: `hello@`, `jin@`, `vijay@`, `careers@` all deliver.
+- Pre-launch check: `contact@`, `jinmiao@`, `careers@` all deliver.
 
 ---
 

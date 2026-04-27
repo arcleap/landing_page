@@ -1,4 +1,4 @@
-# Arcleap — Content Spec
+# ArcLeap — Content Spec
 
 **Status:** Draft v0.1 · Needs sign-off before code starts
 **Owner:** Jin (with Chandler review before lock)
@@ -31,7 +31,7 @@ Mobile: hamburger → same four, stacked.
 - `Research` scroll-anchors to §4 for v1 (external `/research` blog in v1.1).
 - `Products` → §5.
 - `Company` → §6.
-- `Contact` → `mailto:hello@arcleap.ai` (no form in v1).
+- `Contact` → `mailto:contact@arcleap.ai` (no form in v1).
 
 ---
 
@@ -43,7 +43,7 @@ Mobile: hamburger → same four, stacked.
 - (C) *We build AI into things worth keeping.*
 
 **Sub-hero paragraph (one short graf, ≤40 words):**
-> Arcleap is a deep-tech and advanced AI company. We build world models, neural rendering systems, and on-device inference — and ship them inside consumer products. Dreamist is the first.
+> ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering systems, and on-device inference — and ship them inside consumer products. Dreamist is the first.
 
 **CTAs:**
 - Primary: `See Dreamist →` (smooth-scroll to §5; later → `https://dreamist.ai` when live)
@@ -64,7 +64,7 @@ Mobile: hamburger → same four, stacked.
 > Research that ships.
 
 **Body (two grafs):**
-> Most frontier AI lives in labs or behind APIs. Most consumer AI is a thin skin over someone else's model. Arcleap sits in the seam: we do real research on world models, neural rendering, and on-device systems — and we put it inside products you'd actually use.
+> Most frontier AI lives in labs or behind APIs. Most consumer AI is a thin skin over someone else's model. ArcLeap sits in the seam: we do real research on world models, neural rendering, and on-device systems — and we put it inside products you'd actually use.
 >
 > We build a small number of things, slowly, on purpose. Each one has to earn its place. Dreamist is the first.
 
@@ -145,9 +145,9 @@ Do **not** list unreleased products by name. Leave the line plain.
 
 > AI is being built mostly for productivity and mostly for scale. We think the more interesting frontier is on the other side — AI that makes personal, emotional, human things possible for the first time.
 >
-> Arcleap exists to do that work in a small, quiet, technically serious way, and to turn it into products people keep.
+> ArcLeap exists to do that work in a small, quiet, technically serious way, and to turn it into products people keep.
 
-**Founders row (two cards, horizontal desktop, stacked mobile):**
+**Founder card (single card, max-width constrained desktop, full mobile):**
 
 Each card:
 - Name (display serif, small)
@@ -157,13 +157,9 @@ Each card:
 
 **Jin Miao** — *Co-founder & CEO*
 Previously [placeholder — fill from resume before ship]. Works on world models and the system design of consumer AI products.
-`jin@arcleap.ai`
+`jinmiao@arcleap.ai`
 
-**Vijay Karunamurthy** — *Co-founder & [role TBD]*
-Previously [placeholder — confirm with Vijay]. Works on [placeholder].
-`vijay@arcleap.ai`
-
-**Decision needed (C1):** short bios for both founders. Need one sentence each, locked.
+**Decision needed (C1):** locked one-sentence bio for Jin.
 
 **Hiring line (below cards, dim, 13px):**
 > We're hiring research and product engineers in San Francisco. `careers@arcleap.ai`
@@ -179,7 +175,7 @@ Three columns desktop, stacked mobile.
 `Consumer deep-tech. San Francisco.`
 
 **Middle — contact:**
-`hello@arcleap.ai`
+`contact@arcleap.ai`
 `careers@arcleap.ai`
 
 **Right — elsewhere:**
@@ -188,7 +184,7 @@ Three columns desktop, stacked mobile.
 - `LinkedIn` (company page — confirm URL before ship)
 
 **Bottom rule + mono line:**
-`© 2026 Arcleap, Inc. · Privacy · Terms`
+`© 2026 ArcLeap, Inc. · Privacy · Terms`
 
 `Privacy` and `Terms` link to `/privacy` and `/terms` — stub pages in v1, populated before any form goes live.
 
@@ -196,8 +192,8 @@ Three columns desktop, stacked mobile.
 
 ## 8. Meta / OG / SEO
 
-**`<title>`:** `Arcleap — Frontier AI, shipped as consumer products`
-**`<meta name="description">`:** `Arcleap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products. Dreamist is our first.`
+**`<title>`:** `ArcLeap — Frontier AI, shipped as consumer products`
+**`<meta name="description">`:** `ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products. Dreamist is our first.`
 
 **OG image (generated, 1200×630):**
 Ground background. `arcleap` wordmark bottom-left in Fraunces. Sub-line in mono bottom-left: `frontier ai, shipped as consumer products`. Amber hairline 1px across lower third. No other ornament.

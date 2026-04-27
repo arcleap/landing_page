@@ -6,7 +6,7 @@ export function Footer() {
       <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-3 gap-10">
         <div>
           <p className="font-display text-2xl tracking-tight text-ink">
-            arcleap
+            ArcLeap
           </p>
           <p className="text-caption mt-3">{footer.tagline}</p>
         </div>

@@ -11,22 +11,15 @@ export const company = {
   h2: "Why we started this.",
   body: [
     "AI is being built mostly for productivity and mostly for scale. We think the more interesting frontier is on the other side — AI that makes personal, emotional, human things possible for the first time.",
-    "Arcleap exists to do that work in a small, quiet, technically serious way, and to turn it into products people keep.",
+    "ArcLeap exists to do that work in a small, quiet, technically serious way, and to turn it into products people keep.",
   ],
   founders: [
     {
       name: "Jin Miao",
       role: "Co-founder & CEO",
       bio:
-        "[placeholder — one sentence on prior work + what you do at Arcleap]",
-      email: "jin@arcleap.ai",
-    },
-    {
-      name: "Vijay Karunamurthy",
-      role: "Co-founder",
-      bio:
-        "[placeholder — one sentence on Vijay's prior work + role at Arcleap]",
-      email: "vijay@arcleap.ai",
+        "[placeholder — one sentence on prior work + what you do at ArcLeap]",
+      email: "jinmiao@arcleap.ai",
     },
   ] satisfies Founder[],
   hiring: {
