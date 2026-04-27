@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
   title: "ArcLeap — Frontier AI, shipped as consumer products",
   description:
-    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products. Dreamist is our first.",
+    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products.",
   openGraph: {
     title: "ArcLeap — Frontier AI, shipped as consumer products",
     description:
-      "Consumer deep-tech from San Francisco. We build world models, neural rendering, and on-device inference, and ship them inside products people keep. Dreamist is the first.",
+      "Consumer deep-tech from San Francisco. Frontier AI, shipped as consumer products.",
     url: "https://arcleap.ai",
     siteName: "ArcLeap",
     type: "website",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ArcLeap — Frontier AI, shipped as consumer products",
     description:
-      "Consumer deep-tech. We build world models, neural rendering, and on-device inference, and ship them inside products people keep. Dreamist is the first.",
+      "Consumer deep-tech. Frontier AI, shipped as consumer products.",
   },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },

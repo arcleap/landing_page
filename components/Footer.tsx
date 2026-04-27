@@ -3,7 +3,7 @@ import { footer } from "@/content/links";
 export function Footer() {
   return (
     <footer className="border-t border-rule mt-12">
-      <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
           <p className="font-display text-2xl tracking-tight text-ink">
             ArcLeap
@@ -21,22 +21,6 @@ export function Footer() {
                 rel="noopener noreferrer"
               >
                 {c}
-              </a>
-            </p>
-          ))}
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-mono mb-3">Elsewhere</p>
-          {footer.external.map((l) => (
-            <p key={l.label}>
-              <a
-                href={l.href}
-                target={l.external ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="text-body text-ink/85 hover:text-accent transition-colors inline-flex items-center gap-1"
-              >
-                {l.label} <span aria-hidden>→</span>
               </a>
             </p>
           ))}
