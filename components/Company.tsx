@@ -33,7 +33,6 @@ export function Company() {
           <article key={f.name} className="flex flex-col">
             <h3 className="text-h3 text-ink">{f.name}</h3>
             <p className="text-mono mt-1">{f.role}</p>
-            <p className="mt-5 text-body text-ink/80 max-w-[44ch]">{f.bio}</p>
             <p className="text-mono mt-4">
               <a
                 href={`mailto:${f.email}`}

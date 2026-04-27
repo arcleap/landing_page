@@ -1,7 +1,6 @@
 export type Founder = {
   name: string;
   role: string;
-  bio: string;
   email: string;
   link?: { label: string; href: string };
 };
@@ -17,8 +16,6 @@ export const company = {
     {
       name: "Jin Miao",
       role: "Co-founder & CEO",
-      bio:
-        "[placeholder — one sentence on prior work + what you do at ArcLeap]",
       email: "jinmiao@arcleap.ai",
     },
   ] satisfies Founder[],
