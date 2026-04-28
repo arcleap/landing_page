@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
   title: "ArcLeap — Frontier AI, shipped as consumer products",
   description:
-    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and on-device inference — and ship them inside consumer products.",
+    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and large-scale multimodal AI — with reinforcement and continual learning at the core.",
   openGraph: {
     title: "ArcLeap — Frontier AI, shipped as consumer products",
     description:

@@ -9,7 +9,7 @@ export const pillars = {
   items: [
     { number: "01", title: "Personal World Models" },
     { number: "02", title: "Neural Rendering at Consumer Cost" },
-    { number: "03", title: "On-device Inference" },
+    { number: "03", title: "Per-user Personalization at Scale" },
     { number: "04", title: "Authenticity & Provenance" },
   ] satisfies Pillar[],
 };
