@@ -10,7 +10,7 @@ export const company = {
   h2: "Why we started this.",
   body: [
     "AI is being built mostly for productivity and mostly for scale. We think the more interesting frontier is on the other side — AI that makes personal, emotional, human things possible for the first time.",
-    "ArcLeap exists to do that work in a small, quiet, technically serious way, and to turn it into products people keep.",
+    "ArcLeap is where that frontier gets shipped — research, infrastructure, and consumer products that bring advanced AI into daily life.",
   ],
   founders: [
     {
