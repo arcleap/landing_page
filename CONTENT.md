@@ -50,7 +50,7 @@ Mobile: hamburger → same four, stacked.
 - Secondary: `Read our research` → disabled link with `Soon` tag for v1
 
 **Meta row beneath CTAs (mono, 13px, dim):**
-`San Francisco · Founded 2026 · Hiring`
+`Silicon Valley · Founded 2026 · Hiring`
 
 **Visual:** per BRAND.md, pure type on ground. Optional: one small framed film still from Dreamist (title slug `dreamist / reel 001`) aligned right on desktop, stacked below on mobile.
 
@@ -162,7 +162,7 @@ Previously [placeholder — fill from resume before ship]. Works on world models
 **Decision needed (C1):** locked one-sentence bio for Jin.
 
 **Hiring line (below cards, dim, 13px):**
-> We're hiring research and product engineers in San Francisco. `careers@arcleap.ai`
+> We're hiring research and product engineers in Silicon Valley. `careers@arcleap.ai`
 
 ---
 
@@ -172,7 +172,7 @@ Three columns desktop, stacked mobile.
 
 **Left — wordmark + tagline:**
 `arcleap`
-`Consumer deep-tech. San Francisco.`
+`Deep tech for consumer. Silicon Valley.`
 
 **Middle — contact:**
 `contact@arcleap.ai`

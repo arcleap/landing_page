@@ -20,7 +20,7 @@ export const company = {
     },
   ] satisfies Founder[],
   hiring: {
-    text: "We're hiring research and product engineers in San Francisco.",
+    text: "We're hiring research and product engineers in Silicon Valley.",
     email: "careers@arcleap.ai",
   },
 };

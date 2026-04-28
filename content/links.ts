@@ -5,7 +5,7 @@ export const nav = [
 ];
 
 export const footer = {
-  tagline: "Consumer deep-tech. San Francisco.",
+  tagline: "Deep tech for consumer. Silicon Valley.",
   contacts: ["contact@arcleap.ai", "careers@arcleap.ai"],
   legal: [
     { label: "Privacy", href: "/privacy" },

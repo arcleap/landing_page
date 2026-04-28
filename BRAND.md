@@ -22,7 +22,7 @@ The landing page's job is to make three things unambiguous to a first-time visit
 
 ## 2. Positioning
 
-**Category:** Consumer deep-tech.
+**Category:** Deep tech for consumer.
 
 **Against (what we are not):**
 - Not a research lab (labs publish; we ship).
@@ -39,7 +39,7 @@ The landing page's job is to make three things unambiguous to a first-time visit
 **Alternates — pick one before build:**
 - (A) *Frontier AI, shipped as consumer products.*
 - (B) *We build deep-tech for the moments people keep.*
-- (C) *ArcLeap is a consumer deep-tech company. Dreamist is the first thing we've built.*
+- (C) *ArcLeap is a deep tech for consumer company. Dreamist is the first thing we've built.*
 
 **Recommendation:** primary one-liner + (C) as the sub-hero paragraph.
 
