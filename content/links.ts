@@ -1,4 +1,5 @@
 export const nav = [
+  { label: "Signals", href: "/signals" },
   { label: "Research", href: "#research" },
   { label: "Company", href: "#company" },
   { label: "Contact", href: "mailto:contact@arcleap.ai" },
