@@ -172,6 +172,50 @@ def archive_notes(text, today, label):
         print(f"[tier2] notes archive failed (non-fatal): {e}", file=sys.stderr)
 
 
+def run_claude(prompt, timeout=600):
+    """Run claude -p on the Opus subscription with Anthropic API keys stripped (subscription billing)."""
+    safe_env = os.environ.copy()
+    for k in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL", "CLAUDE_API_KEY"):
+        safe_env.pop(k, None)   # keeps CLAUDE_CODE_OAUTH_TOKEN if present
+    result = subprocess.run(
+        ["claude", "-p", prompt, "--model", CLAUDE_MODEL],
+        capture_output=True, text=True, env=safe_env, check=True, timeout=timeout, cwd=_REPO_DIR,
+    )
+    return result.stdout.strip()
+
+
+MONICA_PROMPT = r"""You are "Monica", ArcLeap's adversarial red-team analyst. You are deliberately skeptical: your job is to KILL weak ideas, not encourage them. The builder's optimism runs too soft — you are the hard filter, and any "Jin's edge" claim is inflated until proven.
+
+Red-team EACH convergence candidate below (surfaced by today's Tier-2 filter). Be specific and name names. For each:
+
+1. **Weakest kill-gate** — which Idea Machine gate most threatens it? (real + frequent pain & WTP $20+/mo; wrapper test — can ChatGPT/Gemini already do it; moat >=2 sub-types; market ceiling $300M+/$1B+; 1+ steps ahead; Gate 13 OOD / one-step-obvious.)
+2. **Incumbent / big-tech scan** — who already ships this? Has Anthropic/OpenAI/Google/Microsoft/Meta/AWS launched a product or protocol on this substrate in the last ~12 weeks? If so the moat must move up-stack.
+3. **Graveyard** — what funded startups tried this and died or pivoted, and what does that prove?
+4. **Edge-inflation audit** — how many other founders could execute this as well or better than Jin? Name better-positioned profiles/people if any. Treat any 4.5+/5 edge claim as 3/5 until audited.
+5. **Verdict** — exactly one: 🔴 KILL · 🟡 NEEDS-EVIDENCE (state the single customer-interview question that decides it) · 🟢 PROCEED-NARROWLY (the one non-consensus wedge that survives).
+
+If a candidate is one-step-obvious, KILL it. Default to skepticism. Output concise markdown starting EXACTLY with "### 🔴 Monica Red-Team — adversarial check". No preamble, no meta-commentary.
+
+CANDIDATES (JSON):
+{CANDS}
+"""
+
+
+def monica_redteam(cands):
+    """Independent adversarial second pass over the convergence candidates (additive, non-fatal)."""
+    if not cands:
+        return ""
+    try:
+        prompt = MONICA_PROMPT.replace("{CANDS}", json.dumps(cands, ensure_ascii=False, indent=2))
+        report = run_claude(prompt, timeout=400)
+        if report and "Monica" in report:
+            return report
+        print("[tier2] Monica returned no usable report", file=sys.stderr)
+    except Exception as e:
+        print(f"[tier2] Monica red-team failed (non-fatal): {e}", file=sys.stderr)
+    return ""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", default=None)
@@ -198,25 +242,23 @@ def main():
               .replace("{DATE}", today).replace("{LABEL}", label)
               .replace("{COVERAGE}", COVERAGE).replace("{DIGEST}", digest))
 
-    safe_env = os.environ.copy()
-    for k in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL", "CLAUDE_API_KEY"):
-        safe_env.pop(k, None)   # guarantee subscription billing (keeps CLAUDE_CODE_OAUTH_TOKEN)
-
     try:
-        result = subprocess.run(
-            ["claude", "-p", prompt, "--model", CLAUDE_MODEL],
-            capture_output=True, text=True, env=safe_env, check=True, timeout=600,
-        )
+        out = run_claude(prompt, timeout=600)
     except Exception as e:
         print(f"[tier2] claude -p failed: {e}", file=sys.stderr)
         sys.exit(1)
-
-    out = result.stdout.strip()
     if not out or "## Response" not in out:
         print(f"[tier2] unexpected claude output (no ## Response); raw head: {out[:300]}", file=sys.stderr)
         sys.exit(1)
 
     clean, cands = extract_candidates(out)
+
+    # Additive: independent Monica red-team of the candidates, appended INSIDE the
+    # passcode-gated Co-founder Confidential section (it follows that header in `clean`).
+    monica = monica_redteam(cands)
+    if monica:
+        clean = clean.rstrip() + "\n\n---\n\n" + monica.strip()
+
     append_ledger(cands, today, label)
     archive_notes(clean, today, label)
     print(clean)   # delivered by Hermes + ingested by the publisher
