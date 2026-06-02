@@ -40,70 +40,61 @@ SESSIONS = {
 }
 
 def translate_markdown(text, target_lang="Chinese"):
-    """Translate markdown text to Chinese using the native Gemini REST API."""
-    import urllib.request
+    """Translate markdown text using Claude Code CLI (claude -p) on flat-rate subscription,
+    ensuring no per-token API keys are inherited or leaked."""
+    import subprocess
+    import tempfile
     
-    # Load API key
-    env_path = os.path.expanduser("~/.hermes/.env")
-    api_key = None
-    if os.path.exists(env_path):
-        with open(env_path) as f:
-            for line in f:
-                if line.strip().startswith("GOOGLE_API_KEY="):
-                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
-                    break
-    
-    if not api_key:
-        print("  GOOGLE_API_KEY not found in .env, skipping translation.")
-        return None
-        
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    prompt = f"""You are a world-class professional translator specializing in AI, startup terminology, and technology news.
-Translate the following Markdown tech-startup briefing into natural, native, and engaging {target_lang}.
-
-Requirements:
-1. Preserve ALL markdown formatting (headers, bold text, bullet points, horizontal rules).
-2. Crucially, preserve ALL clickable links exactly as they are in the original text (e.g. [Anchor](url) must remain [Translated Anchor](url)).
-3. Use modern, idiomatic Chinese startup and tech terminology (e.g., translate "MoE" as MoE or 混合专家模型, "prompt injection" as 提示词注入, "sandboxing" as 沙箱化, "inference" as 推理).
-4. Keep the tone professional, inspiring, and co-founder like.
-
-Text to translate:
-{text}"""
-
-    payload = {
-        "contents": [{
-            "parts": [{
-                "text": prompt
-            }]
-        }],
-        "generationConfig": {
-            "temperature": 0.2
-        }
-    }
-    
+    # Write text to a temporary file inside the repo workspace so Claude Code can access it
+    os.makedirs(TRANS_DIR, exist_ok=True)
+    fd, temp_path = tempfile.mkstemp(suffix=".md", prefix="translate_input_", dir=TRANS_DIR)
     try:
-        req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            translated = data["candidates"][0]["content"]["parts"][0]["text"]
+        with os.fdopen(fd, "w", encoding="utf-8") as tmp_f:
+            tmp_f.write(text)
+            
+        # Isolate environment to guarantee flat-rate subscription billing (avoid accidental per-token billing)
+        safe_env = os.environ.copy()
+        # Explicitly remove all potential API keys/tokens from the environment
+        for key in ["ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_API_URL", "CLAUDE_API_KEY"]:
+            safe_env.pop(key, None)
+            
+        prompt = (
+            f"Read the markdown content from the file at {temp_path}. "
+            f"Translate it into natural, professional, and highly engaging {target_lang}. "
+            f"Requirements:\n"
+            f"1. Preserve ALL markdown formatting (headers, bold text, bullet points, horizontal rules) exactly.\n"
+            f"2. Preserve ALL clickable links exactly as they are in the original text (e.g. [Anchor](url) must remain [Translated Anchor](url)).\n"
+            f"3. Use modern, idiomatic Chinese startup and tech terminology (e.g., translate 'MoE' as MoE or 混合专家模型, 'prompt injection' as 提示词注入, 'sandboxing' as 沙箱化, 'inference' as 推理).\n"
+            f"4. Keep the tone professional, inspiring, and co-founder like.\n"
+            f"Output ONLY the translated markdown. Do NOT include any conversational introduction, notes, or wrap-up text."
+        )
+        
+        # Run claude -p non-interactively with the clean isolated environment
+        result = subprocess.run(
+            ["claude", "-p", prompt],
+            capture_output=True,
+            text=True,
+            env=safe_env,
+            check=True
+        )
+        
+        translated = result.stdout.strip()
+        if translated:
             return translated
-    except Exception as e:
-        print(f"  Translation API call failed: {e}. Trying secondary model (gemini-1.5-flash)...")
-        # Fallback to gemini-1.5-flash if needed
-        url_fallback = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-        try:
-            req = urllib.request.Request(url_fallback, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                translated = data["candidates"][0]["content"]["parts"][0]["text"]
-                return translated
-        except Exception as ex:
-            print(f"  Secondary translation fallback failed: {ex}")
+        else:
+            print("  Translation via claude -p returned empty output.")
             return None
+            
+    except Exception as e:
+        print(f"  Translation via claude -p failed: {e}")
+        return None
+    finally:
+        # Clean up temporary file
+        if os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except:
+                pass
 
 def get_translated_content(date_str, session_type, original_content):
     """Retrieve translated content from cache, or translate and save if not cached (with MD5 hash validation)."""
@@ -291,20 +282,25 @@ def build_site():
         for d in sorted_dates:
             dt_obj = datetime.strptime(d, "%Y-%m-%d")
             pretty_date = dt_obj.strftime("%b %d, %Y")
-            active_class = "bg-zinc-800 text-amber-400 font-semibold" if d == active_date else "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+            if d == active_date:
+                active_card_class = "bg-zinc-900/80 border border-zinc-800/60"
+                active_text_class = "text-amber-400 font-bold"
+            else:
+                active_card_class = "hover:bg-zinc-900/60 border border-transparent"
+                active_text_class = "text-zinc-300 hover:text-amber-400"
             
             sessions_available = []
             if "morning" in briefings_by_date[d]:
-                sessions_available.append("🌅 Morning")
+                sessions_available.append(f'<a href="/signals/archive/{d}.html#morning" class="hover:text-amber-400 hover:underline transition-all">🌅 Morning</a>')
             if "afternoon" in briefings_by_date[d]:
-                sessions_available.append("🌇 Afternoon")
-            sessions_str = " & ".join(sessions_available)
+                sessions_available.append(f'<a href="/signals/archive/{d}.html#afternoon" class="hover:text-orange-400 hover:underline transition-all">🌇 Afternoon</a>')
+            sessions_str = " <span class='text-zinc-700'>&</span> ".join(sessions_available)
             
             sidebar_items.append(f"""
-            <a href="/signals/archive/{d}.html" class="block px-3 py-3 rounded-lg transition-all {active_class}">
-                <div class="text-sm font-medium">{pretty_date}</div>
-                <div class="text-xs text-zinc-500 mt-1">{sessions_str}</div>
-            </a>
+            <div class="px-3 py-3 rounded-xl transition-all {active_card_class}">
+                <a href="/signals/archive/{d}.html" class="text-sm font-semibold {active_text_class} block transition-all">{pretty_date}</a>
+                <div class="text-[11px] text-zinc-500 mt-1.5 flex gap-1.5 font-medium">{sessions_str}</div>
+            </div>
             """)
         
         sidebar_html = "\n".join(sidebar_items)
@@ -578,7 +574,7 @@ def build_site():
                     """
                 
                 day_content_blocks.append(f"""
-                <section class="mb-16 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-8 backdrop-blur-sm">
+                <section id="{s_type}" class="scroll-mt-24 mb-16 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-8 backdrop-blur-sm">
                     <!-- Section Header -->
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-zinc-900">
                         <div class="flex items-center gap-3">
