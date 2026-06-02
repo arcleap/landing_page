@@ -32,3 +32,6 @@ test-results/
 
 # Inspiration screenshots — local only
 inspiration/
+
+# Signals pipeline data (regenerable, noisy, daily-changing) — scripts are tracked, data is not
+signals/data/

@@ -1,0 +1,734 @@
+#!/usr/bin/env python3
+import os
+import re
+import json
+import base64
+from datetime import datetime
+
+def split_cofounder_content(text):
+    """Splits text into (public_text, cofounder_text)."""
+    # Split by the header. We handle emojis and text variations.
+    pattern = r"(##\s*🕵️‍♂️\s*(?:Co-founder\s+Confidential|联合创始人机密|联合创始人机密文件|Co-founder Confidential))"
+    parts = re.split(pattern, text, flags=re.IGNORECASE)
+    if len(parts) >= 3:
+        public_text = parts[0].strip()
+        cofounder_text = "".join(parts[2:]).strip()
+        return public_text, cofounder_text
+    return text.strip(), ""
+
+# Repo-portable paths (resolve through the ~/.hermes/scripts symlink to the repo).
+_SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))   # <repo>/signals/scripts
+_SIGNALS_DIR = os.path.dirname(_SCRIPT_DIR)                 # <repo>/signals
+_REPO_DIR = os.path.dirname(_SIGNALS_DIR)                   # <repo> (landing_page)
+
+# Hermes writes agent briefings to ~/.hermes/cron/output/<job_id>/ (not script-controllable);
+# ingest from there and archive copies into the repo for version-controlled history.
+HERMES_CRON_DIR = os.path.expanduser("~/.hermes/cron/output")
+BRIEFINGS_DIR = os.path.join(_SIGNALS_DIR, "data", "briefings")
+TRANS_DIR = os.path.join(_SIGNALS_DIR, "data", "translated")
+os.makedirs(BRIEFINGS_DIR, exist_ok=True)
+os.makedirs(TRANS_DIR, exist_ok=True)
+
+SITE_DIR = os.path.join(_REPO_DIR, "public", "signals")
+os.makedirs(SITE_DIR, exist_ok=True)
+os.makedirs(os.path.join(SITE_DIR, "archive"), exist_ok=True)
+
+# Map folder/job to session label
+SESSIONS = {
+    "f708e9d64322": "morning",
+    "e9b4bb7aede2": "afternoon"
+}
+
+def translate_markdown(text, target_lang="Chinese"):
+    """Translate markdown text to Chinese using the native Gemini REST API."""
+    import urllib.request
+    
+    # Load API key
+    env_path = os.path.expanduser("~/.hermes/.env")
+    api_key = None
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                if line.strip().startswith("GOOGLE_API_KEY="):
+                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    break
+    
+    if not api_key:
+        print("  GOOGLE_API_KEY not found in .env, skipping translation.")
+        return None
+        
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    prompt = f"""You are a world-class professional translator specializing in AI, startup terminology, and technology news.
+Translate the following Markdown tech-startup briefing into natural, native, and engaging {target_lang}.
+
+Requirements:
+1. Preserve ALL markdown formatting (headers, bold text, bullet points, horizontal rules).
+2. Crucially, preserve ALL clickable links exactly as they are in the original text (e.g. [Anchor](url) must remain [Translated Anchor](url)).
+3. Use modern, idiomatic Chinese startup and tech terminology (e.g., translate "MoE" as MoE or 混合专家模型, "prompt injection" as 提示词注入, "sandboxing" as 沙箱化, "inference" as 推理).
+4. Keep the tone professional, inspiring, and co-founder like.
+
+Text to translate:
+{text}"""
+
+    payload = {
+        "contents": [{
+            "parts": [{
+                "text": prompt
+            }]
+        }],
+        "generationConfig": {
+            "temperature": 0.2
+        }
+    }
+    
+    try:
+        req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            translated = data["candidates"][0]["content"]["parts"][0]["text"]
+            return translated
+    except Exception as e:
+        print(f"  Translation API call failed: {e}. Trying secondary model (gemini-1.5-flash)...")
+        # Fallback to gemini-1.5-flash if needed
+        url_fallback = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+        try:
+            req = urllib.request.Request(url_fallback, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                translated = data["candidates"][0]["content"]["parts"][0]["text"]
+                return translated
+        except Exception as ex:
+            print(f"  Secondary translation fallback failed: {ex}")
+            return None
+
+def get_translated_content(date_str, session_type, original_content):
+    """Retrieve translated content from cache, or translate and save if not cached (with MD5 hash validation)."""
+    import hashlib
+    cache_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md")
+    hash_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md.hash")
+    
+    current_hash = hashlib.md5(original_content.encode("utf-8")).hexdigest()
+    
+    if os.path.exists(cache_file) and os.path.exists(hash_file) and os.path.getsize(cache_file) > 0:
+        try:
+            with open(hash_file, "r", encoding="utf-8") as hf:
+                cached_hash = hf.read().strip()
+            if cached_hash == current_hash:
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    return f.read()
+        except Exception as e:
+            print(f"  Error reading translation cache hash: {e}")
+            
+    print(f"  Chinese cache for {date_str} {session_type} is missing or stale. Translating...")
+    translated = translate_markdown(original_content, "Chinese")
+    if translated:
+        try:
+            with open(cache_file, "w", encoding="utf-8") as f:
+                f.write(translated)
+            with open(hash_file, "w", encoding="utf-8") as hf:
+                hf.write(current_hash)
+            print(f"  ✓ Cached translation and hash for {date_str} {session_type}")
+            return translated
+        except Exception as e:
+            print(f"  Error writing translation cache or hash: {e}")
+    return None
+
+def parse_briefing_file(filepath, session_type):
+    """Parse a cron output markdown file and extract the agent's response."""
+    if not os.path.exists(filepath):
+        return None
+    
+    with open(filepath, "r", encoding="utf-8") as f:
+        content = f.read()
+        
+    # Extract Run Time metadata
+    run_time_match = re.search(r"\*\*Run Time:\*\* ([\d\-\s:]+)", content)
+    run_time_str = run_time_match.group(1).strip() if run_time_match else ""
+    
+    # Extract response section
+    parts = re.split(re.compile(r"^##\s+Response\s*$", re.IGNORECASE | re.MULTILINE), content)
+    if len(parts) < 2:
+        return None
+    
+    response_content = parts[-1].strip()
+    
+    # If the response was [SILENT] or empty, skip it
+    if "[SILENT]" in response_content or not response_content:
+        return None
+        
+    # Get date from file name or run_time
+    file_name = os.path.basename(filepath)
+    date_match = re.search(r"(\d{4}-\d{2}-\d{2})", file_name)
+    date_str = date_match.group(1) if date_match else datetime.today().strftime("%Y-%m-%d")
+    
+    return {
+        "date": date_str,
+        "run_time": run_time_str,
+        "session": session_type,
+        "content": response_content
+    }
+
+def markdown_to_html(md_text):
+    """A lightweight markdown-to-HTML converter that handles basic formatting, headers, links, and lists."""
+    html = md_text
+    
+    # Escape HTML
+    html = html.replace("<", "&lt;").replace(">", "&gt;")
+    
+    # Convert dividers
+    html = re.sub(r"^---+$", "<hr class='border-zinc-800 my-6' />", html, flags=re.MULTILINE)
+    
+    # Convert Headers
+    html = re.sub(r"^###\s+(.+)$", "<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>\g<1></h3>", html, flags=re.MULTILINE)
+    html = re.sub(r"^##\s+(.+)$", "<h2 class='text-xl font-bold text-amber-400 mt-8 mb-4 border-b border-zinc-800 pb-2'>\g<1></h2>", html, flags=re.MULTILINE)
+    html = re.sub(r"^#\s+(.+)$", "<h1 class='text-2xl font-black text-zinc-100 mt-8 mb-6'>\g<1></h1>", html, flags=re.MULTILINE)
+    
+    # Convert bold and italic
+    html = re.sub(r"\*\*([^*\n]+)\*\*", "<strong class='text-zinc-100 font-semibold'>\g<1></strong>", html)
+    html = re.sub(r"\*([^*\n]+)\*", "<em class='text-zinc-400 italic'>\g<1></em>", html)
+    
+    # Convert links
+    html = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", "<a href='\g<2>' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>\g<1> <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>", html)
+    
+    # Bullet points
+    lines = html.split("\n")
+    in_list = False
+    new_lines = []
+    for line in lines:
+        match = re.match(r"^[\s]*[•\-*][\s]+(.*)$", line)
+        if match:
+            if not in_list:
+                new_lines.append("<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>")
+                in_list = True
+            new_lines.append(f"<li>{match.group(1)}</li>")
+        else:
+            if in_list:
+                new_lines.append("</ul>")
+                in_list = False
+            new_lines.append(line)
+    if in_list:
+        new_lines.append("</ul>")
+    
+    html = "\n".join(new_lines)
+    
+    # Convert paragraphs
+    paragraphs = html.split("\n\n")
+    for i, p in enumerate(paragraphs):
+        p_strip = p.strip()
+        if p_strip and not p_strip.startswith("<h") and not p_strip.startswith("<ul") and not p_strip.startswith("<li") and not p_strip.startswith("<hr") and not p_strip.startswith("<div"):
+            paragraphs[i] = f"<p class='text-zinc-300 leading-relaxed my-3'>{p_strip}</p>"
+    
+    html = "\n\n".join(paragraphs)
+    return html
+
+def sync_briefings():
+    """Ingest Hermes-produced agent briefings into the repo's centralized, version-controlled store.
+    Hermes writes to ~/.hermes/cron/output/<job_id>/; copy new/updated .md files into
+    signals/data/briefings/<session>/ so the repo holds the canonical briefing history."""
+    import shutil
+    for job_id, session_type in SESSIONS.items():
+        src_dir = os.path.join(HERMES_CRON_DIR, job_id)
+        if not os.path.isdir(src_dir):
+            continue
+        dest_dir = os.path.join(BRIEFINGS_DIR, session_type)
+        os.makedirs(dest_dir, exist_ok=True)
+        for file_name in os.listdir(src_dir):
+            if not file_name.endswith(".md"):
+                continue
+            src = os.path.join(src_dir, file_name)
+            dest = os.path.join(dest_dir, file_name)
+            try:
+                if (not os.path.exists(dest)) or os.path.getmtime(src) > os.path.getmtime(dest):
+                    shutil.copy2(src, dest)
+            except Exception as e:
+                print(f"  Briefing sync failed for {src}: {e}")
+
+
+def build_site():
+    print("Rebuilding static website from briefings...")
+
+    # Ingest latest Hermes briefings into the repo store, then build from the repo copy
+    sync_briefings()
+    
+    # Collect all briefings
+    briefings_by_date = {}
+    
+    for session_type in dict.fromkeys(SESSIONS.values()):
+        folder_path = os.path.join(BRIEFINGS_DIR, session_type)
+        if not os.path.isdir(folder_path):
+            continue
+            
+        for file_name in os.listdir(folder_path):
+            if not file_name.endswith(".md"):
+                continue
+            filepath = os.path.join(folder_path, file_name)
+            
+            try:
+                data = parse_briefing_file(filepath, session_type)
+                if data:
+                    date_str = data["date"]
+                    briefings_by_date.setdefault(date_str, {})
+                    
+                    existing = briefings_by_date[date_str].get(session_type)
+                    if not existing or data["run_time"] > existing["run_time"]:
+                        briefings_by_date[date_str][session_type] = data
+            except Exception as e:
+                print(f"Error parsing file {filepath}: {e}")
+
+    if not briefings_by_date:
+        print("No briefings found to publish.")
+        return
+        
+    sorted_dates = sorted(briefings_by_date.keys(), reverse=True)
+    
+    # Layout wrapper
+    def wrap_template(title, content_html, active_date=None):
+        sidebar_items = []
+        for d in sorted_dates:
+            dt_obj = datetime.strptime(d, "%Y-%m-%d")
+            pretty_date = dt_obj.strftime("%b %d, %Y")
+            active_class = "bg-zinc-800 text-amber-400 font-semibold" if d == active_date else "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+            
+            sessions_available = []
+            if "morning" in briefings_by_date[d]:
+                sessions_available.append("🌅 Morning")
+            if "afternoon" in briefings_by_date[d]:
+                sessions_available.append("🌇 Afternoon")
+            sessions_str = " & ".join(sessions_available)
+            
+            sidebar_items.append(f"""
+            <a href="/signals/archive/{d}.html" class="block px-3 py-3 rounded-lg transition-all {active_class}">
+                <div class="text-sm font-medium">{pretty_date}</div>
+                <div class="text-xs text-zinc-500 mt-1">{sessions_str}</div>
+            </a>
+            """)
+        
+        sidebar_html = "\n".join(sidebar_items)
+        
+        return f"""<!DOCTYPE html>
+<html lang="en" class="bg-zinc-950 text-zinc-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }}
+    </style>
+</head>
+<body class="flex min-h-screen bg-zinc-950">
+    <!-- Mobile Header -->
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900 z-30 flex items-center justify-between px-6">
+        <button onclick="toggleSidebar()" class="text-zinc-400 hover:text-zinc-200 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        <span class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+        <div class="w-6"></div> <!-- spacer to center logo -->
+    </div>
+
+    <!-- Backdrop Overlay for Mobile -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-20 hidden md:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 border-r border-zinc-900 flex-shrink-0 flex flex-col h-screen bg-zinc-950/95 backdrop-blur-md transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:bg-zinc-950">
+        <!-- Close button for mobile -->
+        <div class="md:hidden flex justify-end p-4 border-b border-zinc-900">
+            <button onclick="toggleSidebar()" class="text-zinc-500 hover:text-zinc-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Brand -->
+        <div class="p-6 border-b border-zinc-900 hidden md:block">
+            <a href="/" class="flex items-center gap-3">
+                <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+            </a>
+            <p class="text-xs text-zinc-500 mt-2 font-medium uppercase tracking-wider">Startup Intelligence Hub</p>
+        </div>
+        
+        <!-- Archive Navigation -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <h4 class="text-xs font-semibold text-zinc-500 px-3 mb-3 uppercase tracking-wider">Briefing Log</h4>
+            <a href="/signals" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                Signals Hub
+            </a>
+            {sidebar_html}
+        </div>
+        
+        <!-- Sidebar Newsletter -->
+        <div class="p-6 border-t border-zinc-900 bg-zinc-950">
+            <p class="text-xs font-bold text-zinc-400 mb-2 uppercase tracking-wider">Join 1,000+ Founders</p>
+            <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="space-y-2">
+                <input type="email" name="email" required placeholder="Founder email..." class="w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2.5 rounded-xl text-xs focus:outline-none focus:border-amber-400 placeholder-zinc-600 transition-all" />
+                <input type="hidden" value="1" name="embed" />
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+        
+        <!-- Footer Info -->
+        <div class="p-6 border-t border-zinc-900 text-xs text-zinc-500">
+            <p class="font-semibold text-zinc-400 mb-1">Published by:</p>
+            <p>ArcLeap Research Lab</p>
+            <p class="mt-4 text-zinc-600">&copy; 2026 ArcLeap AI</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 bg-zinc-950 overflow-y-auto pt-16 md:pt-0">
+        <div class="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12">
+            {content_html}
+        </div>
+    </main>
+
+    <script>
+    function setLanguage(id, lang) {{
+        const enBlock = document.getElementById('content-en-' + id);
+        const zhBlock = document.getElementById('content-zh-' + id);
+        const btnEn = document.getElementById('btn-en-' + id);
+        const btnZh = document.getElementById('btn-zh-' + id);
+        
+        if (lang === 'en') {{
+            enBlock.classList.remove('hidden');
+            zhBlock.classList.add('hidden');
+            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
+        }} else {{
+            enBlock.classList.add('hidden');
+            zhBlock.classList.remove('hidden');
+            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
+            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+        }}
+        
+        // Update cofounder section visibility if decrypted
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "0915") {{
+            const enSection = document.getElementById("cofounder-content-en-" + id);
+            const zhSection = document.getElementById("cofounder-content-zh-" + id);
+            if (enSection && zhSection) {{
+                if (lang === 'en') {{
+                    enSection.classList.remove("hidden");
+                    zhSection.classList.add("hidden");
+                }} else {{
+                    enSection.classList.add("hidden");
+                    zhSection.classList.remove("hidden");
+                }}
+            }}
+        }}
+    }}
+
+    function utf8B64Decode(str) {{
+        try {{
+            return new TextDecoder().decode(Uint8Array.from(atob(str), c => c.charCodeAt(0)));
+        }} catch (e) {{
+            console.error("UTF-8 decoding failed, falling back", e);
+            return atob(str);
+        }}
+    }}
+
+    function checkExistingLock() {{
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "0915") {{
+            // Automatically unlock and render all cofounder blocks
+            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
+            
+            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {{
+                const blockId = el.id.replace("cofounder-content-en-", "");
+                const encodedEnEl = document.getElementById("data-en-" + blockId);
+                if (encodedEnEl) {{
+                    const decodedEn = utf8B64Decode(encodedEnEl.value);
+                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
+                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
+                    
+                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                    if (enBlockActive) {{
+                        el.classList.remove("hidden");
+                    }}
+                }}
+            }});
+            
+            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {{
+                const blockId = el.id.replace("cofounder-content-zh-", "");
+                const encodedZhEl = document.getElementById("data-zh-" + blockId);
+                if (encodedZhEl) {{
+                    const decodedZh = utf8B64Decode(encodedZhEl.value);
+                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
+                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
+                    
+                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
+                    if (zhBlockActive) {{
+                        el.classList.remove("hidden");
+                    }}
+                }}
+            }});
+        }}
+    }}
+
+    function unlockCofounder(id) {{
+        const input = document.getElementById("passcode-input-" + id).value;
+        if (input === "0915") {{
+            localStorage.setItem("arcleap_cofounder_key", "0915");
+            checkExistingLock();
+        }} else {{
+            const err = document.getElementById("error-message-" + id);
+            if (err) {{
+                err.classList.remove("hidden");
+                setTimeout(() => err.classList.add("hidden"), 3000);
+            }}
+        }}
+    }}
+
+    window.addEventListener("DOMContentLoaded", checkExistingLock);
+    </script>
+</body>
+</html>
+"""
+
+    # Generate daily pages
+    for d in sorted_dates:
+        day_briefings = briefings_by_date[d]
+        dt_obj = datetime.strptime(d, "%Y-%m-%d")
+        pretty_date = dt_obj.strftime("%A, %B %d, %Y")
+        
+        day_content_blocks = []
+        
+        for s_type in ["morning", "afternoon"]:
+            if s_type in day_briefings:
+                brief = day_briefings[s_type]
+                icon = "🌅" if s_type == "morning" else "🌆"
+                label = "Morning Briefing" if s_type == "morning" else "Afternoon Update"
+                
+                # Fetch Chinese translation
+                translated_md = get_translated_content(d, s_type, brief["content"])
+                
+                # Split content into public and cofounder parts
+                pub_en, co_en = split_cofounder_content(brief["content"])
+                pub_zh, co_zh = split_cofounder_content(translated_md if translated_md else "")
+                
+                # Convert both to HTML
+                html_en = markdown_to_html(pub_en)
+                html_zh = markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
+                
+                block_id = f"{d}-{s_type}"
+                
+                cofounder_html_section = ""
+                if co_en:
+                    # Convert to HTML and Base64-encode
+                    html_co_en = markdown_to_html(co_en)
+                    html_co_zh = markdown_to_html(co_zh if co_zh else "*(Translation failed or not available)*")
+                    
+                    b64_en = base64.b64encode(html_co_en.encode("utf-8")).decode("utf-8")
+                    b64_zh = base64.b64encode(html_co_zh.encode("utf-8")).decode("utf-8")
+                    
+                    cofounder_html_section = f"""
+                    <!-- Base64 Encoded Secret Payload -->
+                    <textarea id="data-en-{block_id}" class="hidden">{b64_en}</textarea>
+                    <textarea id="data-zh-{block_id}" class="hidden">{b64_zh}</textarea>
+                    
+                    <!-- Locked/Decryption Container -->
+                    <div id="cofounder-lock-{block_id}" class="mt-8 p-8 bg-zinc-950 border border-amber-500/20 rounded-2xl text-center relative overflow-hidden backdrop-blur-md">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent"></div>
+                        <div class="relative z-10 max-w-sm mx-auto">
+                            <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-zinc-100">Co-founder Channel Locked</h3>
+                            <p class="text-xs text-zinc-400 mt-1 mb-4">This section contains subjective, strategic co-founder signals. Enter passcode to decrypt.</p>
+                            <div class="flex gap-2 justify-center">
+                                <input type="password" id="passcode-input-{block_id}" placeholder="Enter passcode..." class="bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2 rounded-xl text-xs focus:outline-none focus:border-amber-400 w-48 text-center transition-all" onkeydown="if(event.key === 'Enter') unlockCofounder('{block_id}')" />
+                                <button onclick="unlockCofounder('{block_id}')" class="bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold px-4 py-2 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                                    Decrypt
+                                </button>
+                            </div>
+                            <p id="error-message-{block_id}" class="text-red-500 text-[10px] mt-2 hidden">Invalid passcode. Access denied.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Decrypted Containers -->
+                    <div id="cofounder-content-en-{block_id}" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Co-founder Confidential (EN)
+                        </div>
+                        <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-en-{block_id}"></div>
+                    </div>
+                    
+                    <div id="cofounder-content-zh-{block_id}" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            联合创始人机密 (ZH)
+                        </div>
+                        <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-zh-{block_id}"></div>
+                    </div>
+                    """
+                
+                day_content_blocks.append(f"""
+                <section class="mb-16 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-8 backdrop-blur-sm">
+                    <!-- Section Header -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-zinc-900">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">{icon}</span>
+                            <div>
+                                <h2 class="text-2xl font-black text-zinc-100">{label}</h2>
+                                <p class="text-xs text-zinc-500 mt-1 font-semibold tracking-wide uppercase">Analyzed at {brief["run_time"]} PT</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Language Switcher -->
+                        <div class="flex gap-2 self-start md:self-center">
+                            <button onclick="setLanguage('{block_id}', 'en')" id="btn-en-{block_id}" class="px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all">English 🇺🇸</button>
+                            <button onclick="setLanguage('{block_id}', 'zh')" id="btn-zh-{block_id}" class="px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all">中文 🇨🇳</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Containers -->
+                    <div id="content-en-{block_id}" class="prose prose-invert max-w-none">
+                        {html_en}
+                    </div>
+                    <div id="content-zh-{block_id}" class="prose prose-invert max-w-none hidden">
+                        {html_zh}
+                    </div>
+                    
+                    {cofounder_html_section}
+                </section>
+                """)
+                
+        day_blocks_str = "\n".join(day_content_blocks)
+        combined_html = f"""
+        <div class="mb-12">
+            <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors group mb-4">
+                <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Signals Hub
+            </a>
+            <h1 class="text-4xl font-extrabold tracking-tight text-zinc-100">{pretty_date}</h1>
+            <p class="text-zinc-500 mt-2">Comprehensive AI market telemetry and strategic startup signals.</p>
+        </div>
+        {day_blocks_str}
+        """
+        
+        page_html = wrap_template(f"ArcLeap AI Briefing — {pretty_date}", combined_html, d)
+        
+        # Save to archive
+        with open(os.path.join(SITE_DIR, "archive", f"{d}.html"), "w", encoding="utf-8") as f:
+            f.write(page_html)
+            
+    # Generate dedicated index.html (Signals Hub)
+    archive_cards = []
+    for d in sorted_dates:
+        dt_obj = datetime.strptime(d, "%Y-%m-%d")
+        pretty_date = dt_obj.strftime("%B %d, %Y")
+        day_briefings = briefings_by_date[d]
+        
+        sessions_available = []
+        if "morning" in day_briefings:
+            sessions_available.append("<span class='inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20'>🌅 Morning</span>")
+        if "afternoon" in day_briefings:
+            sessions_available.append("<span class='inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-500/10 text-orange-400 border border-orange-500/20'>🌇 Afternoon</span>")
+        sessions_str = " ".join(sessions_available)
+        
+        archive_cards.append(f"""
+        <div class="p-6 bg-zinc-900/40 border border-zinc-900 rounded-2xl hover:border-zinc-800 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group">
+            <div>
+                <span class="text-xs text-zinc-500 font-bold uppercase tracking-wider">{dt_obj.strftime("%A")}</span>
+                <h3 class="text-xl font-bold text-zinc-100 mt-1">{pretty_date}</h3>
+                <div class="flex gap-2 mt-3">{sessions_str}</div>
+            </div>
+            <a href="/signals/archive/{d}.html" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-zinc-950 bg-amber-400 rounded-xl hover:bg-amber-300 active:scale-95 transition-all">
+                Read Intelligence
+                <svg class="w-4 h-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+        """)
+    archive_cards_html = "\n".join(archive_cards)
+
+    index_content = f"""
+    <!-- Hero Section -->
+    <div class="text-center py-12 border-b border-zinc-900 mb-12">
+        <h1 class="text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI Signals</h1>
+        <p class="text-lg text-zinc-400 max-w-xl mx-auto mt-4 leading-relaxed">
+            Twice-daily technical market telemetry, non-consensus startup opportunities, and developer sentiment shifts.
+        </p>
+    </div>
+
+    <!-- Newsletter Subscription Card -->
+    <div class="p-8 bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800/80 rounded-2xl shadow-xl mb-16 relative overflow-hidden group">
+        <div class="absolute -right-16 -top-16 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl group-hover:bg-amber-400/10 transition-colors"></div>
+        <div class="max-w-2xl mx-auto text-center relative z-10">
+            <h2 class="text-2xl font-bold text-zinc-100">Subscribe to Daily Signals</h2>
+            <p class="text-sm text-zinc-400 mt-2 mb-6">
+                Receive the morning briefing and afternoon market intel directly in your inbox. No fluff, just hard signals.
+            </p>
+            <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" required placeholder="Enter your email address..." class="bg-zinc-950 border border-zinc-800 text-zinc-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 flex-1 min-w-0 placeholder-zinc-600 transition-all" />
+                <input type="hidden" value="1" name="embed" />
+                <button type="submit" class="bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold px-6 py-3 rounded-xl text-sm hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
+                    Subscribe
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Briefing List -->
+    <div class="space-y-6">
+        <h2 class="text-xl font-bold text-zinc-400 uppercase tracking-wider mb-6">All Briefing Logs</h2>
+        {archive_cards_html}
+    </div>
+    """
+    
+    index_html = wrap_template("ArcLeap AI Signals Hub — Market Telemetry", index_content)
+    with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(index_html)
+        
+    print(f"✓ Rebuilt completed. Generated dedicated index.html and {len(sorted_dates)} daily archive pages with dual-language support!")
+    
+    # Push to GitHub
+    git_push_changes()
+
+
+def git_push_changes():
+    """Push the generated files inside the cloned Next.js repo to GitHub to trigger Vercel rebuild."""
+    import subprocess
+    if os.environ.get("SIGNALS_NO_PUSH") == "1":
+        print("  [SIGNALS_NO_PUSH=1] Dry-run: skipping git commit/push.")
+        return
+    print("Pushing updated signals to GitHub...")
+    repo_dir = _REPO_DIR
+    try:
+        # Check status
+        status_res = subprocess.run(["git", "status", "--porcelain"], cwd=repo_dir, capture_output=True, text=True)
+        if not status_res.stdout.strip():
+            print("  No changes to push.")
+            return
+            
+        # Git add
+        subprocess.run(["git", "add", "public/signals"], cwd=repo_dir, check=True)
+        
+        # Git commit
+        commit_msg = f"Auto-publish briefing signals: {datetime.today().strftime('%Y-%m-%d')}"
+        subprocess.run(["git", "commit", "-m", commit_msg], cwd=repo_dir, check=True)
+        
+        # Git push
+        subprocess.run(["git", "push", "origin", "main"], cwd=repo_dir, check=True)
+        print("  ✓ Successfully pushed changes to GitHub! Vercel is now rebuilding.")
+    except Exception as e:
+        print(f"  Error pushing to GitHub: {e}")
+
+
+if __name__ == "__main__":
+    build_site()
