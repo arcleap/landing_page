@@ -26,9 +26,9 @@
         <!-- Archive Navigation -->
         <div class="flex-1 overflow-y-auto p-4 space-y-1">
             <h4 class="text-xs font-semibold text-zinc-500 px-3 mb-3 uppercase tracking-wider">Briefing Log</h4>
-            <a href="/signals/index.html" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all mb-2 flex items-center gap-2">
+            <a href="/signals" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all mb-2 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                Latest Intelligence
+                Signals Hub
             </a>
             
             <a href="/signals/archive/2026-06-01.html" class="block px-3 py-3 rounded-lg transition-all bg-zinc-800 text-amber-400 font-semibold">
@@ -36,6 +36,18 @@
                 <div class="text-xs text-zinc-500 mt-1">🌅 Morning</div>
             </a>
             
+        </div>
+        
+        <!-- Sidebar Newsletter -->
+        <div class="p-6 border-t border-zinc-900 bg-zinc-950">
+            <p class="text-xs font-bold text-zinc-400 mb-2 uppercase tracking-wider">Join 1,000+ Founders</p>
+            <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="space-y-2">
+                <input type="email" name="email" required placeholder="Founder email..." class="w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2.5 rounded-xl text-xs focus:outline-none focus:border-amber-400 placeholder-zinc-600 transition-all" />
+                <input type="hidden" value="1" name="embed" />
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                    Subscribe
+                </button>
+            </form>
         </div>
         
         <!-- Footer Info -->
@@ -51,6 +63,10 @@
         <div class="max-w-4xl mx-auto px-8 py-12">
             
         <div class="mb-12">
+            <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors group mb-4">
+                <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Signals Hub
+            </a>
             <h1 class="text-4xl font-extrabold tracking-tight text-zinc-100">Monday, June 01, 2026</h1>
             <p class="text-zinc-500 mt-2">Comprehensive AI market telemetry and strategic startup signals.</p>
         </div>
