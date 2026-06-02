@@ -35,3 +35,7 @@ inspiration/
 
 # Signals pipeline data (regenerable, noisy, daily-changing) — scripts are tracked, data is not
 signals/data/
+
+# Python bytecode
+__pycache__/
+*.pyc

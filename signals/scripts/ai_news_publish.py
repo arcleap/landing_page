@@ -40,61 +40,37 @@ SESSIONS = {
 }
 
 def translate_markdown(text, target_lang="Chinese"):
-    """Translate markdown text using Claude Code CLI (claude -p) on flat-rate subscription,
-    ensuring no per-token API keys are inherited or leaked."""
-    import subprocess
-    import tempfile
-    
-    # Write text to a temporary file inside the repo workspace so Claude Code can access it
-    os.makedirs(TRANS_DIR, exist_ok=True)
-    fd, temp_path = tempfile.mkstemp(suffix=".md", prefix="translate_input_", dir=TRANS_DIR)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as tmp_f:
-            tmp_f.write(text)
-            
-        # Isolate environment to guarantee flat-rate subscription billing (avoid accidental per-token billing)
-        safe_env = os.environ.copy()
-        # Explicitly remove all potential API keys/tokens from the environment
-        for key in ["ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_API_URL", "CLAUDE_API_KEY"]:
-            safe_env.pop(key, None)
-            
-        prompt = (
-            f"Read the markdown content from the file at {temp_path}. "
-            f"Translate it into natural, professional, and highly engaging {target_lang}. "
-            f"Requirements:\n"
-            f"1. Preserve ALL markdown formatting (headers, bold text, bullet points, horizontal rules) exactly.\n"
-            f"2. Preserve ALL clickable links exactly as they are in the original text (e.g. [Anchor](url) must remain [Translated Anchor](url)).\n"
-            f"3. Use modern, idiomatic Chinese startup and tech terminology (e.g., translate 'MoE' as MoE or 混合专家模型, 'prompt injection' as 提示词注入, 'sandboxing' as 沙箱化, 'inference' as 推理).\n"
-            f"4. Keep the tone professional, inspiring, and co-founder like.\n"
-            f"Output ONLY the translated markdown. Do NOT include any conversational introduction, notes, or wrap-up text."
-        )
-        
-        # Run claude -p non-interactively with the clean isolated environment
-        result = subprocess.run(
-            ["claude", "-p", prompt],
-            capture_output=True,
-            text=True,
-            env=safe_env,
-            check=True
-        )
-        
-        translated = result.stdout.strip()
-        if translated:
-            return translated
-        else:
-            print("  Translation via claude -p returned empty output.")
-            return None
-            
-    except Exception as e:
-        print(f"  Translation via claude -p failed: {e}")
+    """Translate markdown to Chinese via Gemini Flash (light Tier-1 task: cheap + fast). Model fallback."""
+    import urllib.request
+    api_key = None
+    env_path = os.path.expanduser("~/.hermes/.env")
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                if line.strip().startswith("GOOGLE_API_KEY="):
+                    api_key = line.split("=", 1)[1].strip().strip(chr(34)).strip(chr(39))
+                    break
+    api_key = api_key or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        print("  GOOGLE_API_KEY not found, skipping translation.")
         return None
-    finally:
-        # Clean up temporary file
-        if os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except:
-                pass
+    prompt = ("You are a world-class AI/startup/tech translator. Translate the following Markdown into "
+              f"natural, idiomatic {target_lang}. Preserve ALL markdown formatting and ALL [anchor](url) "
+              "links exactly. Use modern Chinese tech terminology (MoE/混合专家模型, prompt injection/提示词注入, "
+              "inference/推理). Output ONLY the translated markdown, no preamble. MARKDOWN TO TRANSLATE: " + text)
+    payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.2}}
+    for model in ("gemini-3.5-flash", "gemini-2.5-flash"):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        try:
+            req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
+                                         headers={"Content-Type": "application/json"}, method="POST")
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+        except Exception as e:
+            print(f"  Translation via {model} failed: {e}")
+    return None
+
 
 def get_translated_content(date_str, session_type, original_content):
     """Retrieve translated content from cache, or translate and save if not cached (with MD5 hash validation)."""
@@ -237,6 +213,54 @@ def sync_briefings():
                     shutil.copy2(src, dest)
             except Exception as e:
                 print(f"  Briefing sync failed for {src}: {e}")
+
+
+def render_raw_materials(date_str):
+    """Bottom-of-page collapsible: the Tier-1 verified, dual-scored, outlier-tagged raw signal set."""
+    path = os.path.join(_SIGNALS_DIR, "data", "enriched", f"{date_str}.json")
+    if not os.path.exists(path):
+        return ""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return ""
+    items = data.get("items", [])
+    if not items:
+        return ""
+    c = data.get("counts", {})
+    bc = c.get("by_confidence", {})
+    badge = {"Confirmed": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+             "Reported": "bg-sky-500/10 text-sky-400 border-sky-500/20",
+             "Rumor": "bg-zinc-700/40 text-zinc-400 border-zinc-700"}
+    rows = []
+    for e in items:
+        conf = e.get("confidence", "Rumor")
+        b = badge.get(conf, badge["Rumor"])
+        star = '<span class="text-amber-400 font-bold" title="preserved non-consensus outlier">&#9733;</span> ' if e.get("outlier") else ""
+        url = e.get("url", "#")
+        title = (e.get("title", "") or "").replace("<", "&lt;").replace(">", "&gt;")
+        rows.append(
+            '<tr class="border-b border-zinc-900/60 hover:bg-zinc-900/30">'
+            f'<td class="py-1.5 pr-2 align-top whitespace-nowrap"><span class="text-[10px] px-1.5 py-0.5 rounded border {b}">{conf}</span></td>'
+            f'<td class="py-1.5 pr-2 align-top text-[10px] text-zinc-500 whitespace-nowrap">{e.get("delta","")}</td>'
+            f'<td class="py-1.5 pr-2 align-top text-[10px] text-zinc-500 whitespace-nowrap">i{e.get("importance","")}/e{e.get("edge","")}</td>'
+            f'<td class="py-1.5 align-top">{star}<a href="{url}" target="_blank" class="text-zinc-300 hover:text-amber-400">{title}</a> '
+            f'<span class="text-zinc-600 text-[10px]">[{e.get("source","")}]</span></td></tr>'
+        )
+    summary = (f'{c.get("total", len(items))} items &middot; {c.get("outliers", 0)} &#9733;outliers &middot; '
+               f'Confirmed {bc.get("Confirmed",0)} / Reported {bc.get("Reported",0)} / Rumor {bc.get("Rumor",0)}')
+    return (
+        '<details class="mt-16 group">'
+        '<summary class="cursor-pointer select-none text-sm font-bold text-zinc-400 uppercase tracking-wider hover:text-amber-400 transition-colors flex items-center gap-2">'
+        '<span class="transition-transform group-open:rotate-90">&#9656;</span> Raw Materials '
+        '<span class="text-[10px] font-normal text-zinc-600 normal-case tracking-normal">(Tier 1 &mdash; verified &amp; scored; &#9733; = preserved outlier)</span>'
+        '</summary>'
+        f'<p class="text-xs text-zinc-600 mt-2 mb-3">{summary}</p>'
+        '<div class="overflow-x-auto"><table class="w-full text-sm border-collapse">'
+        + "".join(rows) +
+        '</table></div></details>'
+    )
 
 
 def build_site():
@@ -605,6 +629,7 @@ def build_site():
                 """)
                 
         day_blocks_str = "\n".join(day_content_blocks)
+        raw_materials_html = render_raw_materials(d)
         combined_html = f"""
         <div class="mb-12">
             <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors group mb-4">
@@ -615,6 +640,7 @@ def build_site():
             <p class="text-zinc-500 mt-2">Comprehensive AI market telemetry and strategic startup signals.</p>
         </div>
         {day_blocks_str}
+        {raw_materials_html}
         """
         
         page_html = wrap_template(f"ArcLeap AI Briefing — {pretty_date}", combined_html, d)
