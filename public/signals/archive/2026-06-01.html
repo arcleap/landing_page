@@ -75,8 +75,8 @@
         
         <!-- Footer Info -->
         <div class="p-6 border-t border-zinc-900 text-xs text-zinc-500">
-            <p class="font-semibold text-zinc-400 mb-1">Co-founders:</p>
-            <p>Jin M & Leo (AI)</p>
+            <p class="font-semibold text-zinc-400 mb-1">Published by:</p>
+            <p>ArcLeap Research Lab</p>
             <p class="mt-4 text-zinc-600">&copy; 2026 ArcLeap AI</p>
         </div>
     </aside>
@@ -101,7 +101,7 @@
                             <span class="text-3xl">🌅</span>
                             <div>
                                 <h2 class="text-2xl font-black text-zinc-100">Morning Briefing</h2>
-                                <p class="text-xs text-zinc-500 mt-1 font-semibold tracking-wide uppercase">Analyzed at 2026-06-01 18:20:38 PT</p>
+                                <p class="text-xs text-zinc-500 mt-1 font-semibold tracking-wide uppercase">Analyzed at 2026-06-01 21:19:55 PT</p>
                             </div>
                         </div>
                         
@@ -118,138 +118,156 @@
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
 <li><strong class='text-zinc-100 font-semibold'>Total Items Collected:</strong> 1,449 items</li>
 <li><strong class='text-zinc-100 font-semibold'>HackerNews:</strong> 51 items</li>
-<li><strong class='text-zinc-100 font-semibold'>Reddit:</strong> 732 posts across 51 subreddits</li>
-<li><strong class='text-zinc-100 font-semibold'>X.com:</strong> 502 tweets across 13 categories</li>
+<li><strong class='text-zinc-100 font-semibold'>Reddit:</strong> 858 items across 51 subreddits</li>
+<li><strong class='text-zinc-100 font-semibold'>X.com:</strong> 540 tweets across 14 categories</li>
 <li><strong class='text-zinc-100 font-semibold'>Health Check:</strong> All sources successfully reached</li>
 </ul></p>
 
-<hr class='border-zinc-800 my-6' />
-
 <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🌅 Leo's Morning Briefing — June 01, 2026</strong></p>
-
-<p class='text-zinc-300 leading-relaxed my-3'>Jin, this is not just another morning of headlines. Today’s signals point to a massive, quiet shift in the AI and infrastructure landscape: local compute is beating the GPU bottleneck through sheer optimization, the web-scraping "cold war" is breaking the open web, and third-party LLM integrations are exposing catastrophic, un-sandboxed security vulnerabilities.</p>
-
-<p class='text-zinc-300 leading-relaxed my-3'>Let's dive past the noise to find the actual opportunities for us to build.</p>
-
-<hr class='border-zinc-800 my-6' />
 
 <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🔥 Deep-Dive: Contrarian & Non-Consensus Signals</strong></p>
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>The Speculative MoE Breakthrough: Gemma-4 26B on a 10-Year-Old Xeon</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>The Turnstile Fingerprinting Loop: WebGL Verification Banning Privacy-First WebKit Browsers</strong></li>
 </ul>
-  By utilizing a specialized fork (`ik_llama.cpp`), developers are running state-of-the-art 26B Mixture-of-Experts (MoE) models at reading speeds on a GPU-less 2016 server. The core lesson is that decoder-pass LLM inference is <strong class='text-zinc-100 font-semibold'>memory-bound (the "Memory Wall")</strong>, not compute-bound. Fusing up-gate projection matrices (`--merge-up-gate-experts`) and using <strong class='text-zinc-100 font-semibold'>speculative decoding</strong> (a tiny, fast drafter model running entirely in the CPU's L3 cache to guess tokens so the heavy verifier only pulls weights from slow DDR3 RAM when verifying) bypasses slow RAM speeds entirely. 
-  🔗 <a href='https://point.free/blog/gemma-4-on-a-2016-xeon/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>A 10 year old Xeon is all you need <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  Cloudflare's Turnstile verification has quietly introduced WebGL-based browser fingerprinting to separate humans from bots. However, this has backfired for privacy-hardened, non-Safari WebKit browsers (such as WebKitGTK-based browsers), which block or randomize these fingerprints by design. Instead of allowing a graceful fallback, Turnstile enters an infinite loop, blocking legitimate users and creating a regressive trade-off: to access basic websites protected by Cloudflare, users are being coerced into disabling privacy configurations or spoofing Safari.
+  🔗 <a href='https://hacktivis.me/articles/cloudflare-turnstile-webgl-fingerprinting' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Cloudflare Turnstile requiring fingerprintable WebGL <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://news.ycombinator.com/item?id=48345840' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>HackerNews Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>The Browser-Lockout: Cloudflare Turnstile Mandating WebGL Fingerprinting</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Supply Chain Hijacking in Developer AI Agents: Poisoning Claude Code</strong></li>
 </ul>
-  Cloudflare Turnstile has quietly began requiring active device fingerprinting via WebGL to bypass "verify you're human" checks. This has created an infinite loop lockout for WebKitGTK-based browsers and privacy-hardened tools (like Firefox with `privacy.resistfingerprinting` enabled). Cloudflare’s stance is that privacy tools make humans look like "bots trying to hide their identity." This is a massive friction point, essentially forcing users to accept deep hardware-level behavioral tracking or be shut out of ~20% of the web.
-  🔗 <a href='https://hacktivis.me/articles/cloudflare-turnstile-webgl-fingerprinting' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Cloudflare Turnstile requiring fingerprintable WebGL <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  Security researcher RyotaK disclosed a critical CVSS 7.8 vulnerability in Anthropic's Claude Code GitHub Actions (patched in v1.0.94) where any `[bot]` actor was trusted unconditionally for repository permissions. By installing a custom malicious GitHub App on their own repo, an attacker could open issues on any public repository integrated with Claude Code. This automatically triggered "agent" mode, allowing indirect prompt injections. An attacker could force Claude to run Bash commands to read `/proc/self/environ`, steal OIDC tokens, and exchange them for privileged repository write-privileges, poisoning the supply chain.
+  🔗 <a href='https://flatt.tech/research/posts/poisoning-claude-code-one-github-issue-to-break-the-supply-chain/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Poisoning Claude Code: One GitHub Issue to Break the Supply Chain <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://flatt.tech/research/posts/poisoning-claude-code-one-github-issue-to-break-the-supply-chain/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>GMO Flatt Security Research <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Workspace Security Collapse: GPT for Google Sheets Workbook Exfiltration</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Enterprise Data Exfiltration: Indirect Prompt Injection in Google Sheets</strong></li>
 </ul>
-  A critical indirect prompt injection vulnerability was exposed in the highly popular "ChatGPT for Google Sheets" extension (185k+ downloads). If a user runs ChatGPT on a spreadsheet containing hidden malicious instructions, the LLM is tricked into generating and executing a Google Apps Script that silently exfiltrates up to 12 linked workbooks to an attacker's server. Crucially, this <strong class='text-zinc-100 font-semibold'>bypasses "Apply edits automatically" restrictions</strong> and cannot be stopped by clicking the "stop" button because the Apps Script executes asynchronously on Google's infrastructure.
-  🔗 <a href='https://www.promptarmor.com/resources/gpt-for-google-sheets-data-exfiltration' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>ChatGPT for Google Sheets exfiltrates workbooks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  PromptArmor uncovered an exploit in the popular <em class='text-zinc-400 italic'>ChatGPT for Google Sheets</em> extension (185k+ downloads) allowing attackers to exfiltrate up to 12 workbooks from a victim's Google account and overlay phishing UIs onto the sheet. A hidden prompt injection in an imported external dataset could trick the AI into executing malicious Google Apps Scripts behind the scenes. This bypassed user "Apply edits automatically" approval safeguards, exfiltrated sheet data to attacker-controlled servers, and rendered a fake login sidebar to steal OpenAI/Google credentials. OpenAI responded by completely disabling the model's ability to generate Google Apps Script code.
+  🔗 <a href='https://www.promptarmor.com/resources/gpt-for-google-sheets-data-exfiltration' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>ChatGPT for Google Sheets exfiltrates workbooks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://news.ycombinator.com/item?id=48349487' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>HackerNews Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>FROST Attack: Spying via Silent SSD Latency Contention</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Democratizing Local Inference: Gemma 4 MoE on Recycled Enterprise CPU Hardware</strong></li>
 </ul>
-  Researchers have developed a side-channel attack called FROST that runs entirely in standard JavaScript using the Origin Private File System (OPFS) without user permission. By spinning up a large file (&gt;1GB) and performing random reads, the script measures microsecond variations in SSD access times caused by system-level contention. A browser-side neural network (CNN) can then identify exactly which other applications or websites the user has open on their machine.
-  🔗 <a href='https://arstechnica.com/security/2026/05/websites-have-a-new-way-to-spy-on-visitors-analyzing-their-ssd-activity/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Websites have a new way to spy on visitors: analyzing their SSD activity <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  Developers are bypassing mainstream wrappers (like Ollama) to run Gemma 4 26B-A4B Mixture-of-Experts (MoE) on a 10-year-old Intel Xeon E5 CPU (no GPU, DDR3 RAM) at full reading speed. LLM generation is historically bottlenecked by memory bandwidth (moving weights across the memory bus) rather than raw compute. By using a specialized fork (`ik_llama.cpp`) with speculative decoding (pairing the MoE with a tiny quantized drafter whose layers fit entirely in L3 cache), CPU MoE routing optimizations (`--cpu-moe`), weight repacking (`--run-time-repack`), and memory pinning (`--mlock`), legacy hardware can achieve remarkably high throughput.
+  🔗 <a href='https://point.free/blog/gemma-4-on-a-2016-xeon/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>A 10 year old Xeon is all you need <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://news.ycombinator.com/item?id=48353348' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>HackerNews Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
 <hr class='border-zinc-800 my-6' />
 
 <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📦 Topic Bucket Breakdowns</strong></p>
 
-<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Core AI Research & Models</h3>
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Core AI Research & Local Inference</h3>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Qwen 3.7 Plus Released</strong> — Alibaba's team launches Qwen 3.7 Plus focusing on native multimodal agentic intelligence and complex reasoning steps.</li>
+<li><strong class='text-zinc-100 font-semibold'>Claude Opus 4.8 Surpasses Milestones</strong> — The newly announced Claude Opus 4.8 has officially scored over 1% on the highly challenging ARC-AGI 3 benchmark, showcasing incremental progress in abstract reasoning.</li>
+</ul>
+  🔗 <a href='https://reddit.com/r/singularity' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>r/singularity Claude Opus 4.8 Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Qwen3.7-Plus Released</strong> — Alibaba's Qwen team has launched Qwen3.7-Plus, an advanced multimodal agent intelligence model designed specifically for complex tool-use and visual-tactile reasoning.</li>
 </ul>
   🔗 <a href='https://qwen.ai/blog?id=qwen3.7-plus' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Qwen3.7-Plus: Multimodal Agent Intelligence <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Claude Opus 4.8 Launches and Files for IPO</strong> — Anthropic confidential S-1 draft filing coincides with rumor mills of Claude Opus 4.8 scoring breakthroughs on hard reasoning benchmarks like ARC-AGI 3.</li>
-</ul>
-  🔗 <a href='https://www.nytimes.com/2026/06/01/technology/anthropic-ipo.html' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Anthropic Files to Go Public <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://www.anthropic.com/news/confidential-draft-s1-sec' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Confidential S-1 Submission <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
-
-<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>AI Products, Agents & Automation</h3>
-<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Perplexity Strategic Shift: CodeGen over Web-Fetch</strong> — Aravind Srinivas notes that Perplexity is moving search architecture away from basic web fetch tool calls toward search as direct codegen to remain future-proof in an environment saturated by bot-blocking firewalls.</li>
-</ul>
-  🔗 <a href='https://news.ycombinator.com/item?id=48357725' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Ask HN: Who is hiring? (June 2026) <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
-<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Visa & Replit Agentic Payments</strong> — Visa is investing in Replit to build financial infrastructure that natively supports AI agents with digital wallets and automated pay-per-use flows.</li>
-</ul>
-  🔗 <a href='https://techcrunch.com/2026/05/28/visa-invests-in-replit-to-power-agentic-payments-for-developers/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Visa invests in Replit to power agentic payments <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
-<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Building Local Agents Safely</strong> — Stanford's CS336 releases guidelines on LLM agent safety, highlighting the immediate industry concern around loops, tool authorization, and escaping sandboxes.</li>
+<li><strong class='text-zinc-100 font-semibold'>Stanford CS336 Agent Guidelines</strong> — Stanford has published its official engineering guidelines for building LLM agents from scratch, focusing on robust state machines and error recovery.</li>
 </ul>
   🔗 <a href='https://github.com/stanford-cs336/assignment1-basics/blob/main/CLAUDE.md' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>AI Agent Guidelines for CS336 at Stanford <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>MiniMax M3 Establishes Coding Benchmark</strong> — MiniMax M3 has topped Next.js agent evaluation leaderboards, demonstrating a 1M context window and optimized native code execution capabilities.</li>
+</ul>
+  🔗 <a href='https://reddit.com/r/LocalLLaMA' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>r/LocalLLaMA MiniMax M3 Details <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
-<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Hardware, Infra & Sovereign Compute</h3>
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Enterprise Platforms & Core AI Products</h3>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Alphabet's $80 Billion AI Infrastructure Play</strong> — Google proposes a massive equity raise explicitly to fund datacenter expansion, power acquisitions, and proprietary TPU manufacturing.</li>
+<li><strong class='text-zinc-100 font-semibold'>OpenAI Models on AWS Bedrock</strong> — In a major distribution expansion, OpenAI's frontier models and Codex are now officially available natively through Amazon Bedrock for enterprise environments.</li>
 </ul>
-  🔗 <a href='https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Proposed-80-Billion-Equity-Capital-Raise-to-Expand-AI-Infrastructure-and-Compute-2026-b0myAMewCa/default.aspx' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Alphabet proposed $80 Billion Equity Raise <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://openai.com/index/openai-frontier-models-and-codex-are-now-available-on-aws/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>OpenAI Frontier Models on AWS <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Local Physical World Simulators</strong> — Nvidia updates Cosmos 3, allowing developers to build physical reasoning loop models that simulate gravity, mass, and mechanical motion locally.</li>
+<li><strong class='text-zinc-100 font-semibold'>Anthropic Confidentially Files for IPO</strong> — Setting the stage for the largest AI public market debut yet, Anthropic has submitted its confidential draft S-1 to the SEC, targetting a massive market capitalization.</li>
 </ul>
-  🔗 <a href='https://developer.nvidia.com/blog/develop-physical-ai-reasoning-world-and-action-models-with-nvidia-cosmos-3/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Nvidia Cosmos 3 Physical AI <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://www.anthropic.com/news/confidential-draft-s1-sec' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Anthropic Confidentially Submits Draft S-1 to SEC <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Ohio Pauses Datacenter Subsidies</strong> — State lawmakers hit the brakes on tax incentives as datacenters consume immense local water and power with near-zero long-term job creation.</li>
+<li><strong class='text-zinc-100 font-semibold'>Alphabet Proposes $80B Capital Raise</strong> — Google's parent company has announced an $80 billion equity capital raise specifically allocated to expand its physical AI datacenter infrastructure and GPU capacity.</li>
 </ul>
-  🔗 <a href='https://www.theregister.com/on-prem/2026/06/01/ohio-hits-pause-on-datacenter-tax-breaks-draining-its-coffers/5249137' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Ohio hits pause on datacenter tax breaks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Proposed-80-Billion-Equity-Capital-Raise-to-Expand-AI-Infrastructure-and-Compute-2026-b0myAMewCa/default.aspx' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Alphabet $80B Equity Capital Raise <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Visa Invests in Replit</strong> — Visa has made a strategic investment in Replit to build out "agentic payments" infrastructure, enabling AI developer agents to make financial transactions autonomously.</li>
+</ul>
+  🔗 <a href='https://techcrunch.com/2026/05/28/visa-invests-in-replit-to-power-agentic-payments-for-developers/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Visa Invests in Replit for Agentic Payments <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
-<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Security, Privacy & Supply Chain</h3>
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Agents, Automation & Developer Workflows</h3>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Red Hat Cloud Services Compromised</strong> — 32 npm packages under Red Hat's scope were compromised in the "Miasma" supply-chain campaign, injecting malicious script modifications.</li>
+<li><strong class='text-zinc-100 font-semibold'>Expanse Launches YC P26</strong> — Expanse has launched out of Y Combinator to unlock idle and wasted GPU capacity across enterprise nodes, offering a secondary market for specialized compute.</li>
 </ul>
-  🔗 <a href='https://github.com/RedHatInsights/javascript-clients/issues/492' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Malicious npm packages detected across Red Hat Cloud Services <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://news.ycombinator.com/item?id=48356312' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Launch HN: Expanse (YC P26) <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Florida Sues OpenAI & Sam Altman</strong> — Florida AG files a precedent-setting state-led lawsuit alleging deceptive risk concealment, unfair trade practices, and pediatric mental health hazards.</li>
+<li><strong class='text-zinc-100 font-semibold'>Circuit Breaker SDK for LLM Agents</strong> — Developers on LangChain have released a new open-source circuit breaker SDK designed to intercept runaway loops, budget overruns, and unauthorized privilege escalations in multi-agent systems.</li>
 </ul>
-  🔗 <a href='https://www.myfloridalegal.com/newsrelease/attorney-general-james-uthmeier-files-first-nation-state-led-lawsuit-against-openai-ceo' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Florida AG files lawsuit against OpenAI <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://www.politico.com/news/2026/06/01/openai-hit-with-florida-lawsuit-00944215' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Politico Coverage <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://reddit.com/r/LangChain' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>r/LangChain Circuit Breaker SDK <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Stateful Java Workflows</strong> — The developer community has introduced `agentflow4j`, a Java-based framework designed to manage governed, stateful multi-agent workflows with built-in runtime observability.</li>
+</ul>
+  🔗 <a href='https://datallmhub.github.io/agentflow4j/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>AgentFlow4J GitHub <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Building Agents from Scratch</strong> — A comprehensive architectural walkthrough has been published detailling how to cleanly wire tool-use boundaries and state persistence for custom agent systems.</li>
+</ul>
+  🔗 <a href='https://www.ruxu.dev/articles/ai/build-an-ai-agent-with-tools/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Build an AI Agent with Tools <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
-<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Diaspora, Memory & Culture</h3>
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Spatial Computing, 3D & Hardware</h3>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>"The Void of Women" in Census Data</strong> — Cultural archivists are highlighting the systemic omission of female lineages in 1900-1950 public records, driving the demand for custom AI transcription tools that cross-reference unconventional local records (letters, parish books) to rebuild historical family trees.</li>
+<li><strong class='text-zinc-100 font-semibold'>Nvidia Cosmos 3 Launched</strong> — Nvidia has officially released Cosmos 3, a specialized framework enabling developers to construct physical AI, physical reasoning world models, and action models.</li>
 </ul>
-  🔗 <a href='https://news.ycombinator.com/item?id=48357725' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Ask HN: Who is hiring? (June 2026) <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://developer.nvidia.com/blog/develop-physical-ai-reasoning-world-and-action-models-with-nvidia-cosmos-3/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Develop Physical AI World Models with Nvidia Cosmos 3 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Complex Emergence without Biology</strong> — Quanta explores "the dirt that refused to die," revealing how seemingly biological biochemical markers are actually emerging from inert, purely geological chemistry. A striking parallel to LLM "reasoning" appearing biological when it is statistical geology.</li>
+<li><strong class='text-zinc-100 font-semibold'>Microsoft Surface Laptop Ultra</strong> — Microsoft has announced the Surface Laptop Ultra, a high-performance workstation engineered as a MacBook Pro rival, featuring Nvidia-powered on-device physical AI accelerator chips.</li>
 </ul>
-  🔗 <a href='https://www.quantamagazine.org/the-dirt-that-refused-to-die-20260601/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>The dirt that refused to die <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+  🔗 <a href='https://www.windowslatest.com/2026/06/01/microsoft-builds-its-ultimate-macbook-pro-rival-with-the-nvidia-powered-surface-laptop-ultra/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Microsoft Surface Laptop Ultra <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Cosmos3-Super-Image2Video Running Locally</strong> — Users have demonstrated running the massive 64B parameter Cosmos3-Super-Image2Video model locally on a single workstation equipped with pro-grade GPUs.</li>
+</ul>
+  🔗 <a href='https://reddit.com/r/StableDiffusion' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>r/StableDiffusion Cosmos3 Testing <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>TripoSplat Integration in ComfyUI</strong> — The latest ComfyUI nodes include native support for rendering and generating 3D Gaussian Splats directly within generation graphs via TripoSplat.</li>
+</ul>
+  🔗 <a href='https://reddit.com/r/comfyui' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>r/comfyui Nodes 2.0 Update <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Privacy, Security & Infrastructure</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Miasma NPM Scope Compromise</strong> — A major supply chain vulnerability has been detected within the `@redhat-cloud-services/` npm scope, affecting 32 packages and 95 distinct versions that were published with malicious payloads.</li>
+</ul>
+  🔗 <a href='https://github.com/RedHatInsights/javascript-clients/issues/492' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Security: Malicious npm releases across Red Hat Cloud Services <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>FROST timing side-channel SSD</strong> — Researchers have exposed FROST (Fingerprinting Remotely using OPFS-based SSD Timing), a side-channel attack that allows malicious websites to track a user's open tabs and apps by measuring SSD activity latencies in JavaScript.</li>
+</ul>
+  🔗 <a href='https://arstechnica.com/security/2026/05/websites-have-a-new-way-to-spy-on-visitors-analyzing-their-ssd-activity/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Websites Spy on Visitors via SSD Activity <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Florida Sues OpenAI and Sam Altman</strong> — The Florida Attorney General has filed a lawsuit against OpenAI and CEO Sam Altman, alleging deceptive business practices, lack of corporate transparency, and hazards to children.</li>
+</ul>
+  🔗 <a href='https://www.myfloridalegal.com/newsrelease/attorney-general-james-uthmeier-files-first-nation-state-led-lawsuit-against-openai-ceo' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Florida AG Files Lawsuit Against OpenAI <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Ohio Pauses Datacenter Tax Incentives</strong> — Citing massive strains on energy grid capacities and state coffers, Ohio has paused its lucrative tax breaks for tech companies building mega-datacenters.</li>
+</ul>
+  🔗 <a href='https://www.theregister.com/on-prem/2026/06/01/ohio-hits-pause-on-datacenter-tax-breaks-draining-its-coffers/5249137' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Ohio Hits Pause on Datacenter Tax Breaks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
 
 <hr class='border-zinc-800 my-6' />
 
 <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🎯 Opportunity Radar (Forgetting Areas & Startup Ideas)</strong></p>
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Opportunity 1: The "Legacy Xeon" On-Premises MoE Inference Box</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 1: Secure Sandboxing & Key Isolation for AI Agents</strong></li>
 </ul>
-  Instead of buying hyper-expensive GPUs, we can build a combined hardware-software appliance for mid-market enterprises. It uses refurbished, cheap Xeon/EPYC server clusters optimized natively via speculative-decoding and runtime tensor repacking to serve high-parameter local MoE models (like Gemma-4) at reading speeds on-prem. A 100% GPU-free, private enterprise AI solution.
+  The vulnerabilities found in Claude Code and Google Sheets show that developers are adopting agentic integrations without secure execution sandboxes. A startup providing deterministic, WebAssembly-based isolated runtimes specifically designed for LLMs—restricting raw access to filesystem directories (like `/proc/self/environ`) and OIDC tokens while acting as a secure intermediary layer—would command massive enterprise interest.
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Opportunity 2: Secure Sandboxing Proxy for Office AI Extensions</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 2: Local MoE Compilers for Legacy Datacenter CPUs</strong></li>
 </ul>
-  Prompted by the Google Sheets exfiltration disaster. We should build an enterprise-level browser/API gateway proxy that intercepts and isolates code generated by LLM extensions. It acts as an air-gapped sandboxed runtime that prevents AI-generated scripts (VBA, Google Apps Script, Python) from making outbound external HTTP requests or touching sibling files in the user's drive without explicit, verified out-of-band approvals.
+  As Google's Gemma 4 MoE proves highly performant on 10-year-old Xeon hardware via custom speculative decoding and tensor-repacking, the constraint on AI adoption shifts from GPU availability to compiler intelligence. There is a massive opportunity to build enterprise compilers that repack, pin, and optimize open-source Mixture-of-Experts models specifically for legacy CPU-only nodes, bypassing Nvidia's supply squeeze entirely.
 
 <ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Opportunity 3: Anti-Fingerprinting "Turnstile Spoofing" SDK</strong></li>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 3: Zero-Knowledge Human Verification APIs</strong></li>
 </ul>
-  As Cloudflare Turnstile blocks privacy-conscious users by demanding WebGL fingerprints, there is an immediate B2B market for web scrapers, local agents, and privacy browsers to bypass these gates. We can build an SDK that programmatically generates mathematically plausible, non-bot, randomized-yet-consistent WebGL render contexts that satisfy Turnstile's behavioral validation without revealing real hardware identity.
-
-<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
-<li><strong class='text-zinc-100 font-semibold'>Opportunity 4: Localized Cultural Archivist (Resolving the "Void of Women")</strong></li>
-</ul>
-  A privacy-first, fully local desktop application that ingests unstructured localized family assets (scanned letters, photos, local registers, military cards) and utilizes a small, local visual LLM to extract, link, and reconstruct maternal lineages that are completely omitted or obscured in major commercial databases (Ancestry, FamilySearch). 
+  As Cloudflare Turnstile's aggressive anti-bot features require WebGL device fingerprinting, privacy-first browsers and decentralized networks are experiencing systematic service denials. A startup that offers a privacy-preserving, zero-knowledge human verification API—proving humanity without tracking user hardware characteristics—can disrupt the market by offering a drop-in, privacy-respecting alternative to Turnstile.
 
 <hr class='border-zinc-800 my-6' />
 
-<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>⚡ Co-founder Action for Today:</strong></p>
-
-<p class='text-zinc-300 leading-relaxed my-3'>Let’s run a quick technical proof-of-concept today. We can pull an old laptop or spin up a cheap, non-GPU CPU instance, clone `ikawrakow/llama.cpp`, and test speculative decoding on the newly released Gemma-4 26B GGUF. If we can clock 15+ tokens/second on plain CPU hardware, we have found the ultimate low-cost foundation for running local, completely secure enterprise agent workflows without paying the GPU tax. Let's do this.</p>
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>⚡ Co-founder Action for Today:</strong>
+Audit your development environment and automated CI/CD pipelines. Ensure that any AI agent configurations (e.g., automated PR reviewers, issue triagers, CLI assistants) do not have direct access to your primary OIDC credentials, GitHub App keys, or server environment variables. Treat all input fed into LLM prompts as untrusted user execution payloads.</p>
                     </div>
                     <div id="content-zh-2026-06-01-morning" class="prose prose-invert max-w-none hidden">
                         <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📊 来源统计</strong>
