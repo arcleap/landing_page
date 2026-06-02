@@ -1,69 +1,58 @@
-# Signals Hub — AI News Pipeline
+# Signals Hub — AI News Pipeline (3-tier)
 
-Self-contained AI-news collector → synthesizer → bilingual static publisher for the
-ArcLeap **Signals Hub** (`/signals` on the landing page). Runs twice daily via Hermes cron.
+Self-contained, founder-tuned AI/markets intelligence for the ArcLeap **Signals Hub**
+(`/signals` on the landing page). Runs twice daily via Hermes cron. Three tiers, split by cost:
+
+- **Tier 1 — collect + enrich (cheap):** scrape → verify-tag → dual-score (importance + edge) → JSON sidecar. **Outliers are preserved & flagged, never culled** — the true value lives there.
+- **Tier 2 — compile (Opus, subscription):** filter the sidecar into Jin's Founder Reading Notes (public Highlights + passcode Co-founder Insights) and queue convergence candidates.
+- **Tier 3 — deep eval (on-demand, NOT daily):** escalate a candidate to `/brainstorm` (Builder↔Critic↔Monica) / `/decide`. See `~/my-vault/Research/founder-reading-notes/`.
 
 ## Layout
-
 ```
 signals/
-├── scripts/                 # canonical, version-controlled pipeline code
-│   ├── ai_news_collector.py   # Stage 1: scrape HN + Reddit + X(.com via xurl) → raw JSONL
-│   ├── ai_news_synthesize.py  # Stage 2: read today's JSONL → digest on stdout (fed to the Hermes agent "Leo")
-│   └── ai_news_publish.py     # Stage 3: translate (ZH), build static HTML → ../public/signals, git push → Vercel
-└── data/                    # GITIGNORED (regenerable, daily-changing)
-    ├── raw/                   # YYYY-MM-DD.jsonl raw scrapes
-    ├── translated/            # <date>-<session>.zh.md + .hash translation cache
-    └── briefings/             # morning/ + afternoon/ — archived copies of Hermes agent briefings
+├── scripts/                    # canonical, version-controlled pipeline code
+│   ├── ai_news_collector.py      # T1a: scrape HN + Reddit + X (xurl) → raw JSONL
+│   ├── enrich_signals.py         # T1b: verify-tag + dedup/delta + dual-score (Gemini Flash, parallel) → enriched JSON; NEVER culls, flags [OUTLIER]
+│   ├── run_tier2_briefing.py     # T2: enriched JSON → claude -p (Opus) Founder Reading Notes + candidate ledger
+│   ├── ai_news_publish.py        # build 3-section static HTML → ../public/signals, git push → Vercel; translate via Gemini Flash
+│   ├── ai_news_synthesize.py     # raw JSONL → plain digest (used as a fallback/util)
+│   └── run_briefing_free.py      # superseded by run_tier2_briefing.py (kept for reference)
+└── data/                       # GITIGNORED (regenerable)
+    ├── raw/                      # YYYY-MM-DD.jsonl raw scrapes
+    ├── enriched/                 # YYYY-MM-DD.json  ← the Tier-1↔Tier-2 contract + Raw Materials source
+    ├── translated/               # <date>-<session>.zh.md(+.hash) cache
+    └── briefings/                # morning/ + afternoon/ — archived briefings
 ```
 
-## How it runs (Hermes cron)
-
-Hermes only executes cron scripts located **under `~/.hermes/scripts/`**, so the files
-there are **symlinks** to the canonical copies in `signals/scripts/`. The scripts resolve
-their own repo-relative paths via `os.path.realpath(__file__)`, so they work correctly when
-invoked through the symlink. **Editing happens here in the repo; the symlinks pick it up
-automatically — no cron edits needed** as long as filenames stay the same.
+## How it runs (Hermes cron + shims)
+Hermes only runs cron scripts **physically under `~/.hermes/scripts/`** and **rejects symlinks that
+resolve outside it**. So each entry there is a tiny **real shim** that `runpy`-delegates to the
+canonical repo script (edit the repo; the shim picks it up, no redeploy). Scripts resolve repo paths
+via `os.path.realpath(__file__)`.
 
 | Job ID | Name | Schedule | Script |
 |---|---|---|---|
-| `a0da24f5737f` | news-collect-morning | `0 7 * * *` | ai_news_collector.py |
-| `c3f148dc7a7f` | news-collect-afternoon | `0 15 * * *` | ai_news_collector.py |
-| `f708e9d64322` | briefing-morning | `45 7 * * *` | ai_news_synthesize.py (agent mode) |
-| `e9b4bb7aede2` | briefing-afternoon | `45 15 * * *` | ai_news_synthesize.py --since 22:00 --label Afternoon |
-| `ba3bda1de8ff` | news-website-publisher | `0 8,16 * * *` | ai_news_publish.py |
+| `a0da24f5737f` / `c3f148dc7a7f` | news-collect (AM/PM) | `0 7,15 * * *` | ai_news_collector.py |
+| `f708e9d64322` / `e9b4bb7aede2` | briefing (AM/PM) | `45 7,15 * * *` | **run_tier2_briefing.py** (no-agent; runs enrich if needed, then Opus) |
+| `ba3bda1de8ff` | website-publisher | `0 8,16 * * *` | ai_news_publish.py (no-agent) |
 
-## Briefings are produced by Hermes, not the scripts
+**Cron timeout:** Opus briefings exceed the default 120s no-agent cap → set `cron.script_timeout_seconds: 600`
+in `~/.hermes/config.yaml` (live-reloaded; no gateway restart).
 
-The synthesize jobs run in **agent mode**: their stdout is fed to the Hermes agent, whose
-response Hermes writes to `~/.hermes/cron/output/<job_id>/<timestamp>.md`. The publisher
-**ingests** those (`sync_briefings()`), copies them into `data/briefings/<session>/` for a
-version-able history, and builds the site from the repo copy.
+## Billing (important)
+Tier-2/3 use `claude -p` billed to the **Claude subscription**, not per-token. The scripts strip
+`ANTHROPIC_API_KEY` / `ANTHROPIC_AUTH_TOKEN` / `ANTHROPIC_BASE_URL` / `CLAUDE_API_KEY` from the child env
+(fail-safe) and honor `CLAUDE_CODE_OAUTH_TOKEN`. **Do not `source ~/.hermes/.env` before a `claude -p` call** —
+it would re-inject the Anthropic key and silently switch to per-token. Tier-1 enrichment + translation use
+Gemini Flash (cheap, separate Google cost).
 
-## Publishing & the dry-run flag
-
-`ai_news_publish.py` builds static HTML into `../public/signals/` then `git add public/signals`,
-commits, and `git push origin main` → triggers the Vercel deploy. To build **without** pushing
-(local verification), set `SIGNALS_NO_PUSH=1`:
-
-```bash
-SIGNALS_NO_PUSH=1 python3 signals/scripts/ai_news_publish.py
-```
-
-## Co-founder Confidential gate
-
-Each briefing's `## 🕵️‍♂️ Co-founder Confidential` section is split out, converted to HTML,
-Base64-encoded into a hidden `<textarea>`, and decrypted **client-side only** (passcode stored
-in `localStorage` under `arcleap_cofounder_key`). Keep that decryption client-side — running it
-during SSR/static pre-render would throw `window is not defined` / hydration mismatches.
+## Webpage (3 sections, top→bottom)
+1. **Daily Highlights** — Tier-2 public notes (bilingual).
+2. **Founder Insights** — Tier-2 Co-founder Confidential, **passcode-gated** (base64 + `localStorage.arcleap_cofounder_key`); decrypt **client-side only**.
+3. **Raw Materials** — Tier-1 enriched set (collapsible): confidence badge + delta + i/e scores + ★ outliers.
 
 ## Dependencies
-
-- `xurl` (on PATH) for X.com fetch in the collector
-- `GOOGLE_API_KEY` in `~/.hermes/.env` for Gemini translation in the publisher
-- `git` remote `origin` → GitHub → Vercel
-
-## Note
-
-`~/.hermes/scripts/ai_news_scraper.py` is a **legacy** predecessor of the collector, used by no
-cron job. Left in place, not part of this pipeline.
+- `xurl` on PATH (collector), `GOOGLE_API_KEY` in `~/.hermes/.env` (Flash enrich + translate),
+  `claude` CLI logged into the subscription (Tier-2/3), `git` remote `origin` → GitHub → Vercel.
+- Dry-run the publisher without deploying: `SIGNALS_NO_PUSH=1 python3 signals/scripts/ai_news_publish.py`.
+- Legacy: `~/.hermes/scripts/ai_news_scraper.py` (predecessor, unused).
