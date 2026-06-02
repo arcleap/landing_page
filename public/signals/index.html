@@ -151,7 +151,77 @@
             btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
             btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
         }
+        
+        // Update cofounder section visibility if decrypted
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "leap2026") {
+            const enSection = document.getElementById("cofounder-content-en-" + id);
+            const zhSection = document.getElementById("cofounder-content-zh-" + id);
+            if (enSection && zhSection) {
+                if (lang === 'en') {
+                    enSection.classList.remove("hidden");
+                    zhSection.classList.add("hidden");
+                } else {
+                    enSection.classList.add("hidden");
+                    zhSection.classList.remove("hidden");
+                }
+            }
+        }
     }
+
+    function checkExistingLock() {
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "leap2026") {
+            // Automatically unlock and render all cofounder blocks
+            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
+            
+            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-en-", "");
+                const encodedEnEl = document.getElementById("data-en-" + blockId);
+                if (encodedEnEl) {
+                    const decodedEn = atob(encodedEnEl.value);
+                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
+                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
+                    
+                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                    if (enBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+            
+            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-zh-", "");
+                const encodedZhEl = document.getElementById("data-zh-" + blockId);
+                if (encodedZhEl) {
+                    const decodedZh = atob(encodedZhEl.value);
+                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
+                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
+                    
+                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
+                    if (zhBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+        }
+    }
+
+    function unlockCofounder(id) {
+        const input = document.getElementById("passcode-input-" + id).value;
+        if (input === "leap2026") {
+            localStorage.setItem("arcleap_cofounder_key", "leap2026");
+            checkExistingLock();
+        } else {
+            const err = document.getElementById("error-message-" + id);
+            if (err) {
+                err.classList.remove("hidden");
+                setTimeout(() => err.classList.add("hidden"), 3000);
+            }
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", checkExistingLock);
     </script>
 </body>
 </html>

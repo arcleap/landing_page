@@ -407,6 +407,8 @@ Audit your development environment and automated CI/CD pipelines. Ensure that an
 
 <p class='text-zinc-300 leading-relaxed my-3'>今天我们来快速进行一个技术概念验证。我们可以找一台旧笔记本电脑或启动一个廉价的无 GPU CPU 实例，克隆 `ikawrakow/llama.cpp`，并在新发布的 Gemma-4 26B GGUF 上测试推测解码。如果我们能在纯 CPU 硬件上达到每秒 15 个以上 token 的速度，我们就找到了运行本地、完全安全的企业智能体工作流的终极低成本基础，而无需支付 GPU 税。让我们开始吧。</p>
                     </div>
+                    
+                    
                 </section>
                 
         
@@ -431,7 +433,77 @@ Audit your development environment and automated CI/CD pipelines. Ensure that an
             btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
             btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
         }
+        
+        // Update cofounder section visibility if decrypted
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "leap2026") {
+            const enSection = document.getElementById("cofounder-content-en-" + id);
+            const zhSection = document.getElementById("cofounder-content-zh-" + id);
+            if (enSection && zhSection) {
+                if (lang === 'en') {
+                    enSection.classList.remove("hidden");
+                    zhSection.classList.add("hidden");
+                } else {
+                    enSection.classList.add("hidden");
+                    zhSection.classList.remove("hidden");
+                }
+            }
+        }
     }
+
+    function checkExistingLock() {
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "leap2026") {
+            // Automatically unlock and render all cofounder blocks
+            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
+            
+            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-en-", "");
+                const encodedEnEl = document.getElementById("data-en-" + blockId);
+                if (encodedEnEl) {
+                    const decodedEn = atob(encodedEnEl.value);
+                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
+                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
+                    
+                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                    if (enBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+            
+            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-zh-", "");
+                const encodedZhEl = document.getElementById("data-zh-" + blockId);
+                if (encodedZhEl) {
+                    const decodedZh = atob(encodedZhEl.value);
+                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
+                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
+                    
+                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
+                    if (zhBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+        }
+    }
+
+    function unlockCofounder(id) {
+        const input = document.getElementById("passcode-input-" + id).value;
+        if (input === "leap2026") {
+            localStorage.setItem("arcleap_cofounder_key", "leap2026");
+            checkExistingLock();
+        } else {
+            const err = document.getElementById("error-message-" + id);
+            if (err) {
+                err.classList.remove("hidden");
+                setTimeout(() => err.classList.add("hidden"), 3000);
+            }
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", checkExistingLock);
     </script>
 </body>
 </html>
