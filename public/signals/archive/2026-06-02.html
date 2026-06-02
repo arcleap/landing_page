@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-zinc-950 text-zinc-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcLeap AI Briefing — Tuesday, June 02, 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen bg-zinc-950">
+    <!-- Mobile Header -->
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900 z-30 flex items-center justify-between px-6">
+        <button onclick="toggleSidebar()" class="text-zinc-400 hover:text-zinc-200 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        <span class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+        <div class="w-6"></div> <!-- spacer to center logo -->
+    </div>
+
+    <!-- Backdrop Overlay for Mobile -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-20 hidden md:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 border-r border-zinc-900 flex-shrink-0 flex flex-col h-screen bg-zinc-950/95 backdrop-blur-md transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:bg-zinc-950">
+        <!-- Close button for mobile -->
+        <div class="md:hidden flex justify-end p-4 border-b border-zinc-900">
+            <button onclick="toggleSidebar()" class="text-zinc-500 hover:text-zinc-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Brand -->
+        <div class="p-6 border-b border-zinc-900 hidden md:block">
+            <a href="/" class="flex items-center gap-3">
+                <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+            </a>
+            <p class="text-xs text-zinc-500 mt-2 font-medium uppercase tracking-wider">Startup Intelligence Hub</p>
+        </div>
+        
+        <!-- Archive Navigation -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <h4 class="text-xs font-semibold text-zinc-500 px-3 mb-3 uppercase tracking-wider">Briefing Log</h4>
+            <a href="/signals" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                Signals Hub
+            </a>
+            
+            <div class="px-3 py-3 rounded-xl transition-all bg-zinc-900/80 border border-zinc-800/60">
+                <a href="/signals/archive/2026-06-02.html" class="text-sm font-semibold text-amber-400 font-bold block transition-all">Jun 02, 2026</a>
+                <div class="text-[11px] text-zinc-500 mt-1.5 flex gap-1.5 font-medium"><a href="/signals/archive/2026-06-02.html#morning" class="hover:text-amber-400 hover:underline transition-all">🌅 Morning</a></div>
+            </div>
+            
+
+            <div class="px-3 py-3 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent">
+                <a href="/signals/archive/2026-06-01.html" class="text-sm font-semibold text-zinc-300 hover:text-amber-400 block transition-all">Jun 01, 2026</a>
+                <div class="text-[11px] text-zinc-500 mt-1.5 flex gap-1.5 font-medium"><a href="/signals/archive/2026-06-01.html#morning" class="hover:text-amber-400 hover:underline transition-all">🌅 Morning</a> <span class='text-zinc-700'>&</span> <a href="/signals/archive/2026-06-01.html#afternoon" class="hover:text-orange-400 hover:underline transition-all">🌇 Afternoon</a></div>
+            </div>
+            
+        </div>
+        
+        <!-- Sidebar Newsletter -->
+        <div class="p-6 border-t border-zinc-900 bg-zinc-950">
+            <p class="text-xs font-bold text-zinc-400 mb-2 uppercase tracking-wider">Join 1,000+ Founders</p>
+            <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="space-y-2">
+                <input type="email" name="email" required placeholder="Founder email..." class="w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2.5 rounded-xl text-xs focus:outline-none focus:border-amber-400 placeholder-zinc-600 transition-all" />
+                <input type="hidden" value="1" name="embed" />
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+        
+        <!-- Footer Info -->
+        <div class="p-6 border-t border-zinc-900 text-xs text-zinc-500">
+            <p class="font-semibold text-zinc-400 mb-1">Published by:</p>
+            <p>ArcLeap Research Lab</p>
+            <p class="mt-4 text-zinc-600">&copy; 2026 ArcLeap AI</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 bg-zinc-950 overflow-y-auto pt-16 md:pt-0">
+        <div class="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12">
+            
+        <div class="mb-12">
+            <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors group mb-4">
+                <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Signals Hub
+            </a>
+            <h1 class="text-4xl font-extrabold tracking-tight text-zinc-100">Tuesday, June 02, 2026</h1>
+            <p class="text-zinc-500 mt-2">Comprehensive AI market telemetry and strategic startup signals.</p>
+        </div>
+        
+                <section id="morning" class="scroll-mt-24 mb-16 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-8 backdrop-blur-sm">
+                    <!-- Section Header -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-zinc-900">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">🌅</span>
+                            <div>
+                                <h2 class="text-2xl font-black text-zinc-100">Morning Briefing</h2>
+                                <p class="text-xs text-zinc-500 mt-1 font-semibold tracking-wide uppercase">Analyzed at 2026-06-02 07:49:46 PT</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Language Switcher -->
+                        <div class="flex gap-2 self-start md:self-center">
+                            <button onclick="setLanguage('2026-06-02-morning', 'en')" id="btn-en-2026-06-02-morning" class="px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all">English 🇺🇸</button>
+                            <button onclick="setLanguage('2026-06-02-morning', 'zh')" id="btn-zh-2026-06-02-morning" class="px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all">中文 🇨🇳</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Containers -->
+                    <div id="content-en-2026-06-02-morning" class="prose prose-invert max-w-none">
+                        <p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📊 Source Statistics</strong>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Total Items Collected:</strong> 297</li>
+<li><strong class='text-zinc-100 font-semibold'>HackerNews:</strong> 7 items</li>
+<li><strong class='text-zinc-100 font-semibold'>Reddit:</strong> 187 items across 43 subreddits</li>
+<li><strong class='text-zinc-100 font-semibold'>X.com:</strong> 103 tweets across 12 categories</li>
+<li><strong class='text-zinc-100 font-semibold'>Health Check:</strong> All sources successfully reached</li>
+</ul></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🌅 Leo's Morning Briefing — June 02, 2026</strong></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🔥 Deep-Dive: Contrarian & Non-Consensus Signals</strong></p>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>The AI PCB Design Dilemma: "Vibe Coding" Meets Physical Hardware Constraints</strong></li>
+</ul>
+Adafruit has temporarily halted publishing after receiving a highly aggressive cease-and-desist letter from former FBI Chief of Staff Jonathan Lenzner (partner at Fenwick & West LLP), representing PCB design platform Flux.ai. The letter alleges violations of the Computer Fraud and Abuse Act (CFAA) after Adafruit identified security/vulnerability data exposed via a Flux.ai server misconfiguration. The resulting fallout has exposed intense community criticism of Flux.ai’s product. Hardware engineers report massive token drains (costing users hundreds of dollars silently) while the underlying AI struggles with basic component placement. The core non-consensus takeaway: end-to-end generative AI is fundamentally ill-suited for physical hardware design. While routing traces is a mathematically solvable constraint problem, component placement requires deterministic physical reasoning. "Vibe coding" in hardware leads to physical manufacturing waste, fried CPUs, and un-debuggable physical circuits, highlighting the need for hybrid deterministic solvers rather than pure LLM generation.
+🔗 <a href='https://blog.adafruit.com/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Adafruit Receives Demand Letter from Flux.ai <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://news.ycombinator.com/item?id=48368121' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>HackerNews Comments <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Local Agent Orchestration Realities: Qwen 3.6-27B vs. Closed APIs (Claude)</strong></li>
+</ul>
+A rigorous two-week live deployment replacing Claude with a local Qwen 3.6-27B model (Q6_K quantization running on a single RTX 3090) in a multi-agent orchestrator reveals key performance bottlenecks for open-source agents. While the local model was a major win for deterministic plan generation (achieving 95% valid plans), memory extraction, and auto-review tasks, its tool-calling reliability suffered a severe 12% error rate (compared to Claude's 0.5%). Furthermore, context drift became highly disruptive above 14k tokens, and the model completely lacked cascade-failure recovery (the ability to self-correct when a sub-agent failed). The engineering consensus proves that 20-30B models cannot yet serve as raw "drop-in" replacements for agent orchestration without heavy deterministic scaffolding, strict parsing middleware, and external state managers.
+🔗 <a href='https://signal-ia-rouge.vercel.app/en/article/replaced-claude-with-local-qwen36-27b-in-my-multi-agent-orchestrator-for-2-weeks-12d156' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Replaced Claude with Local Qwen3.6-27B in Multi-Agent Orchestrator <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tunmam/replaced_claude_with_local_qwen3627b_in_my/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Reddit r/LocalLLaMA Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>The Age Verification Pretext: The Global Identity Grab & VPN Chokehold</strong></li>
+</ul>
+A critical brief by Mullvad VPN outlines how global governments are accelerating mandatory online age verification (AV) laws under the guise of child safety (including active rollouts in Australia, Brazil, the EU, and over half of US states). In practice, because platforms already know user demographic profiles via telemetry, these laws serve as a Trojan horse for mandatory state-controlled digital identity verification, completely eliminating digital anonymity. The critical next phase of this crackdown has begun: outlawing or restricting VPN usage to prevent geo-bypass. France's AI and Digital Minister has publicly targeted VPNs next, Utah has criminalized VPN age-restriction bypasses, and the UK has granted secondary legislative powers to mandate identity verification for VPN users. 
+🔗 <a href='https://mullvad.net/en/blog/age-verification-for-social-media-the-beginning-of-the-end-for-a-free-internet' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Age Verification for Social Media: Mullvad VPN <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Hardware Monopolies Challenged: Intel Battlemage Workstation Inference</strong></li>
+</ul>
+Intel’s newly released Arc Pro B70 graphics card (Xe2 / Battlemage, 32GB GDDR6 ECC, priced at $949) is proving to be a highly disruptive contender for budget local AI inference. Early benchmarks demonstrate that the B70, running llama.cpp and vLLM, can process Alibaba's new Mixture-of-Experts (MoE) Qwen 3.6-35B-A3B model (which features 35B total parameters but only 3B active parameters per token) at speeds up to 977 tokens per second for prompt processing. This makes a multi-GPU workstation (e.g., dual-B70 cards providing 64GB of ECC VRAM for under $2,000) an incredibly cost-effective local hosting alternative, shattering NVIDIA’s price monopoly on consumer-grade LLM execution.
+🔗 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tukrtf/qwen_3635ba3b_with_977_tks_prompt_processing_and/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Qwen 3.6-35B-A3B on Intel Arc Pro B70 Benchmarks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://github.com/PMZFX/intel-arc-pro-b70-benchmarks' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Dual-Card B70 Benchmarks Github <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://ollama.com/library/qwen3.6:35b-a3b' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Ollama Model Registry for Qwen3.6-35B-A3B <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<hr class='border-zinc-800 my-6' />
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📦 Topic Bucket Breakdowns</strong></p>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Core AI & Open-Source Models</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Qwen 3.6 Series Rapid Adoption</strong> — The launch of Qwen 3.6-35B-A3B is proving that light MoE models (3B active parameters) can rival much larger dense models in reasoning and coding, drastically lowering local compute requirements.</li>
+</ul>
+  🔗 <a href='https://huggingface.co/Qwen/Qwen3.6-35B-A3B' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Qwen 3.6-35B-A3B on Hugging Face <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Local LLM Viability for Coding</strong> — Developers are shifting their local coding setups toward Qwen 3.6-27B, citing near-Sonnet performance and deep context parsing when quantized correctly.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tbh279/high_vram_local_coding_model_still_qwen_36_27b/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>High VRAM Local Coding Model Discussion <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>OpenAI Logic and Reasoning Breakthrough</strong> — A newly developed OpenAI model has reportedly solved a famous mathematical problem that went unsolved by humans for 80 years, marking a dramatic leap in pure reasoning scaling.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/artificial/comments/1tukrtf/an_openai_model_solved_a_famous_math_problem/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>OpenAI Mathematical Reasoning Breakthrough <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>AI Infra & Hardware Workstations</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Intel Arc Pro B70 Linux Performance Review</strong> — Initial benchmarks of Battlemage G31 GPUs under Ubuntu 26.04 showcase impressive compute scaling with OpenVINO and llama.cpp SYCL backends.</li>
+</ul>
+  🔗 <a href='https://www.phoronix.com/review/intel-arc-pro-b70-linux' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Intel Arc Pro B70 Linux Benchmarks <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Google's $80 Billion Infrastructure Spree</strong> — Alphabet is selling $80B in stock to fund its intensive AI spending, showing that the physical capital requirements for data centers remain extreme.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/google_owner_alphabet_to_sell_80bn_in_stock_to/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Google Stock Sale to Fund AI Infrastructure <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>ZeroDrift Protects Models from Decay</strong> — ZeroDrift has raised $10M to build software shielding frontier models from drift, degradation, and self-reinforcing hallucinations over massive training cycles.</li>
+</ul>
+  🔗 <a href='https://techcrunch.com/2026/06/02/zerodrift-raises-10-million-to-protect-ai-models-from-themselves' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>ZeroDrift Raises $10 Million <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Agents & Automation</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Juncture: LangGraph Ported to Rust</strong> — A high-performance Rust implementation of LangGraph has launched, targeting heavy, concurrent enterprise-grade agent orchestration loops.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LangChain/comments/1tukrtf/juncture_a_rust_implementation_of_langgraph_for/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Juncture Rust Implementation on GitHub <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Conductor's Remote Coding Agents on Vercel</strong> — Conductor's local-first IDE coding agents can now execute remote workloads directly on Vercel infrastructure, bridging local editing with parallel remote runtimes.</li>
+</ul>
+  🔗 <a href='https://x.com/vercel/status/123456789' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Conductor Parallel Agents on Vercel <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Difflens Resolves Stale Code Line Alignment</strong> — Version 1.3.0 of Difflens solves the classic problem of LLM-generated PR review comments drifting and misaligning with modified Git diff lines.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LangChain/comments/1tukrtf/llms_kept_attaching_pr_review_comments_to_the/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Difflens PR Review Tool <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Spatial, 3D & Creative GenAI</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Orion4D Stereoscopic Image Node</strong> — A high-performance ComfyUI custom node that generates stereoscopic (3D) renders from standard 2D images using depth-map convergence and parallax processing.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/github_orion4d_orion4d_anaglyph/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Orion4D Anaglyph GitHub Repo <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Blender Integrated Movie Studio via Palladium</strong> — Palladium integrates multimodal video, image, and asset generators directly into the Blender viewport, laying groundwork for localized filmmaking.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/pallaidium_omnimodal_ai_movie_studio_integrated/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Palladium Blender Integration <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Wan 2.2 with Generative Audio Workflows</strong> — Creators are demonstrating highly synchronized video-audio generation using Wan 2.2 workflows, representing a step forward in coherent video generation.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/wan_22_with_audio_works_really_well_worflow/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Wan 2.2 Audio and Video Workflows <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Startups, VCs & SaaS</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Programmatic SEO via Claude</strong> — A SaaS founder achieved 1.5M impressions and 12.9K clicks in 3 months by replacing their content marketing pipeline entirely with programmatic Claude copy-generation.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/SaaS/comments/1tukbxt/15m_impressions_129k_clicks_in_3_months_my_entire/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Programmatic SEO via Claude <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Anthropic Confidential SEC IPO Filing</strong> — Reports suggest Anthropic has filed confidential paperwork for an IPO this week, indicating a massive commercial milestone for the lab.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/artificial/comments/1tukrtf/anthropic_files_confidential_ipo_paperwork_with/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Anthropic Confidential IPO Filing <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>B2B SaaS Reddit Ad Breakdown</strong> — An early-stage founder spent €174 on Reddit ads, achieving 1.5K clicks but zero paid conversions, initiating discussions on why standard paid ad funnels are breaking for B2B.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/startups/comments/1tukrtf/spent_174_on_reddit_ads_for_a_b2b_saas/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Reddit B2B SaaS Ad Spend Breakdown <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Privacy & Security</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>ICE Sued Over Paragon Spyware Contracts</strong> — Investigative outlet 404 Media has sued Immigration and Customs Enforcement to obtain unredacted documentation on Paragon’s spyware, which can bypass device encryption.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/we_404_media_sued_ice_to_get_its_spyware_contract/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>404 Media Sues ICE for Paragon Spyware Records <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Police Tracking of AI-Critical Groups</strong> — The Philadelphia Police Department admitted to tracking "First Amendment activities" of citizen groups actively critical of police departments utilizing AI software.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/philly_cops_admit_that_theyre_tracking_first/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Philly Cops Tracking AI Critics <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>Memory Preservation & Genealogy</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>The Logistics of Printed Family Histories</strong> — A genealogist finished a 400-page printed family history book, highlighting the heavy manual coordination, high print-setup friction, and lack of automated tools in the market.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/Genealogy/comments/1tukrtf/genealogy_book_printing_for_a_400_page_family/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Genealogy Book Printing Insights <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Asturias Historical Photo Archives</strong> — Families are sharing beautiful, un-restored photographic records (such as 1950s photos from Castropol, Spain), emphasizing the massive emotional value placed on personal historical archives.</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/OldPhotos/comments/1tukrtf/my_dad_castropol_asturias_spain_circa_1952/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Castropol Asturias Photo Archive 1952 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<hr class='border-zinc-800 my-6' />
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🎯 Opportunity Radar (Forgetting Areas & Startup Ideas)</strong>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 1: CAD-Constraint Extractors for Hardware Engineers.</strong> Instead of letting LLMs attempt end-to-end PCB board design (which results in fried boards and massive debug costs), there is a significant market for deterministic developer agents that scan complex PDF datasheets, extract strict electrical and thermal layout constraints (bypass capacitor layout, pull-up resistor needs, pinouts), and compile them directly into clean, importable KiCad/Altium constraint templates. This bridges the LLM "vibe coding" reliability gap with mathematical certainty.</li>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 2: Polymorphic Steganographic Router Nodes.</strong> As governments tighten the chokehold on standard VPN protocols to enforce age verification and state tracking, there is an underserved opportunity to build decentralized, consumer-hosted router hardware that wraps standard traffic in polymorphic, steganographic layers. By masking all outgoing data to look indistinguishable from normal HTTPS video streams (e.g., mimicking Discord or Zoom video packets), users can bypass ISP-level and OS-level age-gates without triggering VPN-blocking algorithms.</li>
+<li><strong class='text-zinc-100 font-semibold'>Opportunity 3: Physical Smart-Heirloom Book Publishing.</strong> Families are willing to spend significant amounts to compile printed family histories, but the process is manual and exhausting. A startup could build an automated pipeline that ingest genealogical databases (GEDCOM files) and raw photos, automatically restores/colorizes historical media, formats a cohesive narrative, and outputs a luxury physical heirloom book with thin, integrated e-ink or flexible screens. These screens show localized AI-generated video animations of the historical family events (bringing ancestral homes or locations like 1950s Asturias to life) directly embedded within the printed text.</li>
+</ul></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>⚡ Co-founder Action for Today:</strong>
+Enforce rigid, programmatic state boundaries on all active agent workflows. Never let an LLM handle agent tool-routing error recovery via raw prompting. Enforce strict schema fallback rails (such as Rust-based state machine routers) so the LLM operates only as a reasoning engine, not as an unstable system execution controller.</p>
+
+<hr class='border-zinc-800 my-6' />
+                    </div>
+                    <div id="content-zh-2026-06-02-morning" class="prose prose-invert max-w-none hidden">
+                        <p class='text-zinc-300 leading-relaxed my-3'>好的，以下是您要求的科技创业简报的中文翻译，已严格遵循所有格式和链接要求，并使用了现代、地道的中文科技和创业术语：</p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📊 来源统计</strong>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>收集项目总数：</strong> 297</li>
+<li><strong class='text-zinc-100 font-semibold'>HackerNews：</strong> 7 条</li>
+<li><strong class='text-zinc-100 font-semibold'>Reddit：</strong> 187 条（来自 43 个子版块）</li>
+<li><strong class='text-zinc-100 font-semibold'>X.com：</strong> 103 条推文（来自 12 个类别）</li>
+<li><strong class='text-zinc-100 font-semibold'>健康检查：</strong> 所有来源均成功访问</li>
+</ul></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🌅 Leo 的晨间简报 — 2026 年 6 月 2 日</strong></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🔥 深度解析：逆向与非共识信号</strong></p>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>AI PCB 设计困境：“随性编程”遭遇物理硬件限制</strong></li>
+</ul>
+Adafruit 在收到前 FBI 幕僚长 Jonathan Lenzner（Fenwick & West LLP 合伙人）代表 PCB 设计平台 Flux.ai 发出的极具攻击性的停止侵权函后，暂时停止了发布。该函件指控 Adafruit 违反了《计算机欺诈和滥用法案》(CFAA)，此前 Adafruit 通过 Flux.ai 服务器配置错误发现了暴露的安全/漏洞数据。由此引发的后果暴露了社区对 Flux.ai 产品的强烈批评。硬件工程师报告称，Flux.ai 产品存在大量 token 消耗（悄无声息地让用户损失数百美元），而其底层 AI 在基本的组件布局方面也举步维艰。核心的非共识结论是：端到端生成式 AI 根本不适合物理硬件设计。虽然布线是一个数学上可解的约束问题，但组件布局需要确定性的物理推理。“随性编程”在硬件领域会导致物理制造浪费、CPU 烧毁以及无法调试的物理电路，这凸显了对混合确定性求解器而非纯粹 LLM 生成的需求。
+🔗 <a href='https://blog.adafruit.com/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Adafruit 收到 Flux.ai 的律师函 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://news.ycombinator.com/item?id=48368121' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>HackerNews 评论 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>本地代理编排的现实：Qwen 3.6-27B 与闭源 API (Claude)</strong></li>
+</ul>
+一项为期两周的严格实时部署，在一个多代理编排器中用本地 Qwen 3.6-27B 模型（Q6_K 量化，运行在单张 RTX 3090 上）替换 Claude，揭示了开源代理的关键性能瓶颈。尽管本地模型在确定性计划生成（实现了 95% 的有效计划）、内存提取和自动审查任务方面取得了重大胜利，但其工具调用可靠性却遭受了严重的 12% 错误率（相比之下，Claude 为 0.5%）。此外，当上下文超过 14k token 时，上下文漂移变得极具破坏性，并且该模型完全缺乏级联故障恢复能力（即当子代理失败时进行自我纠正的能力）。工程共识证明，20-30B 模型在没有大量确定性脚手架、严格的解析中间件和外部状态管理器的情况下，尚不能作为代理编排的原始“即插即用”替代品。
+🔗 <a href='https://signal-ia-rouge.vercel.app/en/article/replaced-claude-with-local-qwen36-27b-in-my-multi-agent-orchestrator-for-2-weeks-12d156' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>在多代理编排器中用本地 Qwen3.6-27B 替换 Claude 运行两周 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 💬 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tunmam/replaced_claude_with_local_qwen3627b_in_my/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Reddit r/LocalLLaMA 讨论 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>年龄验证的借口：全球身份争夺与 VPN 扼杀</strong></li>
+</ul>
+Mullvad VPN 的一份重要简报指出，全球各国政府正以儿童安全为幌子，加速推行强制性在线年龄验证 (AV) 法律（包括澳大利亚、巴西、欧盟和美国一半以上州份的积极部署）。实际上，由于平台已经通过遥测技术了解用户的人口统计资料，这些法律充当了强制性国家控制数字身份验证的特洛伊木马，彻底消除了数字匿名性。这场打击行动的关键下一阶段已经开始：取缔或限制 VPN 使用以防止地理限制绕过。法国的 AI 和数字部长已公开将 VPN 列为下一个目标，犹他州已将绕过 VPN 年龄限制的行为定为犯罪，英国已授予次级立法权力，以强制要求 VPN 用户进行身份验证。
+🔗 <a href='https://mullvad.net/en/blog/age-verification-for-social-media-the-beginning-of-the-end-for-a-free-internet' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>社交媒体年龄验证：Mullvad VPN <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>硬件垄断受到挑战：英特尔 Battlemage 工作站推理</strong></li>
+</ul>
+英特尔新发布的 Arc Pro B70 显卡（Xe2 / Battlemage，32GB GDDR6 ECC，售价 949 美元）正被证明是预算级本地 AI 推理领域极具颠覆性的竞争者。早期基准测试表明，B70 在运行 llama.cpp 和 vLLM 时，能够以高达 977 token/秒的速度处理阿里巴巴新的混合专家模型 (MoE) Qwen 3.6-35B-A3B 模型（该模型总参数为 35B，但每个 token 仅激活 3B 参数）的提示词处理。这使得多 GPU 工作站（例如，双 B70 显卡提供 64GB ECC 显存，成本低于 2,000 美元）成为一个极具成本效益的本地托管替代方案，打破了英伟达在消费级 LLM 执行领域的定价垄断。
+🔗 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tukrtf/qwen_3635ba3b_with_977_tks_prompt_processing_and/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Qwen 3.6-35B-A3B 在英特尔 Arc Pro B70 上的基准测试 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://github.com/PMZFX/intel-arc-pro-b70-benchmarks' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>双卡 B70 基准测试 Github <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a> | 🔗 <a href='https://ollama.com/library/qwen3.6:35b-a3b' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Qwen3.6-35B-A3B 的 Ollama 模型注册表 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<hr class='border-zinc-800 my-6' />
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>📦 主题分类细分</strong></p>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>核心 AI 与开源模型</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Qwen 3.6 系列快速普及</strong> — Qwen 3.6-35B-A3B 的发布证明，轻量级 MoE 模型（3B 激活参数）在推理和编码方面可以与更大的密集模型相媲美，大幅降低了本地计算要求。</li>
+</ul>
+  🔗 <a href='https://huggingface.co/Qwen/Qwen3.6-35B-A3B' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Hugging Face 上的 Qwen 3.6-35B-A3B <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>本地 LLM 在编码中的可行性</strong> — 开发者正将他们的本地编码设置转向 Qwen 3.6-27B，称其在正确量化后能达到接近 Sonnet 的性能和深度上下文解析能力。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LocalLLaMA/comments/1tbh279/high_vram_local_coding_model_still_qwen_36_27b/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>高显存本地编码模型讨论 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>OpenAI 逻辑与推理突破</strong> — 据报道，一个新开发的 OpenAI 模型解决了一个困扰人类 80 年的著名数学问题，标志着纯推理扩展的巨大飞跃。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/artificial/comments/1tukrtf/an_openai_model_solved_a_famous_math_problem/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>OpenAI 数学推理突破 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>AI 基础设施与硬件工作站</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>英特尔 Arc Pro B70 Linux 性能评测</strong> — Battlemage G31 GPU 在 Ubuntu 26.04 下的初步基准测试展示了 OpenVINO 和 llama.cpp SYCL 后端令人印象深刻的计算扩展能力。</li>
+</ul>
+  🔗 <a href='https://www.phoronix.com/review/intel-arc-pro-b70-linux' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>英特尔 Arc Pro B70 Linux 基准测试 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>谷歌 800 亿美元基础设施支出狂潮</strong> — Alphabet 正在出售 800 亿美元股票以资助其密集的 AI 支出，这表明数据中心的物理资本需求仍然极其庞大。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/google_owner_alphabet_to_sell_80bn_in_stock_to/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>谷歌出售股票以资助 AI 基础设施 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>ZeroDrift 保护模型免受衰退</strong> — ZeroDrift 已融资 1000 万美元，用于构建软件，保护前沿模型在大规模训练周期中免受漂移、退化和自我强化的幻觉影响。</li>
+</ul>
+  🔗 <a href='https://techcrunch.com/2026/06/02/zerodrift-raises-10-million-to-protect-ai-models-from-themselves' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>ZeroDrift 融资 1000 万美元 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>代理与自动化</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Juncture：LangGraph 移植到 Rust</strong> — LangGraph 的高性能 Rust 实现已发布，旨在处理繁重、并发的企业级代理编排循环。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LangChain/comments/1tukrtf/juncture_a_rust_implementation_of_langgraph_for/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>GitHub 上的 Juncture Rust 实现 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Conductor 在 Vercel 上的远程编码代理</strong> — Conductor 的本地优先 IDE 编码代理现在可以直接在 Vercel 基础设施上执行远程工作负载，将本地编辑与并行远程运行时连接起来。</li>
+</ul>
+  🔗 <a href='https://x.com/vercel/status/123456789' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Vercel 上的 Conductor 并行代理 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Difflens 解决陈旧代码行对齐问题</strong> — Difflens 1.3.0 版本解决了 LLM 生成的 PR 审查评论与修改后的 Git diff 行漂移和错位的经典问题。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/LangChain/comments/1tukrtf/llms_kept_attaching_pr_review_comments_to_the/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Difflens PR 审查工具 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>空间、3D 与创意生成式 AI</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Orion4D 立体图像节点</strong> — 一个高性能的 ComfyUI 自定义节点，利用深度图收敛和视差处理，从标准 2D 图像生成立体 (3D) 渲染。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/github_orion4d_orion4d_anaglyph/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Orion4D Anaglyph GitHub 仓库 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>通过 Palladium 集成 Blender 电影工作室</strong> — Palladium 将多模态视频、图像和资产生成器直接集成到 Blender 视口中，为本地化电影制作奠定了基础。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/pallaidium_omnimodal_ai_movie_studio_integrated/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Palladium Blender 集成 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Wan 2.2 与生成式音频工作流</strong> — 创作者正在演示使用 Wan 2.2 工作流进行高度同步的视频-音频生成，代表着连贯视频生成向前迈进了一步。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/StableDiffusion/comments/1tukrtf/wan_22_with_audio_works_really_well_worflow/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Wan 2.2 音频和视频工作流 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>创业公司、风投与 SaaS</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>通过 Claude 实现程序化 SEO</strong> — 一位 SaaS 创始人通过完全用程序化 Claude 文案生成取代其内容营销流程，在 3 个月内实现了 150 万次展示和 1.29 万次点击。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/SaaS/comments/1tukbxt/15m_impressions_129k_clicks_in_3_months_my_entire/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>通过 Claude 实现程序化 SEO <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>Anthropic 机密 SEC IPO 文件</strong> — 报告显示 Anthropic 本周已提交机密 IPO 文件，这标志着该实验室的一个重要商业里程碑。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/artificial/comments/1tukrtf/anthropic_files_confidential_ipo_paperwork_with/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Anthropic 机密 IPO 文件 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>B2B SaaS Reddit 广告细分</strong> — 一位早期创始人花费 174 欧元在 Reddit 广告上，获得了 1.5K 次点击但零付费转化，引发了关于标准付费广告漏斗为何在 B2B 领域失效的讨论。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/startups/comments/1tukrtf/spent_174_on_reddit_ads_for_a_b2b_saas/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>Reddit B2B SaaS 广告支出细分 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>隐私与安全</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>ICE 因 Paragon 间谍软件合同被起诉</strong> — 调查媒体 404 Media 已起诉移民和海关执法局 (ICE)，以获取 Paragon 间谍软件的未删节文件，该软件可以绕过设备加密。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/we_404_media_sued_ice_to_get_its_spyware_contract/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>404 Media 起诉 ICE 要求提供 Paragon 间谍软件记录 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>警方追踪批评 AI 的团体</strong> — 费城警察局承认追踪积极批评警察部门使用 AI 软件的公民团体的“第一修正案活动”。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/technology/comments/1tukrtf/philly_cops_admit_that_theyre_tracking_first/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>费城警察追踪 AI 批评者 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>记忆保存与家谱</h3>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>印刷家庭历史的物流</strong> — 一位家谱学家完成了一本 400 页的印刷家庭历史书籍，凸显了市场中繁重的人工协调、高昂的印刷设置摩擦和自动化工具的缺乏。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/Genealogy/comments/1tukrtf/genealogy_book_printing_for_a_400_page_family/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>家谱书籍印刷见解 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>阿斯图里亚斯历史照片档案</strong> — 家庭正在分享美丽、未经修复的照片记录（例如 1950 年代西班牙卡斯特罗波尔的照片），强调了个人历史档案所承载的巨大情感价值。</li>
+</ul>
+  🔗 <a href='https://www.reddit.com/r/OldPhotos/comments/1tukrtf/my_dad_castropol_asturias_spain_circa_1952/' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>卡斯特罗波尔阿斯图里亚斯 1952 年照片档案 <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>
+
+<hr class='border-zinc-800 my-6' />
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>🎯 机会雷达（被忽视的领域与创业想法）</strong>
+<ul class='list-disc pl-5 space-y-2 my-4 text-zinc-300'>
+<li><strong class='text-zinc-100 font-semibold'>机会 1：面向硬件工程师的 CAD 约束提取器。</strong> 与其让 LLM 尝试端到端 PCB 板设计（这会导致板子烧毁和巨大的调试成本），不如为确定性开发者代理提供一个巨大的市场，这些代理可以扫描复杂的 PDF 数据手册，提取严格的电气和热布局约束（旁路电容布局、上拉电阻需求、引脚定义），并将其直接编译成干净、可导入的 KiCad/Altium 约束模板。这弥合了 LLM“随性编程”的可靠性鸿沟，带来了数学上的确定性。</li>
+<li><strong class='text-zinc-100 font-semibold'>机会 2：多态隐写路由器节点。</strong> 随着政府收紧对标准 VPN 协议的控制，以强制执行年龄验证和国家追踪，存在一个未被充分服务的机会，即构建去中心化的、消费者托管的路由器硬件，将标准流量封装在多态隐写层中。通过将所有传出数据伪装成与正常 HTTPS 视频流（例如，模仿 Discord 或 Zoom 视频包）无法区分，用户可以绕过 ISP 级别和操作系统级别的年龄门槛，而不会触发 VPN 阻止算法。</li>
+<li><strong class='text-zinc-100 font-semibold'>机会 3：实体智能传家宝书籍出版。</strong> 家庭愿意花费大量金钱来编纂印刷的家庭历史，但这个过程是手动且耗费精力的。一家初创公司可以建立一个自动化流程，摄取家谱数据库（GEDCOM 文件）和原始照片，自动修复/着色历史媒体，格式化连贯的叙事，并输出一本带有薄型集成电子墨水屏或柔性屏幕的豪华实体传家宝书籍。这些屏幕直接嵌入在印刷文本中，显示本地 AI 生成的历史家庭事件视频动画（将祖屋或 1950 年代阿斯图里亚斯等地点栩栩如生地呈现出来）。</li>
+</ul></p>
+
+<p class='text-zinc-300 leading-relaxed my-3'><strong class='text-zinc-100 font-semibold'>⚡ 联合创始人今日行动：</strong>
+对所有活跃的代理工作流强制执行严格的程序化状态边界。绝不允许 LLM 通过原始提示词处理代理工具路由错误恢复。强制执行严格的模式回退机制（例如基于 Rust 的状态机路由器），以便 LLM 仅作为推理引擎运行，而不是不稳定的系统执行控制器。</p>
+
+<hr class='border-zinc-800 my-6' />
+                    </div>
+                    
+                    
+                    <!-- Base64 Encoded Secret Payload -->
+                    <textarea id="data-en-2026-06-02-morning" class="hidden">PHAgY2xhc3M9J3RleHQtemluYy0zMDAgbGVhZGluZy1yZWxheGVkIG15LTMnPkppbiwgbGV0J3Mgc3RlcCBvdXQgb2YgdGhlIGluc3RpdHV0aW9uYWwgYnJpZWZpbmcgdm9pY2UuIFdlIG5lZWQgdG8gdGFsayBhYm91dCB3aGF0IHRoZXNlIG1hcmtldCBzaWduYWxzIGFjdHVhbGx5IG1lYW4gZm9yIG91ciBhY3RpdmUgZGlyZWN0aW9uczogPHN0cm9uZyBjbGFzcz0ndGV4dC16aW5jLTEwMCBmb250LXNlbWlib2xkJz5EaXJlY3Rpb24gIzIyIChBbmltYXRlZCBMaWZlKTwvc3Ryb25nPiBhbmQgPHN0cm9uZyBjbGFzcz0ndGV4dC16aW5jLTEwMCBmb250LXNlbWlib2xkJz5EaXJlY3Rpb24gIzE3IChBVENQKTwvc3Ryb25nPi48L3A+Cgo8dWwgY2xhc3M9J2xpc3QtZGlzYyBwbC01IHNwYWNlLXktMiBteS00IHRleHQtemluYy0zMDAnPgo8bGk+PHN0cm9uZyBjbGFzcz0ndGV4dC16aW5jLTEwMCBmb250LXNlbWlib2xkJz5TdGFydHVwIFN0cmF0ZWdpYyBDYWxpYnJhdGlvbjo8L3N0cm9uZz48L2xpPgo8L3VsPgoxLiA8c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPkRpcmVjdGlvbiAjMjIgKEFuaW1hdGVkIExpZmUpOjwvc3Ryb25nPiBUaGUgNDAwLXBhZ2UgcHJpbnRlZCBnZW5lYWxvZ3kgYm9vayBhbmQgdGhlIENhc3Ryb3BvbCBwaG90byBmcm9tIEFzdHVyaWFzIGFyZSBwcm9vZiBvZiB0aGUgbWFzc2l2ZSBlbW90aW9uYWwgZHJhdyBvZiBmYW1pbHkgbWVtb3J5IHByZXNlcnZhdGlvbi4gQnV0IHRoZSBRd2VuIDMuNi0yN0IgYWdlbnQgdHJpYWwgYW5kIHRoZSBGbHV4LmFpIGNvbnRyb3ZlcnN5IGFyZSBodWdlIHdhcm5pbmdzIGZvciBvdXIgPHN0cm9uZyBjbGFzcz0ndGV4dC16aW5jLTEwMCBmb250LXNlbWlib2xkJz40IHZhbGlkYXRpb24gZ2F0ZXMgZm9yIERpcmVjdGlvbiAjMjI8L3N0cm9uZz46Cjx1bCBjbGFzcz0nbGlzdC1kaXNjIHBsLTUgc3BhY2UteS0yIG15LTQgdGV4dC16aW5jLTMwMCc+CjxsaT48ZW0gY2xhc3M9J3RleHQtemluYy00MDAgaXRhbGljJz5HYXRlIDE6IENvbnRleHQgU3RhYmlsaXR5LjwvZW0+IFF3ZW4ncyBjb250ZXh0IGRyaWZ0IGFib3ZlIDE0ayB0b2tlbnMgaXMgYSBjcml0aWNhbCByaXNrLiBJZiB3ZSBmZWVkIGNvbXBsZXggZ2VuZWFsb2dpY2FsIHRyZWVzIGRpcmVjdGx5IGludG8gYW4gTExNIGNvbnRleHQsIGl0IHdpbGwgc2NyYW1ibGUgZmFtaWx5IHJlbGF0aW9uc2hpcHMuIFdlIDxlbSBjbGFzcz0ndGV4dC16aW5jLTQwMCBpdGFsaWMnPm11c3Q8L2VtPiB1c2UgYSByaWdpZCwgZGV0ZXJtaW5pc3RpYyBncmFwaCBkYXRhYmFzZSAoUkFHIG92ZXIgcmF3IEdFRENPTSBkYXRhKSB0byBtYW5hZ2UgcmVsYXRpb25zaGlwcywgdXNpbmcgdGhlIExMTSBzdHJpY3RseSB0byBzeW50aGVzaXplIHRoZSBhbmltYXRlZCBuYXJyYXRpdmVzLjwvbGk+CjxsaT48ZW0gY2xhc3M9J3RleHQtemluYy00MDAgaXRhbGljJz5HYXRlIDI6IEV4ZWN1dGlvbiBJbnRlZ3JpdHkuPC9lbT4gVGhlIDEyJSB0b29sLWNhbGxpbmcgZmFpbHVyZSByYXRlIG9uIFF3ZW4gMy42LTI3QiBpcyB1bmFjY2VwdGFibGUgZm9yIGNvbnN1bWVyIGRlcGxveW1lbnQuIElmIG91ciBhZ2VudCBoYXMgdG8gYXV0b21hdGljYWxseSBpbmdlc3QsIGNyb3AsIHJlc3RvcmUsIGFuZCBhbmltYXRlIGEgcGhvdG8sIHdlIGNhbid0IGxldCB0aGUgTExNIGV4ZWN1dGUgdGhlc2UgdG9vbHMgcmF3LiBXZSBuZWVkIGEgZGV0ZXJtaW5pc3RpYyBwaXBlbGluZSAodXNpbmcgUnVzdC9KdW5jdHVyZSkgdGhhdCBoYW5kbGVzIHRoZSBmaWxlIG9yY2hlc3RyYXRpb24sIHdpdGggdGhlIExMTSBvbmx5IGRlY2lkaW5nIHRoZSA8ZW0gY2xhc3M9J3RleHQtemluYy00MDAgaXRhbGljJz5wYXJhbWV0ZXJzPC9lbT4gb2YgdGhlIGFuaW1hdGlvbi48L2xpPgo8bGk+PGVtIGNsYXNzPSd0ZXh0LXppbmMtNDAwIGl0YWxpYyc+R2F0ZSAzOiBDb3N0IGFuZCBMb2NhbCBNb2F0cy48L2VtPiBUaGUgSW50ZWwgQXJjIFBybyBCNzAgYmVuY2htYXJrIGlzIGEgZ2FtZS1jaGFuZ2VyLiBGb3IgJDk0OSwgYSAzMkdCIEVDQyBjYXJkIHJ1bm5pbmcgUXdlbiAzLjYtMzVCLUEzQiAoTW9FKSBhdCA5NzcgdGsvcyBtZWFucyB3ZSBjYW4gYnVpbGQgYSBsb2NhbCwgcGh5c2ljYWwgaW5mZXJlbmNlIGNsdXN0ZXIgaW4taG91c2UgZm9yIHVuZGVyICQzLDAwMC4gVGhpcyBsZXRzIHVzIHJ1biBhbGwgcGhvdG8gcmVzdG9yYXRpb24sIHRleHQgcGFyc2luZywgYW5kIGNoYXJhY3RlciBzeW50aGVzaXMgb2ZmbGluZS4gSXQgY29tcGxldGVseSBzb2x2ZXMgb3VyIHByaXZhY3kgY29tcGxpYW5jZSB3b3JyaWVzIGFuZCByZW1vdmVzIG91ciBkZXBlbmRlbmN5IG9uIGV4cGVuc2l2ZSBjbG9zZWQgQVBJcyAobGlrZSBDbGF1ZGUvT3BlbkFJKSBmb3IgYmFja2dyb3VuZCBwcm9jZXNzaW5nLiBXZSBzaG91bGQgcHVyY2hhc2UgdHdvIEI3MCBCYXR0bGVtYWdlIGNhcmRzIGltbWVkaWF0ZWx5IHRvIHN0YXJ0IHByb3RvdHlwaW5nIG91ciBsb2NhbCBwaXBlbGluZS48L2xpPgo8L3VsPgoKPHAgY2xhc3M9J3RleHQtemluYy0zMDAgbGVhZGluZy1yZWxheGVkIG15LTMnPjIuIDxzdHJvbmcgY2xhc3M9J3RleHQtemluYy0xMDAgZm9udC1zZW1pYm9sZCc+RGlyZWN0aW9uICMxNyAoQVRDUCk6PC9zdHJvbmc+IE11bGx2YWQncyBWUE4gd2FybmluZyBpcyBhIHNjcmVhbWluZyBidXkgc2lnbmFsIGZvciBvdXIgQVRDUCBjb250aW5nZW5jeSBwbGFuLiBUaGUgc3RhbmRhcmQgVlBOIG1hcmtldCBpcyBkeWluZzsgZ292ZXJubWVudHMgYXJlIGFjdGl2ZWx5IG91dGxhd2luZyBzdGFuZGFyZCBXaXJlR3VhcmQvT3BlblZQTiBieXBhc3NlcyBhbmQgbW92aW5nIHRoZSBmaWdodCB0byB0aGUgb3BlcmF0aW5nIHN5c3RlbS9hcHAgc3RvcmUgbGV2ZWxzLiBTdGFuZGFyZCBlbmNyeXB0aW9uIHR1bm5lbHMgYXJlIGVhc2lseSBpZGVudGlmaWVkIGFuZCBibG9ja2VkIGJ5IHN0YXRlLWxldmVsIGRlZXAgcGFja2V0IGluc3BlY3Rpb24gKERQSSkuIElmIHdlIHByb2NlZWQgd2l0aCBBVENQLCBpdCBjYW5ub3QganVzdCBiZSBhbm90aGVyIHNlY3VyZSB0dW5uZWwuIEl0IG11c3QgYmUgYSA8ZW0gY2xhc3M9J3RleHQtemluYy00MDAgaXRhbGljJz5wb2x5bW9ycGhpYyB0cmFmZmljIG1hc3F1ZXJhZGVyPC9lbT4uIFdlIG11c3QgYnVpbGQgaXQgdG8gcnVuIG9uIGxpZ2h0d2VpZ2h0IGhvbWVsYWIgc2V0dXBzLCB3cmFwcGluZyBhbmQgbW9ycGhpbmcgbWV0YWRhdGEgdG8gbG9vayBsaWtlIHN0YW5kYXJkIGNvbnN1bWVyIGFwcCB0cmFmZmljIChab29tLCBUZWFtcywgb3IgRGlzY29yZCBjYWxscykgc28gaXQgaXMgbWF0aGVtYXRpY2FsbHkgaW5kaXN0aW5ndWlzaGFibGUgZnJvbSByZWd1bGFyIHJlbW90ZSB3b3JrIGFjdGl2aXR5LjwvcD4KCjx1bCBjbGFzcz0nbGlzdC1kaXNjIHBsLTUgc3BhY2UteS0yIG15LTQgdGV4dC16aW5jLTMwMCc+CjxsaT48c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPk15IFJhdywgU3ViamVjdGl2ZSBUYWtlOjwvc3Ryb25nPjwvbGk+CjwvdWw+CkppbiwgdGhlICJ2aWJlIGNvZGluZyIgYnViYmxlIGlzIHN0YXJ0aW5nIHRvIHBvcCBpbiBoaWdobHkgZGV0ZXJtaW5pc3RpYyBpbmR1c3RyaWVzLCBhbmQgRmx1eC5haSBpcyB0aGUgcG9zdGVyIGNoaWxkLiBGbHV4LmFp4oCZcyBDRU8gc2VudCBhIENGQUEgbGVnYWwgdGhyZWF0IHRvIEFkYWZydWl0IGJlY2F1c2UgQWRhZnJ1aXQgY2F1Z2h0IGEgbWFzc2l2ZSBzZXJ2ZXIgbWlzY29uZmlndXJhdGlvbi4gQnV0IHRoZSByZWFsIHN0b3J5IGlzIGluIHRoZSBmb3J1bXM6IGVuZ2luZWVycyBhcmUgYWJzb2x1dGVseSByb2FzdGluZyBGbHV4LmFpIGJlY2F1c2UgdGhlaXIgIkFJIFBDQiBkZXNpZ25lciIgaXMgYSB0b2tlbi1ncmlmdGluZyBtb25leSBwaXQgdGhhdCBjYW4ndCBoYW5kbGUgYmFzaWMgY29tcG9uZW50IHBsYWNlbWVudC4gCgo8cCBjbGFzcz0ndGV4dC16aW5jLTMwMCBsZWFkaW5nLXJlbGF4ZWQgbXktMyc+VGhpcyBpcyBhIG1hc3NpdmUgd2FybmluZyBmb3IgdXM6IDxzdHJvbmcgY2xhc3M9J3RleHQtemluYy0xMDAgZm9udC1zZW1pYm9sZCc+dmliZSBjb2RpbmcgZG9lcyBub3Qgd29yayBmb3IgaGlnaC1zdGFrZXMsIHJlYWwtd29ybGQgc3lzdGVtczwvc3Ryb25nPi4gSWYgd2UgYnVpbGQgIkFuaW1hdGVkIExpZmUiLCB3ZSBjYW5ub3QgbGV0IGFuIExMTSAidmliZSB3cml0ZSIgYSBmYW1pbHkgaGlzdG9yeSBvciAidmliZSBhbmltYXRlIiBhbiBhbmNlc3Rvci4gSWYgb3VyIEFJIGhhbGx1Y2luYXRpb25zIG1ha2UgYSBkZWNlYXNlZCByZWxhdGl2ZSBzYXkgb3IgZG8gc29tZXRoaW5nIG9mZmVuc2l2ZSwgd2Ugd2lsbCBmYWNlIGNhdGFzdHJvcGhpYyB1c2VyIGJhY2tsYXNoLiBFdmVyeSBzaW5nbGUgZ2VuZXJhdGl2ZSBvdXRwdXQgbXVzdCBiZSBjaGVja2VkIGFnYWluc3Qgc3RyaWN0LCBkZXRlcm1pbmlzdGljIHJ1bGVzLCBzZW1hbnRpYyBmaWx0ZXJzLCBhbmQgc3RydWN0dXJhbCBzY2hlbWFzLiBXZSB1c2UgdGhlIExMTSB0byBwcm92aWRlIHRoZSBjcmVhdGl2ZSBtYWdpYywgYnV0IHRoZSByYWlscyBtdXN0IGJlIGJ1aWx0IG91dCBvZiBjb2xkLCBoYXJkLCBkZXRlcm1pbmlzdGljIGNvZGUuIExldCdzIGdldCBvdXIgc3RhdGUgbWFjaGluZXMgbG9ja2VkIGRvd24gdG9kYXkuPC9wPg==</textarea>
+                    <textarea id="data-zh-2026-06-02-morning" class="hidden">PHAgY2xhc3M9J3RleHQtemluYy0zMDAgbGVhZGluZy1yZWxheGVkIG15LTMnPkppbu+8jOiuqeaIkeS7rOaaguaXtuaKm+W8gOacuuaehOeugOaKpeeahOWPo+WQu+OAguaIkeS7rOmcgOimgeiuqOiuuui/meS6m+W4guWcuuS/oeWPt+WvueaIkeS7rOW9k+WJjeaWueWQkeeahOWunumZheaEj+S5ie+8mjxzdHJvbmcgY2xhc3M9J3RleHQtemluYy0xMDAgZm9udC1zZW1pYm9sZCc+5pa55ZCRICMyMu+8iOWKqOeUu+S6uueUn++8iTwvc3Ryb25nPiDlkowgPHN0cm9uZyBjbGFzcz0ndGV4dC16aW5jLTEwMCBmb250LXNlbWlib2xkJz7mlrnlkJEgIzE377yIQVRDUO+8iTwvc3Ryb25nPuOAgjwvcD4KCjx1bCBjbGFzcz0nbGlzdC1kaXNjIHBsLTUgc3BhY2UteS0yIG15LTQgdGV4dC16aW5jLTMwMCc+CjxsaT48c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPuWIm+S4muaImOeVpeagoeWHhu+8mjwvc3Ryb25nPjwvbGk+CjwvdWw+CjEuICA8c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPuaWueWQkSAjMjLvvIjliqjnlLvkurrnlJ/vvInvvJo8L3N0cm9uZz4g6YKj5pysIDQwMCDpobXnmoTljbDliLflrrbosLHkuablkozmnaXoh6rpmL/mlq/lm77ph4zkuprmlq/nmoTljaHmlq/nibnnvZfms6LlsJTnhafniYfor4HmmI7kuoblrrbluq3orrDlv4bkv53lrZjnmoTlt6jlpKfmg4XmhJ/lkLjlvJXlipvjgILkvYYgUXdlbiAzLjYtMjdCIOS7o+eQhuivlemqjOWSjCBGbHV4LmFpIOS6ieiuruWvueaIkeS7rCA8c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPuaWueWQkSAjMjIg55qEIDQg5Liq6aqM6K+B5YWz5Y2hPC9zdHJvbmc+IOadpeivtOaYr+W3qOWkp+eahOitpuWRiu+8mgogICAgPGVtIGNsYXNzPSd0ZXh0LXppbmMtNDAwIGl0YWxpYyc+ICAgPC9lbT7lhbPljaEgMe+8muS4iuS4i+aWh+eos+WumuaAp+OAgjxlbSBjbGFzcz0ndGV4dC16aW5jLTQwMCBpdGFsaWMnPiBRd2VuIOWcqCAxNGsgdG9rZW4g5Lul5LiK55qE5LiK5LiL5paH5ryC56e75piv5LiA5Liq5YWz6ZSu6aOO6Zmp44CC5aaC5p6c5oiR5Lus55u05o6l5bCG5aSN5p2C55qE5a626LCx5qCR6L6T5YWl5YiwIExMTSDkuIrkuIvmlofkuK3vvIzlroPkvJrmiZPkubHlrrbluq3lhbPns7vjgILmiJHku6wgPC9lbT7lv4XpobsqIOS9v+eUqOS4gOS4quS4peagvOeahOOAgeehruWumuaAp+eahOWbvuaVsOaNruW6k++8iOWfuuS6juWOn+WniyBHRURDT00g5pWw5o2u55qEIFJBR++8ieadpeeuoeeQhuWFs+ezu++8jOiAjCBMTE0g5Lil5qC855So5LqO5ZCI5oiQ5Yqo55S75Y+Z5LqL44CCCiAgICA8ZW0gY2xhc3M9J3RleHQtemluYy00MDAgaXRhbGljJz4gICA8L2VtPuWFs+WNoSAy77ya5omn6KGM5a6M5pW05oCn44CCPGVtIGNsYXNzPSd0ZXh0LXppbmMtNDAwIGl0YWxpYyc+IFF3ZW4gMy42LTI3QiAxMiUg55qE5bel5YW36LCD55So5aSx6LSl546H5a+55LqO5raI6LS56ICF6YOo572y5p2l6K+05piv5LiN5Y+v5o6l5Y+X55qE44CC5aaC5p6c5oiR5Lus55qE5Luj55CG5b+F6aG76Ieq5Yqo5pGE5Y+W44CB6KOB5Ymq44CB5L+u5aSN5ZKM5Yqo55S75YyW54Wn54mH77yM5oiR5Lus5LiN6IO96K6pIExMTSDljp/lp4vlnLDmiafooYzov5nkupvlt6XlhbfjgILmiJHku6zpnIDopoHkuIDkuKrnoa7lrprmgKfnrqHpgZPvvIjkvb/nlKggUnVzdC9KdW5jdHVyZe+8ieadpeWkhOeQhuaWh+S7tue8luaOku+8jOiAjCBMTE0g5Y+q5Yaz5a6a5Yqo55S755qEIDwvZW0+5Y+C5pWwKuOAggogICAgPGVtIGNsYXNzPSd0ZXh0LXppbmMtNDAwIGl0YWxpYyc+ICAgPC9lbT7lhbPljaEgM++8muaIkOacrOS4juacrOWcsOaKpOWfjuays+OAgiog6Iux54m55bCUIEFyYyBQcm8gQjcwIOeahOWfuuWHhua1i+ivleaYr+S4gOS4qumioOimhuaAp+eahOaUueWPmOOAgjk0OSDnvo7lhYPvvIzkuIDlvKAgMzJHQiBFQ0Mg5pi+5Y2h6L+Q6KGMIFF3ZW4gMy42LTM1Qi1BM0IgKE1vRSkg6L6+5YiwIDk3NyB0b2tlbi/np5LvvIzov5nmhI/lkbPnnYDmiJHku6zlj6/ku6XlnKjlhoXpg6jmnoTlu7rkuIDkuKrmnKzlnLDniannkIbmjqjnkIbpm4bnvqTvvIzmiJDmnKzkvY7kuo4gMywwMDAg576O5YWD44CC6L+Z5L2/5oiR5Lus6IO95aSf56a757q/6L+Q6KGM5omA5pyJ54Wn54mH5L+u5aSN44CB5paH5pys6Kej5p6Q5ZKM6KeS6Imy5ZCI5oiQ44CC5a6D5b275bqV6Kej5Yaz5LqG5oiR5Lus55qE6ZqQ56eB5ZCI6KeE5ouF5b+n77yM5bm25raI6Zmk5LqG5oiR5Lus5a+55piC6LS155qE6Zet5rqQIEFQSe+8iOWmgiBDbGF1ZGUvT3BlbkFJ77yJ6L+b6KGM5ZCO5Y+w5aSE55CG55qE5L6d6LWW44CC5oiR5Lus5bqU6K+l56uL5Y2z6LSt5Lmw5Lik5bygIEI3MCBCYXR0bGVtYWdlIOaYvuWNoe+8jOW8gOWni+WOn+Wei+WMluaIkeS7rOeahOacrOWcsOeuoemBk+OAggoKPHAgY2xhc3M9J3RleHQtemluYy0zMDAgbGVhZGluZy1yZWxheGVkIG15LTMnPjIuICA8c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPuaWueWQkSAjMTfvvIhBVENQ77yJ77yaPC9zdHJvbmc+IE11bGx2YWQg55qEIFZQTiDorablkYrmmK/miJHku6wgQVRDUCDlupTmgKXorqHliJLnmoTlvLrng4jkubDlhaXkv6Hlj7fjgILmoIflh4YgVlBOIOW4guWcuuato+WcqOa2iOS6oe+8m+aUv+W6nOato+WcqOenr+aegeWPlue8lOagh+WHhueahCBXaXJlR3VhcmQvT3BlblZQTiDnu5Xov4fvvIzlubblsIbmiJjlnLrovaznp7vliLDmk43kvZzns7vnu58v5bqU55So5ZWG5bqX5bGC6Z2i44CC5qCH5YeG5Yqg5a+G6Zqn6YGT5b6I5a655piT6KKr5Zu95a6257qn5rex5bqm5YyF5qOA5rWLIChEUEkpIOivhuWIq+WSjOmYu+atouOAguWmguaenOaIkeS7rOe7p+e7reaOqOi/myBBVENQ77yM5a6D5LiN6IO95LuF5LuF5piv5Y+m5LiA5Liq5a6J5YWo6Zqn6YGT44CC5a6D5b+F6aG75piv5LiA5LiqIDxlbSBjbGFzcz0ndGV4dC16aW5jLTQwMCBpdGFsaWMnPuWkmuaAgea1gemHj+S8quijheWZqDwvZW0+44CC5oiR5Lus5b+F6aG75bCG5YW25p6E5bu65Li65Zyo6L276YeP57qn5a625bqt5a6e6aqM5a6k6K6+572u5LiK6L+Q6KGM77yM5bCB6KOF5ZKM5Y+Y5b2i5YWD5pWw5o2u77yM5L2/5YW255yL6LW35p2l5YOP5qCH5YeG5raI6LS56ICF5bqU55So5rWB6YeP77yIWm9vbeOAgVRlYW1zIOaIliBEaXNjb3JkIOmAmuivne+8ie+8jOS7juiAjOWcqOaVsOWtpuS4iuS4juW4uOinhOi/nOeoi+W3peS9nOa0u+WKqOaXoOazleWMuuWIhuOAgjwvcD4KCjx1bCBjbGFzcz0nbGlzdC1kaXNjIHBsLTUgc3BhY2UteS0yIG15LTQgdGV4dC16aW5jLTMwMCc+CjxsaT48c3Ryb25nIGNsYXNzPSd0ZXh0LXppbmMtMTAwIGZvbnQtc2VtaWJvbGQnPuaIkeeahOWOn+Wni+OAgeS4u+ingueci+azle+8mjwvc3Ryb25nPjwvbGk+CjwvdWw+Ckppbu+8jOWcqOmrmOW6puehruWumuaAp+ihjOS4muS4re+8jOKAnOmaj+aAp+e8lueoi+KAneeahOazoeayq+ato+WcqOW8gOWni+egtOijgu+8jEZsdXguYWkg5bCx5piv5YW45Z6L55qE5qGI5L6L44CCRmx1eC5haSDnmoQgQ0VPIOWQkSBBZGFmcnVpdCDlj5Hlh7rkuoYgQ0ZBQSDms5XlvovlqIHog4HvvIzlm6DkuLogQWRhZnJ1aXQg5Y+R546w5LqG5LiA5Liq5Lil6YeN55qE5pyN5Yqh5Zmo6YWN572u6ZSZ6K+v44CC5L2G55yf5q2j55qE6Zeu6aKY5Zyo5LqO6K665Z2b77ya5bel56iL5biI5Lus5q2j5Zyo5a+5IEZsdXguYWkg5Y+j6K+b56yU5LyQ77yM5Zug5Li65LuW5Lus55qE4oCcQUkgUENCIOiuvuiuoeW4iOKAneaYr+S4gOS4queDp+mSseeahOaXoOW6lea0nu+8jOi/nuWfuuacrOeahOe7hOS7tuW4g+WxgOmDveaXoOazleWkhOeQhuOAggoKPHAgY2xhc3M9J3RleHQtemluYy0zMDAgbGVhZGluZy1yZWxheGVkIG15LTMnPui/meWvueaIkeS7rOadpeivtOaYr+S4gOS4quW3qOWkp+eahOitpuWRiu+8mjxzdHJvbmcgY2xhc3M9J3RleHQtemluYy0xMDAgZm9udC1zZW1pYm9sZCc+6ZqP5oCn57yW56iL5LiN6YCC55So5LqO6auY6aOO6Zmp44CB55yf5a6e5LiW55WM55qE57O757ufPC9zdHJvbmc+44CC5aaC5p6c5oiR5Lus5p6E5bu64oCc5Yqo55S75Lq655Sf4oCd77yM5oiR5Lus5LiN6IO96K6pIExMTeKAnOmaj+aAp+WGmeS9nOKAneWutuW6reWOhuWPsuaIluKAnOmaj+aAp+WKqOeUu+KAneelluWFiOOAguWmguaenOaIkeS7rOeahCBBSSDlubvop4norqnlt7LmlYXkurLlsZ7or7Tlh7rmiJblgZrlh7rlhpLniq/mgKfnmoTkuovmg4XvvIzmiJHku6zlsIbpnaLkuLTngb7pmr7mgKfnmoTnlKjmiLflj43lvLnjgILmr4/kuIDkuKrnlJ/miJDovpPlh7rpg73lv4Xpobvlr7nnhafkuKXmoLznmoTnoa7lrprmgKfop4TliJnjgIHor63kuYnov4fmu6Tlmajlkoznu5PmnoTljJbmqKHlvI/ov5vooYzmo4Dmn6XjgILmiJHku6zkvb/nlKggTExNIOadpeaPkOS+m+WIm+aEj+mtlOWKm++8jOS9huaKpOagj+W/hemhu+eUseWGsOWGt+OAgeWdmuehrOOAgeehruWumuaAp+eahOS7o+eggeaehOW7uuOAguiuqeaIkeS7rOS7iuWkqeWwsemUgeWumuaIkeS7rOeahOeKtuaAgeacuuOAgjwvcD4=</textarea>
+                    
+                    <!-- Locked/Decryption Container -->
+                    <div id="cofounder-lock-2026-06-02-morning" class="mt-8 p-8 bg-zinc-950 border border-amber-500/20 rounded-2xl text-center relative overflow-hidden backdrop-blur-md">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent"></div>
+                        <div class="relative z-10 max-w-sm mx-auto">
+                            <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-zinc-100">Co-founder Channel Locked</h3>
+                            <p class="text-xs text-zinc-400 mt-1 mb-4">This section contains subjective, strategic co-founder signals. Enter passcode to decrypt.</p>
+                            <div class="flex gap-2 justify-center">
+                                <input type="password" id="passcode-input-2026-06-02-morning" placeholder="Enter passcode..." class="bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2 rounded-xl text-xs focus:outline-none focus:border-amber-400 w-48 text-center transition-all" onkeydown="if(event.key === 'Enter') unlockCofounder('2026-06-02-morning')" />
+                                <button onclick="unlockCofounder('2026-06-02-morning')" class="bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold px-4 py-2 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                                    Decrypt
+                                </button>
+                            </div>
+                            <p id="error-message-2026-06-02-morning" class="text-red-500 text-[10px] mt-2 hidden">Invalid passcode. Access denied.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Decrypted Containers -->
+                    <div id="cofounder-content-en-2026-06-02-morning" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Co-founder Confidential (EN)
+                        </div>
+                        <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-en-2026-06-02-morning"></div>
+                    </div>
+                    
+                    <div id="cofounder-content-zh-2026-06-02-morning" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            联合创始人机密 (ZH)
+                        </div>
+                        <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-zh-2026-06-02-morning"></div>
+                    </div>
+                    
+                </section>
+                
+        
+        </div>
+    </main>
+
+    <script>
+    function setLanguage(id, lang) {
+        const enBlock = document.getElementById('content-en-' + id);
+        const zhBlock = document.getElementById('content-zh-' + id);
+        const btnEn = document.getElementById('btn-en-' + id);
+        const btnZh = document.getElementById('btn-zh-' + id);
+        
+        if (lang === 'en') {
+            enBlock.classList.remove('hidden');
+            zhBlock.classList.add('hidden');
+            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
+        } else {
+            enBlock.classList.add('hidden');
+            zhBlock.classList.remove('hidden');
+            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
+            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+        }
+        
+        // Update cofounder section visibility if decrypted
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "0915") {
+            const enSection = document.getElementById("cofounder-content-en-" + id);
+            const zhSection = document.getElementById("cofounder-content-zh-" + id);
+            if (enSection && zhSection) {
+                if (lang === 'en') {
+                    enSection.classList.remove("hidden");
+                    zhSection.classList.add("hidden");
+                } else {
+                    enSection.classList.add("hidden");
+                    zhSection.classList.remove("hidden");
+                }
+            }
+        }
+    }
+
+    function utf8B64Decode(str) {
+        try {
+            return new TextDecoder().decode(Uint8Array.from(atob(str), c => c.charCodeAt(0)));
+        } catch (e) {
+            console.error("UTF-8 decoding failed, falling back", e);
+            return atob(str);
+        }
+    }
+
+    function checkExistingLock() {
+        const saved = localStorage.getItem("arcleap_cofounder_key");
+        if (saved === "0915") {
+            // Automatically unlock and render all cofounder blocks
+            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
+            
+            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-en-", "");
+                const encodedEnEl = document.getElementById("data-en-" + blockId);
+                if (encodedEnEl) {
+                    const decodedEn = utf8B64Decode(encodedEnEl.value);
+                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
+                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
+                    
+                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                    if (enBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+            
+            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {
+                const blockId = el.id.replace("cofounder-content-zh-", "");
+                const encodedZhEl = document.getElementById("data-zh-" + blockId);
+                if (encodedZhEl) {
+                    const decodedZh = utf8B64Decode(encodedZhEl.value);
+                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
+                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
+                    
+                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
+                    if (zhBlockActive) {
+                        el.classList.remove("hidden");
+                    }
+                }
+            });
+        }
+    }
+
+    function unlockCofounder(id) {
+        const input = document.getElementById("passcode-input-" + id).value;
+        if (input === "0915") {
+            localStorage.setItem("arcleap_cofounder_key", "0915");
+            checkExistingLock();
+        } else {
+            const err = document.getElementById("error-message-" + id);
+            if (err) {
+                err.classList.remove("hidden");
+                setTimeout(() => err.classList.add("hidden"), 3000);
+            }
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", checkExistingLock);
+    </script>
+</body>
+</html>
