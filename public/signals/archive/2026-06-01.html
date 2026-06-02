@@ -536,7 +536,7 @@ Audit your tool-use architecture today. If your LLM agents have access to both a
         
         // Update cofounder section visibility if decrypted
         const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "leap2026") {
+        if (saved === "0915") {
             const enSection = document.getElementById("cofounder-content-en-" + id);
             const zhSection = document.getElementById("cofounder-content-zh-" + id);
             if (enSection && zhSection) {
@@ -551,9 +551,18 @@ Audit your tool-use architecture today. If your LLM agents have access to both a
         }
     }
 
+    function utf8B64Decode(str) {
+        try {
+            return new TextDecoder().decode(Uint8Array.from(atob(str), c => c.charCodeAt(0)));
+        } catch (e) {
+            console.error("UTF-8 decoding failed, falling back", e);
+            return atob(str);
+        }
+    }
+
     function checkExistingLock() {
         const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "leap2026") {
+        if (saved === "0915") {
             // Automatically unlock and render all cofounder blocks
             document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
             
@@ -561,7 +570,7 @@ Audit your tool-use architecture today. If your LLM agents have access to both a
                 const blockId = el.id.replace("cofounder-content-en-", "");
                 const encodedEnEl = document.getElementById("data-en-" + blockId);
                 if (encodedEnEl) {
-                    const decodedEn = atob(encodedEnEl.value);
+                    const decodedEn = utf8B64Decode(encodedEnEl.value);
                     const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
                     if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
                     
@@ -576,7 +585,7 @@ Audit your tool-use architecture today. If your LLM agents have access to both a
                 const blockId = el.id.replace("cofounder-content-zh-", "");
                 const encodedZhEl = document.getElementById("data-zh-" + blockId);
                 if (encodedZhEl) {
-                    const decodedZh = atob(encodedZhEl.value);
+                    const decodedZh = utf8B64Decode(encodedZhEl.value);
                     const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
                     if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
                     
@@ -591,8 +600,8 @@ Audit your tool-use architecture today. If your LLM agents have access to both a
 
     function unlockCofounder(id) {
         const input = document.getElementById("passcode-input-" + id).value;
-        if (input === "leap2026") {
-            localStorage.setItem("arcleap_cofounder_key", "leap2026");
+        if (input === "0915") {
+            localStorage.setItem("arcleap_cofounder_key", "0915");
             checkExistingLock();
         } else {
             const err = document.getElementById("error-message-" + id);
