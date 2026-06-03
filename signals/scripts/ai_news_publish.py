@@ -1218,7 +1218,23 @@ def build_site():
                 }}
             }}
         }}
+
+        // Stop any audio that's now hidden (e.g., the language you switched away from).
+        // pause() keeps currentTime, so it RESUMES where it left off — never restarts.
+        pauseHiddenAudio();
     }}
+
+    // Pause every <audio> currently inside a hidden container (preserves its position).
+    function pauseHiddenAudio() {{
+        document.querySelectorAll("audio").forEach(a => {{
+            if (a.closest(".hidden")) {{ try {{ a.pause(); }} catch (e) {{}} }}
+        }});
+    }}
+
+    // One player at a time: starting any audio pauses the others (capture catches dynamic gated audio).
+    document.addEventListener("play", function (e) {{
+        document.querySelectorAll("audio").forEach(a => {{ if (a !== e.target) {{ try {{ a.pause(); }} catch (x) {{}} }} }});
+    }}, true);
 
     // --- Encrypted co-founder gate: AES-256-GCM, key = PBKDF2-SHA256(passcode) ---
     async function gateDecrypt(payloadJson, passcode) {{
