@@ -3,6 +3,7 @@ import os
 import re
 import json
 import base64
+import html as _html
 from datetime import datetime
 
 def split_cofounder_content(text):
@@ -29,9 +30,33 @@ TRANS_DIR = os.path.join(_SIGNALS_DIR, "data", "translated")
 os.makedirs(BRIEFINGS_DIR, exist_ok=True)
 os.makedirs(TRANS_DIR, exist_ok=True)
 
+PUBLIC_DIR = os.path.join(_REPO_DIR, "public")
 SITE_DIR = os.path.join(_REPO_DIR, "public", "signals")
 os.makedirs(SITE_DIR, exist_ok=True)
 os.makedirs(os.path.join(SITE_DIR, "archive"), exist_ok=True)
+
+# --- Shareability / distribution config ---------------------------------------
+# Canonical public origin used for OG/canonical/sitemap/RSS absolute URLs.
+# NOTE: the Next homepage (app/layout.tsx) currently uses the apex host
+# "https://arcleap.ai". Per the distribution spec this pipeline uses the "www"
+# host. Keep these in sync once the production canonical host is locked — this is
+# the single knob to flip. Overridable via env for safety.
+SITE_ORIGIN = os.environ.get("ARCLEAP_SITE_ORIGIN", "https://www.arcleap.ai").rstrip("/")
+
+# Cookieless analytics (Plausible-style). Unset -> nothing is injected (no broken
+# tag). Turn on by exporting ARCLEAP_ANALYTICS_DOMAIN before a pipeline run.
+ANALYTICS_SCRIPT_SRC = os.environ.get(
+    "ARCLEAP_ANALYTICS_SRC", "https://plausible.io/js/script.js")
+
+DEFAULT_SHARE_DESC = (
+    "Twice-daily technical market telemetry, non-consensus startup opportunities, "
+    "and developer sentiment shifts — from ArcLeap.")
+DEFAULT_OG_IMAGE = "/og/signals-default.png"
+
+# Marker pair so the <head> share block is idempotently re-injectable into
+# already-published static HTML (backfill path) without duplicating tags.
+SHARE_HEAD_MARKER = "<!-- arcleap:share-head -->"
+SHARE_HEAD_END = "<!-- /arcleap:share-head -->"
 
 # Map folder/job to session label
 SESSIONS = {
@@ -647,6 +672,354 @@ def prune_audio(days=14):
                 pass
 
 
+# ============================================================================
+# Shareability & distribution helpers (OG/Twitter cards, meta, RSS, sitemap,
+# robots, analytics, legacy redirect stubs). All pure/idempotent and network-
+# free except OG rendering, which degrades gracefully when no browser exists.
+# ============================================================================
+
+_EMOJI_RE = re.compile(
+    r"[\U0001F000-\U0001FAFF\U00002190-\U000027BF\U0001F1E6-\U0001F1FF️‍✂-➰]")
+
+
+def _clean_inline(text):
+    """Markdown/inline -> plain text suitable for a meta description."""
+    if not text:
+        return ""
+    text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)        # [t](url) -> t
+    text = re.sub(r"\[(Rumor|OUTLIER|Confirmed|Reported)\]", "", text, flags=re.I)
+    text = text.replace("**", "").replace("`", "")
+    text = re.sub(r"(?<!\w)\*(?!\s)|\*(?!\w)", "", text)         # stray emphasis *
+    text = re.sub(r"^[#>\-\s]+", "", text)
+    text = _EMOJI_RE.sub("", text)
+    text = re.sub(r"\s+", " ", text).strip(" -–—·|")
+    return text.strip()
+
+
+# Stats/metadata bullets we never want as a share description headline.
+_STATS_HEAD_RE = re.compile(
+    r"^(total\b|hackernews|reddit|x\.com|github|health check|source statistics|"
+    r"sources?\b|new items|items collected|run time|mode\b)", re.I)
+
+
+def _issue_headlines(md):
+    """Ordered list of cleaned bold bullet headlines, stats lines excluded.
+
+    Briefings mix bullet markers (-, *, •) and prefix a 'Source Statistics'
+    block; both are normalised here so descriptions read like the actual lede."""
+    raw = re.findall(r"^\s*[-*•]\s+\*\*(.+?)\*\*", md or "", re.M)
+    out = []
+    for h in raw:
+        c = _clean_inline(h)
+        if c and not _STATS_HEAD_RE.match(c):
+            out.append(c)
+    return out
+
+
+def _meta_description(md, limit=160):
+    """Derive a <=limit-char description from an issue's public markdown lede."""
+    heads = _issue_headlines(md)
+    desc = " · ".join(heads[:2])
+    if not desc:
+        for line in (md or "").splitlines():
+            s = _clean_inline(line)
+            if len(s) > 40 and not line.lstrip().startswith(("#", "📊")) \
+                    and not _STATS_HEAD_RE.match(s):
+                desc = s
+                break
+    if not desc:
+        desc = DEFAULT_SHARE_DESC
+    if len(desc) > limit:
+        desc = desc[: limit - 1].rstrip(" ,.;:·-–—") + "…"
+    return desc
+
+
+def _top_headline(md, limit=88):
+    """First bold headline of an issue (used for the per-issue OG card)."""
+    heads = _issue_headlines(md)
+    h = heads[0] if heads else ""
+    if len(h) > limit:
+        h = h[: limit - 1].rstrip() + "…"
+    return h
+
+
+def _iso_pt(run_time):
+    """'2026-06-03 07:49:25' -> ISO-8601 with Pacific offset (PDT = -07:00)."""
+    try:
+        dt = datetime.strptime((run_time or "").strip(), "%Y-%m-%d %H:%M:%S")
+        return dt.strftime("%Y-%m-%dT%H:%M:%S-07:00")
+    except Exception:
+        return None
+
+
+def _rfc822_pt(run_time, date_str=None):
+    """RFC-822 pubDate for RSS, Pacific offset."""
+    dt = None
+    try:
+        dt = datetime.strptime((run_time or "").strip(), "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        try:
+            dt = datetime.strptime(date_str, "%Y-%m-%d")
+        except Exception:
+            return ""
+    return dt.strftime("%a, %d %b %Y %H:%M:%S -0700")
+
+
+def render_analytics():
+    """Cookieless analytics tag, or '' when no domain is configured."""
+    domain = os.environ.get("ARCLEAP_ANALYTICS_DOMAIN", "").strip()
+    if not domain:
+        return ""
+    return (f'<script defer data-domain="{_html.escape(domain, quote=True)}" '
+            f'src="{_html.escape(ANALYTICS_SCRIPT_SRC, quote=True)}"></script>')
+
+
+def render_share_head(*, title, description, canonical_path,
+                      og_image=DEFAULT_OG_IMAGE, published_time=None,
+                      page_type="website"):
+    """Return the per-page OG/Twitter/canonical/RSS <meta>/<link> tags."""
+    url = SITE_ORIGIN + (canonical_path if canonical_path.startswith("/") else "/" + canonical_path)
+    img = og_image if og_image.startswith("http") else SITE_ORIGIN + og_image
+    t = _html.escape(title, quote=True)
+    d = _html.escape(description, quote=True)
+    tags = [
+        f'<meta name="description" content="{d}">',
+        f'<link rel="canonical" href="{_html.escape(url, quote=True)}">',
+        f'<meta property="og:type" content="{page_type}">',
+        '<meta property="og:site_name" content="ArcLeap">',
+        f'<meta property="og:title" content="{t}">',
+        f'<meta property="og:description" content="{d}">',
+        f'<meta property="og:url" content="{_html.escape(url, quote=True)}">',
+        f'<meta property="og:image" content="{_html.escape(img, quote=True)}">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{t}">',
+        f'<meta name="twitter:description" content="{d}">',
+        f'<meta name="twitter:image" content="{_html.escape(img, quote=True)}">',
+        '<link rel="alternate" type="application/rss+xml" '
+        'title="ArcLeap Signals" href="/signals/rss.xml">',
+    ]
+    if published_time:
+        tags.append(f'<meta property="article:published_time" content="{published_time}">')
+    return "\n    ".join(tags)
+
+
+def share_head_block(**kw):
+    """Full marker-wrapped head block (share meta + analytics) for embed/backfill."""
+    inner = render_share_head(**kw)
+    analytics = render_analytics()
+    if analytics:
+        inner += "\n    " + analytics
+    return f"{SHARE_HEAD_MARKER}\n    {inner}\n    {SHARE_HEAD_END}"
+
+
+def inject_share_head(html_text, full_block):
+    """Idempotently splice a share_head_block into existing static HTML."""
+    if SHARE_HEAD_MARKER in html_text and SHARE_HEAD_END in html_text:
+        a = html_text.index(SHARE_HEAD_MARKER)
+        b = html_text.index(SHARE_HEAD_END) + len(SHARE_HEAD_END)
+        return html_text[:a] + full_block + html_text[b:]
+    cut = html_text.find("</title>")
+    if cut != -1:
+        cut += len("</title>")
+        return html_text[:cut] + "\n    " + full_block + html_text[cut:]
+    h = html_text.find("<head>")
+    if h != -1:
+        h += len("<head>")
+        return html_text[:h] + "\n    " + full_block + html_text[h:]
+    return html_text
+
+
+# --- OG image rendering (headless browser; graceful no-op without one) --------
+
+def _find_chromium():
+    env = os.environ.get("OG_CHROMIUM_BIN")
+    if env and os.path.exists(env):
+        return env
+    import glob as _g
+    from shutil import which
+    pats = [
+        os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-*/"
+                           "chrome-headless-shell-linux64/chrome-headless-shell"),
+        os.path.expanduser("~/.cache/ms-playwright/chromium-*/chrome-linux64/chrome"),
+    ]
+    for pat in pats:
+        m = sorted(_g.glob(pat))
+        if m:
+            return m[-1]
+    for c in ("chrome-headless-shell", "chromium", "chromium-browser",
+              "google-chrome-stable", "google-chrome"):
+        w = which(c)
+        if w:
+            return w
+    return None
+
+
+def _og_card_html(kicker, title, subtitle):
+    """Branded 1200x630 card markup (BRAND.md palette; offline serif fallback)."""
+    kicker = _html.escape(kicker)
+    title = _html.escape(title)
+    subtitle = _html.escape(subtitle)
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+html,body{{width:1200px;height:630px}}
+.card{{position:relative;width:1200px;height:630px;background:#0B0B0C;color:#F4F1EA;
+  overflow:hidden;font-family:'Inter','DejaVu Sans',sans-serif}}
+.glow{{position:absolute;width:760px;height:760px;right:-220px;top:-260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(243,184,91,0.16),rgba(243,184,91,0) 62%)}}
+.frame{{position:absolute;inset:40px;border:1px solid #1E1D1B;border-radius:18px}}
+.inner{{position:absolute;inset:96px 88px;display:flex;flex-direction:column;height:auto}}
+.kicker{{font-family:'JetBrains Mono','DejaVu Sans Mono',monospace;font-size:22px;
+  letter-spacing:.22em;text-transform:uppercase;color:#F3B85B}}
+.title{{font-family:'Fraunces','Georgia','DejaVu Serif',serif;font-weight:600;
+  font-size:74px;line-height:1.07;margin-top:34px;color:#F4F1EA;max-width:1000px}}
+.spacer{{flex:1}}
+.rule{{height:1px;background:#1E1D1B;margin:0 0 26px}}
+.row{{display:flex;align-items:baseline;justify-content:space-between}}
+.wordmark{{font-family:'Fraunces','Georgia','DejaVu Serif',serif;font-size:38px;
+  letter-spacing:-0.01em;color:#F4F1EA}}
+.wordmark b{{color:#F3B85B;font-weight:600}}
+.sub{{font-family:'JetBrains Mono','DejaVu Sans Mono',monospace;font-size:20px;
+  color:#9A968D;letter-spacing:.04em}}
+</style></head><body>
+<div class="card">
+  <div class="glow"></div>
+  <div class="frame"></div>
+  <div class="inner">
+    <div class="kicker">{kicker}</div>
+    <div class="title">{title}</div>
+    <div class="spacer"></div>
+    <div class="rule"></div>
+    <div class="row">
+      <div class="wordmark">arcleap<b>·</b>signals</div>
+      <div class="sub">{subtitle}</div>
+    </div>
+  </div>
+</div></body></html>"""
+
+
+def render_og_card(out_path, kicker, title, subtitle):
+    """Render a branded OG PNG via headless chromium. Returns True on success.
+
+    Never raises; on any failure callers fall back to the committed default."""
+    binp = _find_chromium()
+    if not binp:
+        return False
+    import tempfile, subprocess
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    src = None
+    try:
+        with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False,
+                                         encoding="utf-8") as tf:
+            tf.write(_og_card_html(kicker, title, subtitle))
+            src = tf.name
+        subprocess.run(
+            [binp, "--headless", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+             "--force-device-scale-factor=1", "--window-size=1200,630",
+             f"--screenshot={out_path}", "file://" + src],
+            capture_output=True, timeout=90, check=True)
+        return os.path.exists(out_path) and os.path.getsize(out_path) > 1000
+    except Exception as e:
+        print(f"  [og] render failed ({str(e)[:100]}); using default card")
+        return False
+    finally:
+        if src:
+            try:
+                os.unlink(src)
+            except Exception:
+                pass
+
+
+# --- RSS / sitemap / robots ---------------------------------------------------
+
+def generate_rss(briefings_by_date, sorted_dates):
+    """Write public/signals/rss.xml (RSS 2.0), newest issue first."""
+    items = []
+    for d in sorted_dates:
+        db = briefings_by_date.get(d) or {}
+        sess = "afternoon" if "afternoon" in db else ("morning" if "morning" in db else None)
+        if not sess:
+            continue
+        dt = datetime.strptime(d, "%Y-%m-%d")
+        pretty = dt.strftime("%B %d, %Y")
+        pub_en, _ = split_cofounder_content(db[sess]["content"])
+        desc = _meta_description(pub_en)
+        pubdate = _rfc822_pt(db[sess].get("run_time"), d)
+        url = f"{SITE_ORIGIN}/signals/archive/{d}.html"
+        items.append(
+            "    <item>\n"
+            f"      <title>{_html.escape('ArcLeap Signals — ' + pretty)}</title>\n"
+            f"      <link>{url}</link>\n"
+            f'      <guid isPermaLink="true">{url}</guid>\n'
+            f"      <pubDate>{pubdate}</pubDate>\n"
+            f"      <description>{_html.escape(desc)}</description>\n"
+            "    </item>")
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        "  <channel>\n"
+        "    <title>ArcLeap Signals</title>\n"
+        f"    <link>{SITE_ORIGIN}/signals</link>\n"
+        f'    <atom:link href="{SITE_ORIGIN}/signals/rss.xml" rel="self" '
+        'type="application/rss+xml" />\n'
+        f"    <description>{_html.escape(DEFAULT_SHARE_DESC)}</description>\n"
+        "    <language>en-us</language>\n"
+        f"{chr(10).join(items)}\n"
+        "  </channel>\n"
+        "</rss>\n")
+    with open(os.path.join(SITE_DIR, "rss.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+    return len(items)
+
+
+def generate_sitemap(sorted_dates):
+    """Write public/sitemap.xml (homepage, /signals, every issue)."""
+    newest = sorted_dates[0] if sorted_dates else None
+    entries = [(f"{SITE_ORIGIN}/", newest), (f"{SITE_ORIGIN}/signals", newest)]
+    for d in sorted_dates:
+        entries.append((f"{SITE_ORIGIN}/signals/archive/{d}.html", d))
+    body = "\n".join(
+        f"  <url><loc>{loc}</loc>" + (f"<lastmod>{lm}</lastmod>" if lm else "") + "</url>"
+        for loc, lm in entries)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           f"{body}\n</urlset>\n")
+    with open(os.path.join(PUBLIC_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+
+
+def generate_robots():
+    """Write public/robots.txt (allow all) with the sitemap pointer."""
+    txt = ("User-agent: *\nAllow: /\n\n"
+           f"Sitemap: {SITE_ORIGIN}/sitemap.xml\n")
+    with open(os.path.join(PUBLIC_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(txt)
+
+
+def write_legacy_session_stub(date_str, session):
+    """Emit a tiny redirect stub at the OLD per-session permalink so links
+    shared before the one-page-per-day switch keep resolving."""
+    anchor = f"/signals/archive/{date_str}.html#{session}"
+    canonical = f"{SITE_ORIGIN}/signals/archive/{date_str}.html"
+    label = "Morning" if session == "morning" else "Afternoon"
+    stub = (
+        "<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">\n"
+        f"<title>ArcLeap Signals — {date_str} ({label})</title>\n"
+        f'<link rel="canonical" href="{canonical}">\n'
+        '<meta name="robots" content="noindex,follow">\n'
+        f'<meta http-equiv="refresh" content="0; url={anchor}">\n'
+        f"<script>location.replace({json.dumps(anchor)});</script>\n"
+        "</head><body style=\"background:#09090b;color:#a1a1aa;font-family:sans-serif;"
+        "padding:2rem\">\n"
+        f'<p>This briefing now lives on the daily page. Redirecting to '
+        f'<a style="color:#38bdf8" href="{anchor}">{date_str} · {label}</a>…</p>\n'
+        "</body></html>\n")
+    with open(os.path.join(SITE_DIR, "archive", f"{date_str}-{session}.html"),
+              "w", encoding="utf-8") as f:
+        f.write(stub)
+
+
 def build_site():
     print("Rebuilding static website from briefings...")
 
@@ -689,7 +1062,18 @@ def build_site():
     # One archive page per DAY (both sessions stacked); sidebar + index = one entry per day.
 
     # Layout wrapper
-    def wrap_template(title, content_html, active_key=None):
+    def wrap_template(title, content_html, active_key=None, *,
+                      description=None, canonical_path="/signals",
+                      og_image=DEFAULT_OG_IMAGE, published_time=None,
+                      page_type="website"):
+        share_head = share_head_block(
+            title=title,
+            description=description or DEFAULT_SHARE_DESC,
+            canonical_path=canonical_path,
+            og_image=og_image,
+            published_time=published_time,
+            page_type=page_type,
+        )
         sidebar_items = []
         for d in sorted_dates:
             dt_obj = datetime.strptime(d, "%Y-%m-%d")
@@ -720,6 +1104,7 @@ def build_site():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
+    {share_head}
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -928,23 +1313,22 @@ def build_site():
 </html>
 """
 
-    # Remove superseded per-session pages (we now write one {date}.html per day).
-    import glob as _glob
-    for _old in (_glob.glob(os.path.join(SITE_DIR, "archive", "*-morning.html"))
-                 + _glob.glob(os.path.join(SITE_DIR, "archive", "*-afternoon.html"))):
-        try:
-            os.remove(_old)
-        except Exception:
-            pass
+    # Legacy per-session permalinks (YYYY-MM-DD-{morning,afternoon}.html) used to
+    # be full pages before the one-page-per-day switch. We no longer delete them —
+    # write_legacy_session_stub() (below, per day) overwrites them with redirect
+    # stubs so links shared under the old scheme keep resolving.
 
     # Generate daily pages
     for d in sorted_dates:
         day_briefings = briefings_by_date[d]
         dt_obj = datetime.strptime(d, "%Y-%m-%d")
         pretty_date = dt_obj.strftime("%A, %B %d, %Y")
-        
+
         day_content_blocks = []
-        
+        day_desc = None        # meta description (from first session's lede)
+        day_top = None         # top headline (for the per-issue OG card)
+        day_pub_time = None    # earliest run_time -> article:published_time
+
         for s_type in ["morning", "afternoon"]:
             if s_type in day_briefings:
                 brief = day_briefings[s_type]
@@ -956,6 +1340,10 @@ def build_site():
                 # gated section whenever Opus rephrased the Chinese header — so we never split
                 # translated text anymore.
                 pub_en, co_en = split_cofounder_content(brief["content"])
+                if day_desc is None:
+                    day_desc = _meta_description(pub_en)
+                    day_top = _top_headline(pub_en)
+                    day_pub_time = brief.get("run_time")
                 pub_zh = get_translated_content(d, s_type, pub_en, "public")
                 co_zh = get_translated_content(d, s_type, co_en, "cofounder") if co_en else ""
                 
@@ -1078,9 +1466,28 @@ def build_site():
         {chr(10).join(day_content_blocks)}
         {raw_materials_html}
         """
-        page_html = wrap_template(f"ArcLeap AI — {pretty_date}", page_body, d)
+        # Per-issue OG card (graceful fallback to the committed default).
+        og_rel = DEFAULT_OG_IMAGE
+        issue_png = os.path.join(PUBLIC_DIR, "og", "signals", f"{d}.png")
+        short_date = dt_obj.strftime("%b %d, %Y")
+        if render_og_card(issue_png, f"ArcLeap Signals · {short_date}",
+                          day_top or "Frontier-AI market intelligence",
+                          " + ".join(s.capitalize() for s in sessions_present) + " briefing"):
+            og_rel = f"/og/signals/{d}.png"
+
+        page_html = wrap_template(
+            f"ArcLeap Signals — {pretty_date}", page_body, d,
+            description=day_desc or DEFAULT_SHARE_DESC,
+            canonical_path=f"/signals/archive/{d}.html",
+            og_image=og_rel,
+            published_time=_iso_pt(day_pub_time),
+            page_type="article")
         with open(os.path.join(SITE_DIR, "archive", f"{d}.html"), "w", encoding="utf-8") as f:
             f.write(page_html)
+
+        # Legacy redirect stubs for any old per-session permalinks.
+        for s_type in sessions_present:
+            write_legacy_session_stub(d, s_type)
 
     # Generate dedicated index.html (Signals Hub) — one card per DAY
     archive_cards = []
@@ -1146,12 +1553,31 @@ def build_site():
     </div>
     """
     
-    index_html = wrap_template("ArcLeap AI Signals Hub — Market Telemetry", index_content)
+    index_html = wrap_template(
+        "ArcLeap AI Signals Hub — Market Telemetry", index_content,
+        description=DEFAULT_SHARE_DESC,
+        canonical_path="/signals",
+        og_image=DEFAULT_OG_IMAGE,
+        page_type="website")
     with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
-        
+
     print(f"✓ Rebuilt: index.html + {len(sorted_dates)} daily archive pages.")
-    
+
+    # Distribution assets: RSS, sitemap, robots, default OG card.
+    try:
+        n = generate_rss(briefings_by_date, sorted_dates)
+        generate_sitemap(sorted_dates)
+        generate_robots()
+        if render_og_card(os.path.join(PUBLIC_DIR, "og", "signals-default.png"),
+                          "ArcLeap Signals",
+                          "Frontier-AI market intelligence, twice daily",
+                          "arcleap.ai/signals"):
+            print("  ✓ og default refreshed")
+        print(f"  ✓ rss.xml ({n} items) · sitemap.xml · robots.txt")
+    except Exception as e:
+        print(f"  [share-assets] non-fatal: {e}")
+
     # Push to GitHub
     git_push_changes()
 
@@ -1171,8 +1597,8 @@ def git_push_changes():
             print("  No changes to push.")
             return
             
-        # Git add
-        subprocess.run(["git", "add", "public/signals"], cwd=repo_dir, check=True)
+        # Git add (public/ so sitemap.xml, robots.txt, og/ ship too — not just signals/)
+        subprocess.run(["git", "add", "public"], cwd=repo_dir, check=True)
         
         # Git commit
         commit_msg = f"Auto-publish briefing signals: {datetime.today().strftime('%Y-%m-%d')}"
