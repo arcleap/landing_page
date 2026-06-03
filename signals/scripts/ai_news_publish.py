@@ -302,25 +302,43 @@ def render_stats(date_str):
 TTS_PY = os.path.expanduser(os.environ.get("SIGNALS_TTS_PY", "~/.signals-tts/bin/python"))
 TTS_VOICES = os.path.expanduser(os.environ.get("SIGNALS_TTS_VOICES", "~/.signals-tts-voices"))
 TTS_VOICE = {"en": "en_US-lessac-medium", "zh": "zh_CN-huayan-medium"}
+_TTS_MAX_PER_RUN = int(os.environ.get("SIGNALS_TTS_MAX_PER_RUN", "2"))  # cap synths/build (Kokoro is slow); override for backfill
+_tts_count = [0]
+
+
+def _is_emoji(ch):
+    o = ord(ch)
+    return (0x1F000 <= o <= 0x1FAFF or 0x2600 <= o <= 0x27BF or 0x2B00 <= o <= 0x2BFF
+            or 0x2190 <= o <= 0x21FF or o in (0xFE0F, 0x200D, 0x2B50, 0x2728))
 
 
 def clean_for_tts(md):
-    """Markdown/links/emoji -> clean spoken prose."""
-    t = md or ""
-    t = re.sub(r"```.*?```", " ", t, flags=re.DOTALL)
-    t = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", t)
-    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)          # link -> anchor text
-    t = re.sub(r"https?://\S+", " ", t)                       # bare urls
-    t = re.sub(r"[#>*_`~|]+", " ", t)                          # md punctuation
-    # strip emoji / pictographs / arrows by codepoint (no regex-escape headaches; keeps CJK)
-    t = "".join(ch for ch in t if not (
-        0x1F000 <= ord(ch) <= 0x1FAFF or 0x2600 <= ord(ch) <= 0x27BF or
-        0x2B00 <= ord(ch) <= 0x2BFF or 0x2190 <= ord(ch) <= 0x21FF or
-        ord(ch) in (0xFE0F, 0x200D, 0x2B50, 0x2728)))
-    t = re.sub(r"(?m)^\s*[-•]\s*", " ", t)                    # bullet markers
-    t = t.replace("\n", " ")
-    t = re.sub(r"[ \t]+", " ", t)
-    return t.strip()
+    """Markdown/links/emoji -> clean spoken prose with clear SENTENCE BOUNDARIES.
+    Each header/bullet/line becomes its own sentence ending in punctuation, so the TTS
+    engine phrases + pauses naturally instead of running everything together."""
+    out = []
+    in_code = False
+    for raw in (md or "").split("\n"):
+        line = raw.strip()
+        if line.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code or not line:
+            continue
+        line = re.sub(r"^\s*(?:[-*•]|\d+[.)])\s+", "", line)   # leading list/bullet marker
+        line = re.sub(r"^#+\s*", "", line)                     # header hashes
+        line = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", line)      # images
+        line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)   # link -> anchor text
+        line = re.sub(r"https?://\S+", "", line)               # bare urls
+        line = re.sub(r"[*_`~|#>]+", "", line)                  # md emphasis chars
+        line = "".join(ch for ch in line if not _is_emoji(ch))
+        line = re.sub(r"\s+", " ", line).strip(" -–—:")
+        if len(line) < 2:
+            continue
+        if line[-1] not in ".!?。！？":                          # terminal punctuation -> natural pause
+            line += "."
+        out.append(line)
+    return " ".join(out)
 
 
 def _tts_hash(s_):
@@ -344,8 +362,10 @@ def generate_audio(text, lang, date_str, session):
                 return f"/signals/audio/{name}.mp3"   # cache hit
         except Exception:
             pass
+    if _tts_count[0] >= _TTS_MAX_PER_RUN:
+        return f"/signals/audio/{name}.mp3" if os.path.exists(mp3_path) else None  # over budget: keep stale, defer
     if not os.path.exists(TTS_PY):
-        print(f"  [tts] piper not found at {TTS_PY}; skipping audio for {name}")
+        print(f"  [tts] TTS venv not found at {TTS_PY}; skipping audio for {name}")
         return None
     os.makedirs(os.path.dirname(mp3_path), exist_ok=True)
     os.makedirs(os.path.dirname(hash_path), exist_ok=True)
@@ -354,12 +374,14 @@ def generate_audio(text, lang, date_str, session):
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(clean)
-        subprocess.run([TTS_PY, "-m", "piper", "-m", TTS_VOICE[lang], "--data-dir", TTS_VOICES,
-                        "-f", wav_path, "-i", txt_path], check=True, capture_output=True, timeout=400)
+        subprocess.run([TTS_PY, os.path.join(_SCRIPT_DIR, "tts_synth.py"),
+                        "--lang", lang, "--in", txt_path, "--out", wav_path],
+                       check=True, capture_output=True, timeout=900)
         subprocess.run(["ffmpeg", "-y", "-i", wav_path, "-ac", "1", "-b:a", "48k", mp3_path],
                        check=True, capture_output=True, timeout=120)
         with open(hash_path, "w", encoding="utf-8") as f:
             f.write(h)
+        _tts_count[0] += 1
         print(f"  [tts] {name}.mp3 ({os.path.getsize(mp3_path)//1024} KB)")
         return f"/signals/audio/{name}.mp3"
     except Exception as e:

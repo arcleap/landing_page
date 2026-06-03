@@ -57,7 +57,7 @@ Output EXACTLY this markdown, starting with "## Response":
 🌅 **Leo's {LABEL} Reading Notes — {DATE}**
 
 ### 1. Top 5 — what actually matters today
-Ranked by importance × relevance-to-Jin. Each = **one line what** + *one line so-what-for-me*, with a clickable [source](url). Prefer Confirmed/Reported; if a pick rests on a Rumor, flag it.
+A bulleted list of EXACTLY 5 items, each on its own line starting with "- ". Format each bullet as: **<headline>** — <one-line so-what-for-me> [source](url). One signal per bullet; do NOT merge them into a paragraph or a single block. Prefer Confirmed/Reported; if a pick rests on a Rumor, flag it.
 
 ### 2. New-direction sparks
 Plainly flag any signal that could seed a GENUINELY NEW direction — judged on its own merit, NOT mapped to the tracked board. One line: the spark + why it's non-obvious + [source](url). If nothing fresh stands out, write "nothing new today" — do not manufacture.
