@@ -298,11 +298,111 @@ def render_stats(date_str):
     )
 
 
+# ── Local TTS (Piper) ──────────────────────────────────────────────────────────
+TTS_PY = os.path.expanduser(os.environ.get("SIGNALS_TTS_PY", "~/.signals-tts/bin/python"))
+TTS_VOICES = os.path.expanduser(os.environ.get("SIGNALS_TTS_VOICES", "~/.signals-tts-voices"))
+TTS_VOICE = {"en": "en_US-lessac-medium", "zh": "zh_CN-huayan-medium"}
+
+
+def clean_for_tts(md):
+    """Markdown/links/emoji -> clean spoken prose."""
+    t = md or ""
+    t = re.sub(r"```.*?```", " ", t, flags=re.DOTALL)
+    t = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", t)
+    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)          # link -> anchor text
+    t = re.sub(r"https?://\S+", " ", t)                       # bare urls
+    t = re.sub(r"[#>*_`~|]+", " ", t)                          # md punctuation
+    # strip emoji / pictographs / arrows by codepoint (no regex-escape headaches; keeps CJK)
+    t = "".join(ch for ch in t if not (
+        0x1F000 <= ord(ch) <= 0x1FAFF or 0x2600 <= ord(ch) <= 0x27BF or
+        0x2B00 <= ord(ch) <= 0x2BFF or 0x2190 <= ord(ch) <= 0x21FF or
+        ord(ch) in (0xFE0F, 0x200D, 0x2B50, 0x2728)))
+    t = re.sub(r"(?m)^\s*[-•]\s*", " ", t)                    # bullet markers
+    t = t.replace("\n", " ")
+    t = re.sub(r"[ \t]+", " ", t)
+    return t.strip()
+
+
+def _tts_hash(s_):
+    import hashlib
+    return hashlib.md5(s_.encode("utf-8")).hexdigest()
+
+
+def generate_audio(text, lang, date_str, session):
+    """Synthesize the PUBLIC section to mp3 via local Piper. Cached by content hash. Non-fatal."""
+    import subprocess, tempfile
+    clean = clean_for_tts(text)
+    if len(clean) < 20:
+        return None
+    name = f"{date_str}-{session}-{lang}"
+    mp3_path = os.path.join(SITE_DIR, "audio", f"{name}.mp3")
+    hash_path = os.path.join(_SIGNALS_DIR, "data", "audio", f"{name}.hash")
+    h = _tts_hash(clean)
+    if os.path.exists(mp3_path) and os.path.exists(hash_path):
+        try:
+            if open(hash_path, encoding="utf-8").read().strip() == h:
+                return f"/signals/audio/{name}.mp3"   # cache hit
+        except Exception:
+            pass
+    if not os.path.exists(TTS_PY):
+        print(f"  [tts] piper not found at {TTS_PY}; skipping audio for {name}")
+        return None
+    os.makedirs(os.path.dirname(mp3_path), exist_ok=True)
+    os.makedirs(os.path.dirname(hash_path), exist_ok=True)
+    fd, txt_path = tempfile.mkstemp(suffix=".txt")
+    wav_path = mp3_path[:-4] + ".wav"
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(clean)
+        subprocess.run([TTS_PY, "-m", "piper", "-m", TTS_VOICE[lang], "--data-dir", TTS_VOICES,
+                        "-f", wav_path, "-i", txt_path], check=True, capture_output=True, timeout=400)
+        subprocess.run(["ffmpeg", "-y", "-i", wav_path, "-ac", "1", "-b:a", "48k", mp3_path],
+                       check=True, capture_output=True, timeout=120)
+        with open(hash_path, "w", encoding="utf-8") as f:
+            f.write(h)
+        print(f"  [tts] {name}.mp3 ({os.path.getsize(mp3_path)//1024} KB)")
+        return f"/signals/audio/{name}.mp3"
+    except Exception as e:
+        print(f"  [tts] synth failed for {name}: {e}")
+        return None
+    finally:
+        for p in (txt_path, wav_path):
+            try:
+                os.remove(p)
+            except Exception:
+                pass
+
+
+def audio_player(url):
+    if not url:
+        return ""
+    return ('<div class="not-prose mb-5">'
+            '<div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">\U0001F50A Listen</div>'
+            f'<audio controls preload="none" class="w-full h-10" src="{url}"></audio></div>')
+
+
+def prune_audio(days=14):
+    import time
+    d = os.path.join(SITE_DIR, "audio")
+    if not os.path.isdir(d):
+        return
+    cutoff = time.time() - days * 86400
+    for fn in os.listdir(d):
+        fp = os.path.join(d, fn)
+        try:
+            if os.path.isfile(fp) and os.path.getmtime(fp) < cutoff:
+                os.remove(fp)
+        except Exception:
+            pass
+
+
 def build_site():
     print("Rebuilding static website from briefings...")
 
     # Ingest latest Hermes briefings into the repo store, then build from the repo copy
     sync_briefings()
+    os.makedirs(os.path.join(SITE_DIR, "audio"), exist_ok=True)
+    prune_audio(14)
     
     # Collect all briefings
     briefings_by_date = {}
@@ -566,8 +666,10 @@ def build_site():
                 
                 # Convert both to HTML
                 stats_html = render_stats(d)
-                html_en = stats_html + markdown_to_html(pub_en)
-                html_zh = stats_html + markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
+                audio_en = generate_audio(pub_en, "en", d, s_type)
+                audio_zh = generate_audio(pub_zh, "zh", d, s_type)
+                html_en = audio_player(audio_en) + stats_html + markdown_to_html(pub_en)
+                html_zh = audio_player(audio_zh) + stats_html + markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
                 
                 block_id = f"{d}-{s_type}"
                 
