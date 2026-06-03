@@ -12,8 +12,8 @@ os.environ.setdefault("OMP_NUM_THREADS", str(os.cpu_count() or 4))  # use all co
 import argparse, sys
 
 VOICES = os.path.expanduser(os.environ.get("SIGNALS_TTS_VOICES", "~/.signals-tts-voices"))
-KOKORO_VOICE = {"en": "am_michael", "zh": "zf_xiaobei"}   # warm, expressive
-KOKORO_LANG = {"en": "en-us", "zh": "zh"}
+KOKORO_VOICE = {"en": "am_michael", "zh": "zm_yunyang"}   # EN: Michael; ZH: Yunyang (Mandarin news-anchor)
+KOKORO_LANG = {"en": "en-us", "zh": "cmn"}                # ZH must be "cmn" (espeak-ng Mandarin), not "zh"
 PIPER_VOICE = {"en": "en_US-lessac-medium", "zh": "zh_CN-huayan-medium"}
 
 
