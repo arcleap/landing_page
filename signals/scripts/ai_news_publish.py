@@ -39,6 +39,23 @@ SESSIONS = {
     "e9b4bb7aede2": "afternoon"
 }
 
+GATE_PASSCODE = os.environ.get("SIGNALS_GATE_PASSCODE", "0915")  # cofounder gate; key derived from this
+
+
+def _encrypt_gate(data_bytes, passcode=None, iters=150000):
+    """AES-256-GCM encrypt bytes with a PBKDF2-SHA256(passcode) key. Returns JSON {s,i,c,n}
+    (all base64), decryptable in-browser via Web Crypto. Real encryption: without the passcode
+    the ciphertext is useless from page source (unlike the old base64 obfuscation)."""
+    import hashlib, base64 as _b64
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    pc = (passcode or GATE_PASSCODE).encode("utf-8")
+    salt = os.urandom(16); iv = os.urandom(12)
+    key = hashlib.pbkdf2_hmac("sha256", pc, salt, iters, dklen=32)
+    ct = AESGCM(key).encrypt(iv, data_bytes, None)  # ct||tag, GCM — Web-Crypto compatible
+    return json.dumps({"s": _b64.b64encode(salt).decode(), "i": _b64.b64encode(iv).decode(),
+                       "c": _b64.b64encode(ct).decode(), "n": iters})
+
+
 def _run_claude(prompt, timeout=400, model="opus"):
     """claude -p on the Opus subscription (Anthropic API keys stripped -> never per-token).
     Returns stdout text, or None on failure. Mirrors Tier-2's billing isolation."""
@@ -206,6 +223,56 @@ def get_narration(date_str, session_type, public_en):
         open(hash_f, "w", encoding="utf-8").write(h)
     except Exception as e:
         print(f"  [narration] cache write failed: {e}")
+    return en, zh
+
+
+_CO_NARRATION_PROMPT = r"""You record a PRIVATE spoken audio note for a founder — the confidential co-founder channel of "ArcLeap Signals". Turn the Markdown below (a strategic opportunity analysis plus an adversarial red-team) into a smooth, candid spoken script: first English, then Simplified Chinese.
+
+Cover EVERYTHING: each opportunity / convergence candidate and its bar read, the single highest-conviction move, and the red-team's verdicts (what to kill, what needs evidence, what survives). Speak like a trusted co-founder talking strategy in private — direct and candid, no hype.
+- Flowing spoken prose, natural transitions. NO markdown, NO URLs, NO source/citation names, NO emojis. Spell out symbols for the ear ("$1M" -> "a million dollars"). Keep product/company names in English.
+- Chinese: native idiomatic Mandarin (机器之心 register), product/company names in English.
+
+Output EXACTLY:
+<<<EN
+(english script)
+EN>>>
+<<<ZH
+(chinese script)
+ZH>>>
+
+CONFIDENTIAL SECTION:
+"""
+
+
+def get_cofounder_narration(date_str, session_type, co_en):
+    """Opus-written spoken script (EN + ZH) for the CONFIDENTIAL section, cached. ('', '') if unavailable."""
+    import hashlib
+    os.makedirs(NARRATION_DIR, exist_ok=True)
+    if not co_en or len(co_en) < 40:
+        return "", ""
+    h = hashlib.md5((co_en + "::conarr-v1").encode("utf-8")).hexdigest()
+    en_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.co.en.txt")
+    zh_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.co.zh.txt")
+    hash_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.co.hash")
+    if all(os.path.exists(p) for p in (en_f, zh_f, hash_f)):
+        try:
+            if open(hash_f, encoding="utf-8").read().strip() == h:
+                return (open(en_f, encoding="utf-8").read().strip(),
+                        open(zh_f, encoding="utf-8").read().strip())
+        except Exception:
+            pass
+    print(f"  [narration:co] generating confidential script for {date_str} {session_type} (Opus)...")
+    out = _run_claude(_CO_NARRATION_PROMPT + co_en, timeout=400)
+    en, zh = _extract_block(out, "EN"), _extract_block(out, "ZH")
+    if len(en) < 40 or not re.search(r"[一-鿿]", zh):
+        print("  [narration:co] incomplete; skipping confidential audio")
+        return "", ""
+    try:
+        open(en_f, "w", encoding="utf-8").write(en)
+        open(zh_f, "w", encoding="utf-8").write(zh)
+        open(hash_f, "w", encoding="utf-8").write(h)
+    except Exception as e:
+        print(f"  [narration:co] cache write failed: {e}")
     return en, zh
 
 
@@ -501,6 +568,61 @@ def generate_audio(text, lang, date_str, session):
                 pass
 
 
+def generate_gated_audio(text, lang, date_str, session):
+    """Synthesize CONFIDENTIAL narration, ENCRYPT the mp3, write a .enc under public/signals/vault/.
+    Returns the .enc public URL (ciphertext — useless without the passcode). Cached by content hash;
+    shares the per-run TTS budget with the public audio."""
+    import subprocess, tempfile
+    clean = clean_for_tts(text)
+    if len(clean) < 20:
+        return None
+    name = f"{date_str}-{session}-co-{lang}"
+    enc_path = os.path.join(SITE_DIR, "vault", f"{name}.enc")
+    hash_path = os.path.join(_SIGNALS_DIR, "data", "audio", f"{name}.hash")
+    h = _tts_hash(clean + "::gated")
+    if os.path.exists(enc_path) and os.path.exists(hash_path):
+        try:
+            if open(hash_path, encoding="utf-8").read().strip() == h:
+                return f"/signals/vault/{name}.enc"
+        except Exception:
+            pass
+    if _tts_count[0] >= _TTS_MAX_PER_RUN:
+        return f"/signals/vault/{name}.enc" if os.path.exists(enc_path) else None
+    if not os.path.exists(TTS_PY):
+        return None
+    os.makedirs(os.path.dirname(enc_path), exist_ok=True)
+    os.makedirs(os.path.dirname(hash_path), exist_ok=True)
+    fd, txt_path = tempfile.mkstemp(suffix=".txt")
+    wav_path = enc_path[:-4] + ".wav"
+    mp3_path = enc_path[:-4] + ".mp3"
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(clean)
+        subprocess.run([TTS_PY, os.path.join(_SCRIPT_DIR, "tts_synth.py"),
+                        "--lang", lang, "--in", txt_path, "--out", wav_path],
+                       check=True, capture_output=True, timeout=900)
+        subprocess.run(["ffmpeg", "-y", "-i", wav_path, "-ac", "1", "-b:a", "48k", mp3_path],
+                       check=True, capture_output=True, timeout=120)
+        with open(mp3_path, "rb") as f:
+            payload = _encrypt_gate(f.read())
+        with open(enc_path, "w", encoding="utf-8") as f:
+            f.write(payload)
+        with open(hash_path, "w", encoding="utf-8") as f:
+            f.write(h)
+        _tts_count[0] += 1
+        print(f"  [tts-gated] {name}.enc ({len(payload)//1024} KB encrypted)")
+        return f"/signals/vault/{name}.enc"
+    except Exception as e:
+        print(f"  [tts-gated] synth failed for {name}: {e}")
+        return None
+    finally:
+        for p in (txt_path, wav_path, mp3_path):
+            try:
+                os.remove(p)
+            except Exception:
+                pass
+
+
 def audio_player(url):
     if not url:
         return ""
@@ -511,17 +633,18 @@ def audio_player(url):
 
 def prune_audio(days=14):
     import time
-    d = os.path.join(SITE_DIR, "audio")
-    if not os.path.isdir(d):
-        return
     cutoff = time.time() - days * 86400
-    for fn in os.listdir(d):
-        fp = os.path.join(d, fn)
-        try:
-            if os.path.isfile(fp) and os.path.getmtime(fp) < cutoff:
-                os.remove(fp)
-        except Exception:
-            pass
+    for sub in ("audio", "vault"):   # public mp3s AND encrypted confidential .enc
+        d = os.path.join(SITE_DIR, sub)
+        if not os.path.isdir(d):
+            continue
+        for fn in os.listdir(d):
+            fp = os.path.join(d, fn)
+            try:
+                if os.path.isfile(fp) and os.path.getmtime(fp) < cutoff:
+                    os.remove(fp)
+            except Exception:
+                pass
 
 
 def build_site():
@@ -572,14 +695,23 @@ def build_site():
             dt_obj = datetime.strptime(d, "%Y-%m-%d")
             pretty_date = dt_obj.strftime("%b %d, %Y")
             sessions = [s for s in SESSION_ORDER if s in briefings_by_date[d]]
-            sub_label = " · ".join("Morning" if s == "morning" else "Afternoon" for s in sessions)
             if d == active_key:
                 card = "bg-zinc-900/80 border border-zinc-800/60"
                 txt = "text-sky-400 font-bold"
             else:
                 card = "hover:bg-zinc-900/60 border border-transparent"
                 txt = "text-zinc-300 hover:text-sky-400"
-            sidebar_items.append(f'<a href="/signals/archive/{d}.html" class="block px-3 py-2.5 rounded-xl transition-all {card}"><div class="text-sm font-semibold {txt} transition-all">{pretty_date}</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">📅 {sub_label}</div></a>')
+            # Morning/Afternoon are clickable, underlined links that jump to that section.
+            sess_links = " · ".join(
+                f'<a href="/signals/archive/{d}.html#{s}" class="underline underline-offset-2 '
+                f'decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">'
+                f'{"Morning" if s == "morning" else "Afternoon"}</a>'
+                for s in sessions)
+            sidebar_items.append(
+                f'<div class="block px-3 py-2.5 rounded-xl transition-all {card}">'
+                f'<a href="/signals/archive/{d}.html" class="text-sm font-semibold {txt} transition-all hover:underline">{pretty_date}</a>'
+                f'<div class="text-[11px] text-zinc-500 mt-1 font-medium">{sess_links}</div>'
+                f'</div>')
         sidebar_html = chr(10).join(sidebar_items)
         
         return f"""<!DOCTYPE html>
@@ -686,9 +818,9 @@ def build_site():
             btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-sky-400 font-semibold border border-zinc-700 transition-all';
         }}
         
-        // Update cofounder section visibility if decrypted
-        const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "0915") {{
+        // Update cofounder section visibility if unlocked
+        const saved = localStorage.getItem("arcleap_gate_pc");
+        if (saved) {{
             const enSection = document.getElementById("cofounder-content-en-" + id);
             const zhSection = document.getElementById("cofounder-content-zh-" + id);
             if (enSection && zhSection) {{
@@ -703,58 +835,79 @@ def build_site():
         }}
     }}
 
-    function utf8B64Decode(str) {{
-        try {{
-            return new TextDecoder().decode(Uint8Array.from(atob(str), c => c.charCodeAt(0)));
-        }} catch (e) {{
-            console.error("UTF-8 decoding failed, falling back", e);
-            return atob(str);
+    // --- Encrypted co-founder gate: AES-256-GCM, key = PBKDF2-SHA256(passcode) ---
+    async function gateDecrypt(payloadJson, passcode) {{
+        const o = JSON.parse(payloadJson);
+        const b = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+        const keyMat = await crypto.subtle.importKey("raw", new TextEncoder().encode(passcode), "PBKDF2", false, ["deriveKey"]);
+        const key = await crypto.subtle.deriveKey(
+            {{ name: "PBKDF2", salt: b(o.s), iterations: o.n, hash: "SHA-256" }},
+            keyMat, {{ name: "AES-GCM", length: 256 }}, false, ["decrypt"]);
+        const pt = await crypto.subtle.decrypt({{ name: "AES-GCM", iv: b(o.i) }}, key, b(o.c));
+        return new TextDecoder().decode(pt);
+    }}
+
+    async function gateDecryptBytes(payloadJson, passcode) {{
+        const o = JSON.parse(payloadJson);
+        const b = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+        const keyMat = await crypto.subtle.importKey("raw", new TextEncoder().encode(passcode), "PBKDF2", false, ["deriveKey"]);
+        const key = await crypto.subtle.deriveKey(
+            {{ name: "PBKDF2", salt: b(o.s), iterations: o.n, hash: "SHA-256" }},
+            keyMat, {{ name: "AES-GCM", length: 256 }}, false, ["decrypt"]);
+        return await crypto.subtle.decrypt({{ name: "AES-GCM", iv: b(o.i) }}, key, b(o.c));
+    }}
+
+    async function loadGatedAudio(blockId, passcode) {{
+        // Confidential voice-over: fetch the encrypted .enc, decrypt to an in-memory Blob URL.
+        for (const lang of ["en", "zh"]) {{
+            const holder = document.getElementById("co-audio-" + lang + "-" + blockId);
+            if (!holder || holder.dataset.loaded) continue;
+            const url = holder.dataset.enc;
+            if (!url) continue;
+            try {{
+                const resp = await fetch(url);
+                if (!resp.ok) continue;
+                const buf = await gateDecryptBytes(await resp.text(), passcode);
+                const blobUrl = URL.createObjectURL(new Blob([buf], {{ type: "audio/mpeg" }}));
+                holder.innerHTML = '<div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">🔊 Confidential audio</div><audio controls preload="none" class="w-full h-10" src="' + blobUrl + '"></audio>';
+                holder.dataset.loaded = "1";
+            }} catch (e) {{ /* leave hidden on failure */ }}
         }}
     }}
 
-    function checkExistingLock() {{
-        const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "0915") {{
-            // Automatically unlock and render all cofounder blocks
-            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
-            
-            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {{
-                const blockId = el.id.replace("cofounder-content-en-", "");
-                const encodedEnEl = document.getElementById("data-en-" + blockId);
-                if (encodedEnEl) {{
-                    const decodedEn = utf8B64Decode(encodedEnEl.value);
-                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
-                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
-                    
-                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
-                    if (enBlockActive) {{
-                        el.classList.remove("hidden");
-                    }}
-                }}
-            }});
-            
-            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {{
-                const blockId = el.id.replace("cofounder-content-zh-", "");
-                const encodedZhEl = document.getElementById("data-zh-" + blockId);
-                if (encodedZhEl) {{
-                    const decodedZh = utf8B64Decode(encodedZhEl.value);
-                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
-                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
-                    
-                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
-                    if (zhBlockActive) {{
-                        el.classList.remove("hidden");
-                    }}
-                }}
-            }});
+    async function renderUnlocked(passcode) {{
+        const ids = new Set();
+        document.querySelectorAll("[id^='data-en-']").forEach(el => ids.add(el.id.replace("data-en-", "")));
+        let anyOk = false;
+        for (const blockId of ids) {{
+            try {{
+                const enEl = document.getElementById("data-en-" + blockId);
+                const zhEl = document.getElementById("data-zh-" + blockId);
+                const decEn = await gateDecrypt(enEl.value, passcode);
+                const decZh = zhEl ? await gateDecrypt(zhEl.value, passcode) : "";
+                const bodyEn = document.getElementById("cofounder-body-en-" + blockId);
+                const bodyZh = document.getElementById("cofounder-body-zh-" + blockId);
+                if (bodyEn) bodyEn.innerHTML = decEn;
+                if (bodyZh) bodyZh.innerHTML = decZh;
+                const lock = document.getElementById("cofounder-lock-" + blockId);
+                if (lock) lock.classList.add("hidden");
+                const enActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                const cEn = document.getElementById("cofounder-content-en-" + blockId);
+                const cZh = document.getElementById("cofounder-content-zh-" + blockId);
+                if (cEn) cEn.classList.toggle("hidden", !enActive);
+                if (cZh) cZh.classList.toggle("hidden", enActive);
+                await loadGatedAudio(blockId, passcode);
+                anyOk = true;
+            }} catch (e) {{ /* wrong passcode for this block */ }}
         }}
+        return anyOk;
     }}
 
-    function unlockCofounder(id) {{
+    async function unlockCofounder(id) {{
         const input = document.getElementById("passcode-input-" + id).value;
-        if (input === "0915") {{
-            localStorage.setItem("arcleap_cofounder_key", "0915");
-            checkExistingLock();
+        const ok = await renderUnlocked(input);
+        if (ok) {{
+            localStorage.setItem("arcleap_gate_pc", input);
         }} else {{
             const err = document.getElementById("error-message-" + id);
             if (err) {{
@@ -762,6 +915,11 @@ def build_site():
                 setTimeout(() => err.classList.add("hidden"), 3000);
             }}
         }}
+    }}
+
+    async function checkExistingLock() {{
+        const saved = localStorage.getItem("arcleap_gate_pc");
+        if (saved) {{ await renderUnlocked(saved); }}
     }}
 
     window.addEventListener("DOMContentLoaded", checkExistingLock);
@@ -817,13 +975,17 @@ def build_site():
                     html_co_en = markdown_to_html(co_en)
                     html_co_zh = markdown_to_html(co_zh if co_zh else "*(Translation failed or not available)*")
                     
-                    b64_en = base64.b64encode(html_co_en.encode("utf-8")).decode("utf-8")
-                    b64_zh = base64.b64encode(html_co_zh.encode("utf-8")).decode("utf-8")
-                    
+                    enc_en = _encrypt_gate(html_co_en.encode("utf-8"))
+                    enc_zh = _encrypt_gate(html_co_zh.encode("utf-8"))
+                    # Confidential voice-over: Opus narration -> synth -> ENCRYPTED .enc (gated like the text)
+                    co_narr_en, co_narr_zh = get_cofounder_narration(d, s_type, co_en)
+                    co_audio_en_url = generate_gated_audio(co_narr_en or co_en, "en", d, s_type) or ""
+                    co_audio_zh_url = generate_gated_audio(co_narr_zh or co_zh or co_en, "zh", d, s_type) or ""
+
                     cofounder_html_section = f"""
-                    <!-- Base64 Encoded Secret Payload -->
-                    <textarea id="data-en-{block_id}" class="hidden">{b64_en}</textarea>
-                    <textarea id="data-zh-{block_id}" class="hidden">{b64_zh}</textarea>
+                    <!-- AES-GCM encrypted payload (PBKDF2 passcode key; unreadable from source) -->
+                    <textarea id="data-en-{block_id}" class="hidden">{enc_en}</textarea>
+                    <textarea id="data-zh-{block_id}" class="hidden">{enc_zh}</textarea>
                     
                     <!-- Locked/Decryption Container -->
                     <div id="cofounder-lock-{block_id}" class="mt-8 p-8 bg-zinc-950 border border-sky-500/20 rounded-2xl text-center relative overflow-hidden backdrop-blur-md">
@@ -852,6 +1014,7 @@ def build_site():
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             Co-founder Confidential (EN)
                         </div>
+                        <div id="co-audio-en-{block_id}" data-enc="{co_audio_en_url}" class="not-prose mb-4"></div>
                         <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-en-{block_id}"></div>
                     </div>
                     
@@ -860,6 +1023,7 @@ def build_site():
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             联合创始人机密 (ZH)
                         </div>
+                        <div id="co-audio-zh-{block_id}" data-enc="{co_audio_zh_url}" class="not-prose mb-4"></div>
                         <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-zh-{block_id}"></div>
                     </div>
                     """

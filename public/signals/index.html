@@ -53,9 +53,9 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 Signals Hub
             </a>
-            <a href="/signals/archive/2026-06-03.html" class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><div class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all">Jun 03, 2026</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">📅 Morning</div></a>
-<a href="/signals/archive/2026-06-02.html" class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><div class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all">Jun 02, 2026</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">📅 Morning · Afternoon</div></a>
-<a href="/signals/archive/2026-06-01.html" class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><div class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all">Jun 01, 2026</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">📅 Morning · Afternoon</div></a>
+            <div class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><a href="/signals/archive/2026-06-03.html" class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all hover:underline">Jun 03, 2026</a><div class="text-[11px] text-zinc-500 mt-1 font-medium"><a href="/signals/archive/2026-06-03.html#morning" class="underline underline-offset-2 decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">Morning</a></div></div>
+<div class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><a href="/signals/archive/2026-06-02.html" class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all hover:underline">Jun 02, 2026</a><div class="text-[11px] text-zinc-500 mt-1 font-medium"><a href="/signals/archive/2026-06-02.html#morning" class="underline underline-offset-2 decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">Morning</a> · <a href="/signals/archive/2026-06-02.html#afternoon" class="underline underline-offset-2 decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">Afternoon</a></div></div>
+<div class="block px-3 py-2.5 rounded-xl transition-all hover:bg-zinc-900/60 border border-transparent"><a href="/signals/archive/2026-06-01.html" class="text-sm font-semibold text-zinc-300 hover:text-sky-400 transition-all hover:underline">Jun 01, 2026</a><div class="text-[11px] text-zinc-500 mt-1 font-medium"><a href="/signals/archive/2026-06-01.html#morning" class="underline underline-offset-2 decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">Morning</a> · <a href="/signals/archive/2026-06-01.html#afternoon" class="underline underline-offset-2 decoration-zinc-600 hover:decoration-sky-400 hover:text-sky-400 transition-colors">Afternoon</a></div></div>
         </div>
         
         <!-- Sidebar Newsletter -->
@@ -175,9 +175,9 @@
             btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-sky-400 font-semibold border border-zinc-700 transition-all';
         }
         
-        // Update cofounder section visibility if decrypted
-        const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "0915") {
+        // Update cofounder section visibility if unlocked
+        const saved = localStorage.getItem("arcleap_gate_pc");
+        if (saved) {
             const enSection = document.getElementById("cofounder-content-en-" + id);
             const zhSection = document.getElementById("cofounder-content-zh-" + id);
             if (enSection && zhSection) {
@@ -192,58 +192,79 @@
         }
     }
 
-    function utf8B64Decode(str) {
-        try {
-            return new TextDecoder().decode(Uint8Array.from(atob(str), c => c.charCodeAt(0)));
-        } catch (e) {
-            console.error("UTF-8 decoding failed, falling back", e);
-            return atob(str);
+    // --- Encrypted co-founder gate: AES-256-GCM, key = PBKDF2-SHA256(passcode) ---
+    async function gateDecrypt(payloadJson, passcode) {
+        const o = JSON.parse(payloadJson);
+        const b = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+        const keyMat = await crypto.subtle.importKey("raw", new TextEncoder().encode(passcode), "PBKDF2", false, ["deriveKey"]);
+        const key = await crypto.subtle.deriveKey(
+            { name: "PBKDF2", salt: b(o.s), iterations: o.n, hash: "SHA-256" },
+            keyMat, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+        const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b(o.i) }, key, b(o.c));
+        return new TextDecoder().decode(pt);
+    }
+
+    async function gateDecryptBytes(payloadJson, passcode) {
+        const o = JSON.parse(payloadJson);
+        const b = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+        const keyMat = await crypto.subtle.importKey("raw", new TextEncoder().encode(passcode), "PBKDF2", false, ["deriveKey"]);
+        const key = await crypto.subtle.deriveKey(
+            { name: "PBKDF2", salt: b(o.s), iterations: o.n, hash: "SHA-256" },
+            keyMat, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+        return await crypto.subtle.decrypt({ name: "AES-GCM", iv: b(o.i) }, key, b(o.c));
+    }
+
+    async function loadGatedAudio(blockId, passcode) {
+        // Confidential voice-over: fetch the encrypted .enc, decrypt to an in-memory Blob URL.
+        for (const lang of ["en", "zh"]) {
+            const holder = document.getElementById("co-audio-" + lang + "-" + blockId);
+            if (!holder || holder.dataset.loaded) continue;
+            const url = holder.dataset.enc;
+            if (!url) continue;
+            try {
+                const resp = await fetch(url);
+                if (!resp.ok) continue;
+                const buf = await gateDecryptBytes(await resp.text(), passcode);
+                const blobUrl = URL.createObjectURL(new Blob([buf], { type: "audio/mpeg" }));
+                holder.innerHTML = '<div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">🔊 Confidential audio</div><audio controls preload="none" class="w-full h-10" src="' + blobUrl + '"></audio>';
+                holder.dataset.loaded = "1";
+            } catch (e) { /* leave hidden on failure */ }
         }
     }
 
-    function checkExistingLock() {
-        const saved = localStorage.getItem("arcleap_cofounder_key");
-        if (saved === "0915") {
-            // Automatically unlock and render all cofounder blocks
-            document.querySelectorAll("[id^='cofounder-lock-']").forEach(el => el.classList.add("hidden"));
-            
-            document.querySelectorAll("[id^='cofounder-content-en-']").forEach(el => {
-                const blockId = el.id.replace("cofounder-content-en-", "");
-                const encodedEnEl = document.getElementById("data-en-" + blockId);
-                if (encodedEnEl) {
-                    const decodedEn = utf8B64Decode(encodedEnEl.value);
-                    const bodyEnEl = document.getElementById("cofounder-body-en-" + blockId);
-                    if (bodyEnEl) bodyEnEl.innerHTML = decodedEn;
-                    
-                    const enBlockActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
-                    if (enBlockActive) {
-                        el.classList.remove("hidden");
-                    }
-                }
-            });
-            
-            document.querySelectorAll("[id^='cofounder-content-zh-']").forEach(el => {
-                const blockId = el.id.replace("cofounder-content-zh-", "");
-                const encodedZhEl = document.getElementById("data-zh-" + blockId);
-                if (encodedZhEl) {
-                    const decodedZh = utf8B64Decode(encodedZhEl.value);
-                    const bodyZhEl = document.getElementById("cofounder-body-zh-" + blockId);
-                    if (bodyZhEl) bodyZhEl.innerHTML = decodedZh;
-                    
-                    const zhBlockActive = !document.getElementById("content-zh-" + blockId).classList.contains("hidden");
-                    if (zhBlockActive) {
-                        el.classList.remove("hidden");
-                    }
-                }
-            });
+    async function renderUnlocked(passcode) {
+        const ids = new Set();
+        document.querySelectorAll("[id^='data-en-']").forEach(el => ids.add(el.id.replace("data-en-", "")));
+        let anyOk = false;
+        for (const blockId of ids) {
+            try {
+                const enEl = document.getElementById("data-en-" + blockId);
+                const zhEl = document.getElementById("data-zh-" + blockId);
+                const decEn = await gateDecrypt(enEl.value, passcode);
+                const decZh = zhEl ? await gateDecrypt(zhEl.value, passcode) : "";
+                const bodyEn = document.getElementById("cofounder-body-en-" + blockId);
+                const bodyZh = document.getElementById("cofounder-body-zh-" + blockId);
+                if (bodyEn) bodyEn.innerHTML = decEn;
+                if (bodyZh) bodyZh.innerHTML = decZh;
+                const lock = document.getElementById("cofounder-lock-" + blockId);
+                if (lock) lock.classList.add("hidden");
+                const enActive = !document.getElementById("content-en-" + blockId).classList.contains("hidden");
+                const cEn = document.getElementById("cofounder-content-en-" + blockId);
+                const cZh = document.getElementById("cofounder-content-zh-" + blockId);
+                if (cEn) cEn.classList.toggle("hidden", !enActive);
+                if (cZh) cZh.classList.toggle("hidden", enActive);
+                await loadGatedAudio(blockId, passcode);
+                anyOk = true;
+            } catch (e) { /* wrong passcode for this block */ }
         }
+        return anyOk;
     }
 
-    function unlockCofounder(id) {
+    async function unlockCofounder(id) {
         const input = document.getElementById("passcode-input-" + id).value;
-        if (input === "0915") {
-            localStorage.setItem("arcleap_cofounder_key", "0915");
-            checkExistingLock();
+        const ok = await renderUnlocked(input);
+        if (ok) {
+            localStorage.setItem("arcleap_gate_pc", input);
         } else {
             const err = document.getElementById("error-message-" + id);
             if (err) {
@@ -251,6 +272,11 @@
                 setTimeout(() => err.classList.add("hidden"), 3000);
             }
         }
+    }
+
+    async function checkExistingLock() {
+        const saved = localStorage.getItem("arcleap_gate_pc");
+        if (saved) { await renderUnlocked(saved); }
     }
 
     window.addEventListener("DOMContentLoaded", checkExistingLock);
