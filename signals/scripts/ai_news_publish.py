@@ -39,8 +39,25 @@ SESSIONS = {
     "e9b4bb7aede2": "afternoon"
 }
 
-def translate_markdown(text, target_lang="Chinese"):
-    """Translate markdown to Chinese via Gemini Flash (light Tier-1 task: cheap + fast). Model fallback."""
+def _run_claude(prompt, timeout=400, model="opus"):
+    """claude -p on the Opus subscription (Anthropic API keys stripped -> never per-token).
+    Returns stdout text, or None on failure. Mirrors Tier-2's billing isolation."""
+    import subprocess
+    safe_env = os.environ.copy()
+    for k in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL", "CLAUDE_API_KEY"):
+        safe_env.pop(k, None)   # keeps CLAUDE_CODE_OAUTH_TOKEN if present
+    try:
+        r = subprocess.run(["claude", "-p", prompt, "--model", model],
+                           capture_output=True, text=True, env=safe_env, check=True,
+                           timeout=timeout, cwd=_REPO_DIR)
+        return r.stdout.strip()
+    except Exception as e:
+        print(f"  [claude] failed: {str(e)[:160]}")
+        return None
+
+
+def _translate_gemini(text, target_lang="Chinese"):
+    """Fallback translator via Gemini Flash (used only if Opus is unavailable)."""
     import urllib.request
     api_key = None
     env_path = os.path.expanduser("~/.hermes/.env")
@@ -52,12 +69,11 @@ def translate_markdown(text, target_lang="Chinese"):
                     break
     api_key = api_key or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
-        print("  GOOGLE_API_KEY not found, skipping translation.")
         return None
     prompt = ("You are a world-class AI/startup/tech translator. Translate the following Markdown into "
               f"natural, idiomatic {target_lang}. Preserve ALL markdown formatting and ALL [anchor](url) "
-              "links exactly. Use modern Chinese tech terminology (MoE/混合专家模型, prompt injection/提示词注入, "
-              "inference/推理). Output ONLY the translated markdown, no preamble. MARKDOWN TO TRANSLATE: " + text)
+              "links exactly. Keep product/company/model names in English. Use modern Chinese tech terms. "
+              "Output ONLY the translated markdown, no preamble. MARKDOWN TO TRANSLATE: " + text)
     payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.2}}
     for model in ("gemini-3.5-flash", "gemini-2.5-flash"):
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
@@ -72,13 +88,38 @@ def translate_markdown(text, target_lang="Chinese"):
     return None
 
 
+_TRANS_PROMPT = r"""You are a native Chinese AI/tech journalist translating a daily founder briefing for a bilingual reader. Render the Markdown below into FLUENT, IDIOMATIC Simplified Chinese — the way a top Chinese tech publication (机器之心 / 量子位) writes — NOT a literal word-for-word translation.
+
+Rules:
+- Natural Chinese phrasing and sentence flow. Rewrite structure where a literal translation would read awkwardly; prioritize readability over English word order.
+- Preserve EVERY markdown element exactly: headers (#), bold (**), bullets (-), and ALL [anchor](url) links unchanged.
+- Keep product / company / model / people names in English (OpenAI, Gemini, GPT-5, Anthropic). Translate everything else.
+- Standard Chinese tech terms (推理, 微调, 智能体, 混合专家模型/MoE, 提示词注入). Use Chinese numerals in prose where natural.
+- Output ONLY the translated Markdown — no preamble, no notes.
+
+MARKDOWN:
+"""
+
+
+def translate_markdown(text, target_lang="Chinese"):
+    """Fluent ZH translation via Opus (claude -p, subscription-free); Gemini Flash fallback."""
+    if not text or not text.strip():
+        return None
+    out = _run_claude(_TRANS_PROMPT + text, timeout=400)
+    # sanity: non-trivial, contains CJK, not a refusal/preamble blob
+    if out and re.search(r"[一-鿿]", out) and len(out) > 0.25 * len(text):
+        return out
+    print("  [translate] Opus output missing/short; falling back to Gemini Flash")
+    return _translate_gemini(text, target_lang)
+
+
 def get_translated_content(date_str, session_type, original_content):
     """Retrieve translated content from cache, or translate and save if not cached (with MD5 hash validation)."""
     import hashlib
     cache_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md")
     hash_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md.hash")
     
-    current_hash = hashlib.md5(original_content.encode("utf-8")).hexdigest()
+    current_hash = hashlib.md5((original_content + "::opus-v2").encode("utf-8")).hexdigest()
     
     if os.path.exists(cache_file) and os.path.exists(hash_file) and os.path.getsize(cache_file) > 0:
         try:
@@ -103,6 +144,68 @@ def get_translated_content(date_str, session_type, original_content):
         except Exception as e:
             print(f"  Error writing translation cache or hash: {e}")
     return None
+
+NARRATION_DIR = os.path.join(_SIGNALS_DIR, "data", "narration")
+
+_NARRATION_PROMPT = r"""You write the script for a twice-daily spoken AUDIO briefing ("ArcLeap Signals") for a busy AI founder. Turn the Markdown briefing section below into a smooth, natural script that sounds great READ ALOUD — first in English, then in Simplified Chinese.
+
+Make it sound like a sharp, calm co-founder talking for ~75 seconds, NOT a list being read out:
+- Flowing spoken prose with natural transitions ("First up,", "The bigger story is,", "On the contrarian side,", "One to watch:"). Short, clear sentences.
+- Synthesize the substance: the few items that matter and WHY, the freshest new-direction spark, and the most interesting contrarian angle. Do not enumerate every bullet.
+- Spoken style: NO markdown, NO URLs, NO source/citation names, NO emojis, NO hashtags. Spell out symbols for the ear ("$1M" -> "a million dollars", "20%" -> "twenty percent"). Keep product names (GPT-5, Gemini).
+- Open with one orienting line; close with one crisp takeaway. Never say "link" or reference reading.
+
+Chinese version: native idiomatic Mandarin (机器之心 register), Chinese numerals, product/company names kept in English. A natural Chinese script, not a translation of the English wording.
+
+Output EXACTLY:
+<<<EN
+(english script)
+EN>>>
+<<<ZH
+(chinese script)
+ZH>>>
+
+BRIEFING SECTION:
+"""
+
+
+def _extract_block(text, tag):
+    m = re.search(r"<<<%s\s*(.*?)\s*%s>>>" % (tag, tag), text or "", re.DOTALL)
+    return m.group(1).strip() if m else ""
+
+
+def get_narration(date_str, session_type, public_en):
+    """Opus-written smooth spoken scripts (EN + ZH) for the public section, cached by content.
+    Returns (narration_en, narration_zh); ('', '') signals callers to fall back to raw markdown."""
+    import hashlib
+    os.makedirs(NARRATION_DIR, exist_ok=True)
+    if not public_en or len(public_en) < 40:
+        return "", ""
+    h = hashlib.md5((public_en + "::narr-v1").encode("utf-8")).hexdigest()
+    en_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.en.txt")
+    zh_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.zh.txt")
+    hash_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.hash")
+    if all(os.path.exists(p) for p in (en_f, zh_f, hash_f)):
+        try:
+            if open(hash_f, encoding="utf-8").read().strip() == h:
+                return (open(en_f, encoding="utf-8").read().strip(),
+                        open(zh_f, encoding="utf-8").read().strip())
+        except Exception:
+            pass
+    print(f"  [narration] generating spoken script for {date_str} {session_type} (Opus)...")
+    out = _run_claude(_NARRATION_PROMPT + public_en, timeout=400)
+    en, zh = _extract_block(out, "EN"), _extract_block(out, "ZH")
+    if len(en) < 40 or not re.search(r"[一-鿿]", zh):
+        print("  [narration] Opus output incomplete; using raw briefing for audio")
+        return "", ""
+    try:
+        open(en_f, "w", encoding="utf-8").write(en)
+        open(zh_f, "w", encoding="utf-8").write(zh)
+        open(hash_f, "w", encoding="utf-8").write(h)
+    except Exception as e:
+        print(f"  [narration] cache write failed: {e}")
+    return en, zh
+
 
 def parse_briefing_file(filepath, session_type):
     """Parse a cron output markdown file and extract the agent's response."""
@@ -150,16 +253,16 @@ def markdown_to_html(md_text):
     html = re.sub(r"^---+$", "<hr class='border-zinc-800 my-6' />", html, flags=re.MULTILINE)
     
     # Convert Headers
-    html = re.sub(r"^###\s+(.+)$", "<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>\g<1></h3>", html, flags=re.MULTILINE)
-    html = re.sub(r"^##\s+(.+)$", "<h2 class='text-xl font-bold text-sky-400 mt-8 mb-4 border-b border-zinc-800 pb-2'>\g<1></h2>", html, flags=re.MULTILINE)
-    html = re.sub(r"^#\s+(.+)$", "<h1 class='text-2xl font-black text-zinc-100 mt-8 mb-6'>\g<1></h1>", html, flags=re.MULTILINE)
+    html = re.sub(r"^###\s+(.+)$", r"<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>\g<1></h3>", html, flags=re.MULTILINE)
+    html = re.sub(r"^##\s+(.+)$", r"<h2 class='text-xl font-bold text-sky-400 mt-8 mb-4 border-b border-zinc-800 pb-2'>\g<1></h2>", html, flags=re.MULTILINE)
+    html = re.sub(r"^#\s+(.+)$", r"<h1 class='text-2xl font-black text-zinc-100 mt-8 mb-6'>\g<1></h1>", html, flags=re.MULTILINE)
     
     # Convert bold and italic
-    html = re.sub(r"\*\*([^*\n]+)\*\*", "<strong class='text-zinc-100 font-semibold'>\g<1></strong>", html)
-    html = re.sub(r"\*([^*\n]+)\*", "<em class='text-zinc-400 italic'>\g<1></em>", html)
+    html = re.sub(r"\*\*([^*\n]+)\*\*", r"<strong class='text-zinc-100 font-semibold'>\g<1></strong>", html)
+    html = re.sub(r"\*([^*\n]+)\*", r"<em class='text-zinc-400 italic'>\g<1></em>", html)
     
     # Convert links
-    html = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", "<a href='\g<2>' target='_blank' class='text-sky-400 hover:text-sky-300 underline inline-flex items-center gap-1 transition-colors'>\g<1> <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>", html)
+    html = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"<a href='\g<2>' target='_blank' class='text-sky-400 hover:text-sky-300 underline inline-flex items-center gap-1 transition-colors'>\g<1> <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>", html)
     
     # Bullet points
     lines = html.split("\n")
@@ -330,6 +433,7 @@ def clean_for_tts(md):
         line = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", line)      # images
         line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)   # link -> anchor text
         line = re.sub(r"https?://\S+", "", line)               # bare urls
+        line = line.replace(" — ", ", ").replace("—", ", ").replace(" – ", ", ")  # dashes -> spoken pause
         line = re.sub(r"[*_`~|#>]+", "", line)                  # md emphasis chars
         line = "".join(ch for ch in line if not _is_emoji(ch))
         line = re.sub(r"\s+", " ", line).strip(" -–—:")
@@ -688,8 +792,9 @@ def build_site():
                 
                 # Convert both to HTML
                 stats_html = render_stats(d)
-                audio_en = generate_audio(pub_en, "en", d, s_type)
-                audio_zh = generate_audio(pub_zh, "zh", d, s_type)
+                narr_en, narr_zh = get_narration(d, s_type, pub_en)
+                audio_en = generate_audio(narr_en or pub_en, "en", d, s_type)
+                audio_zh = generate_audio(narr_zh or pub_zh, "zh", d, s_type)
                 html_en = audio_player(audio_en) + stats_html + markdown_to_html(pub_en)
                 html_zh = audio_player(audio_zh) + stats_html + markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
                 
