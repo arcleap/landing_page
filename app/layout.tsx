@@ -40,9 +40,21 @@ export const metadata: Metadata = {
     description:
       "Deep tech for consumer. Frontier AI, shipped as consumer products.",
   },
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": "/signals/rss.xml" },
+  },
   robots: { index: true, follow: true },
 };
+
+// Cookieless analytics (Plausible-style), gated on a domain placeholder.
+// Unset -> nothing is injected (no broken script tag). See OVERNIGHT-SUMMARY.md
+// for the 3-step turn-on. Keep ARCLEAP_ANALYTICS_DOMAIN in sync with the
+// signals pipeline's env of the same name.
+const analyticsDomain = process.env.ARCLEAP_ANALYTICS_DOMAIN?.trim();
+const analyticsSrc =
+  process.env.ARCLEAP_ANALYTICS_SRC?.trim() ||
+  "https://plausible.io/js/script.js";
 
 const orgJsonLd = {
   "@context": "https://schema.org",
@@ -69,6 +81,9 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+        {analyticsDomain ? (
+          <script defer data-domain={analyticsDomain} src={analyticsSrc} />
+        ) : null}
       </head>
       <body className="min-h-screen flex flex-col bg-ground text-ink">
         {children}
