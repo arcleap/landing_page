@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Signals — Voice Picker</title>
+<style>
+  :root { --ink:#0f172a; --sub:#475569; --sky:#0284c7; --indigo:#4f46e5; --line:#e2e8f0; --bg:#f8fafc; --card:#fff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; }
+  .wrap { max-width:760px; margin:0 auto; padding:32px 20px 64px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  .lead { color:var(--sub); margin:0 0 28px; font-size:.95rem; }
+  h2 { font-size:1.05rem; margin:32px 0 12px; padding-bottom:6px; border-bottom:2px solid var(--line); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:10px 0; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+  .card.cur { border-color:var(--sky); box-shadow:0 0 0 2px rgba(2,132,199,.12); }
+  .card.legacy { opacity:.72; }
+  .name { font-weight:650; font-size:1rem; }
+  .tag { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.02em; padding:2px 7px; border-radius:999px; margin-left:8px; vertical-align:middle; }
+  .tag.cur { background:#e0f2fe; color:#0369a1; }
+  .tag.rec { background:#eef2ff; color:#4338ca; }
+  .tag.old { background:#fef3c7; color:#92400e; }
+  .desc { color:var(--sub); font-size:.86rem; margin:2px 0 10px; }
+  audio { width:100%; height:38px; }
+  .pick { background:#0f172a; color:#e2e8f0; border-radius:12px; padding:16px 18px; margin-top:30px; font-size:.9rem; }
+  .pick code { background:#1e293b; color:#bae6fd; padding:1px 6px; border-radius:5px; }
+  .id { font-family:ui-monospace,Menlo,monospace; font-size:.78rem; color:var(--indigo); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎙️ Signals — pick your voices</h1>
+  <p class="lead">Tap play on each. Tell me which <b>English</b> tone and which <b>中文</b> voice you want, and I'll wire them in + regenerate today's post. All run locally (Kokoro), no cloud.</p>
+
+  <h2>English</h2>
+
+  <div class="card cur">
+    <div class="name">Michael <span class="tag cur">current</span> <span class="id">am_michael</span></div>
+    <div class="desc">American male — what you have now (the one you found a bit "accented").</div>
+    <audio controls preload="none" src="audio/samples/en_am_michael.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">Onyx <span class="tag rec">deep / authoritative</span> <span class="id">am_onyx</span></div>
+    <div class="desc">American male, lower & steadier — news-anchor gravitas.</div>
+    <audio controls preload="none" src="audio/samples/en_am_onyx.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">Adam <span class="id">am_adam</span></div>
+    <div class="desc">American male, neutral & clean — middle of the road.</div>
+    <audio controls preload="none" src="audio/samples/en_am_adam.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">Puck <span class="id">am_puck</span></div>
+    <div class="desc">American male, lighter & younger — more casual energy.</div>
+    <audio controls preload="none" src="audio/samples/en_am_puck.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">George <span class="tag rec">British</span> <span class="id">bm_george</span></div>
+    <div class="desc">British male, RP accent — distinctly different from the current voice.</div>
+    <audio controls preload="none" src="audio/samples/en_bm_george.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">Heart <span class="tag rec">female</span> <span class="id">af_heart</span></div>
+    <div class="desc">American female, warm — Kokoro's flagship voice.</div>
+    <audio controls preload="none" src="audio/samples/en_af_heart.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">Emma <span class="tag rec">British female</span> <span class="id">bf_emma</span></div>
+    <div class="desc">British female, calm & clear.</div>
+    <audio controls preload="none" src="audio/samples/en_bf_emma.mp3"></audio>
+  </div>
+
+  <h2>中文</h2>
+  <p class="lead" style="margin:-4px 0 12px;">These are all <b>Kokoro Mandarin</b> (the real fix — far cleaner than the old engine). The noisy one you heard was the legacy Piper engine, shown last for contrast.</p>
+
+  <div class="card">
+    <div class="name">晓晓 Xiaoxiao <span class="tag rec">女声 · 主播感</span> <span class="id">zf_xiaoxiao</span></div>
+    <div class="desc">Female, warm news-reader tone — closest to a polished anchor.</div>
+    <audio controls preload="none" src="audio/samples/zh_zf_xiaoxiao.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">云扬 Yunyang <span class="tag rec">男声 · 主播感</span> <span class="id">zm_yunyang</span></div>
+    <div class="desc">Male, steady news-anchor delivery.</div>
+    <audio controls preload="none" src="audio/samples/zh_zm_yunyang.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">云健 Yunjian <span class="id">zm_yunjian</span></div>
+    <div class="desc">Male, deeper & more energetic.</div>
+    <audio controls preload="none" src="audio/samples/zh_zm_yunjian.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">晓贝 Xiaobei <span class="id">zf_xiaobei</span></div>
+    <div class="desc">Female, brighter & livelier.</div>
+    <audio controls preload="none" src="audio/samples/zh_zf_xiaobei.mp3"></audio>
+  </div>
+  <div class="card">
+    <div class="name">晓伊 Xiaoyi <span class="id">zf_xiaoyi</span></div>
+    <div class="desc">Female, softer & gentler.</div>
+    <audio controls preload="none" src="audio/samples/zh_zf_xiaoyi.mp3"></audio>
+  </div>
+  <div class="card legacy">
+    <div class="name">Piper (denoised) <span class="tag old">old engine</span> <span class="id">zh_CN-huayan</span></div>
+    <div class="desc">The previous engine, with noise turned down. Here only so you can hear the difference — not recommended.</div>
+    <audio controls preload="none" src="audio/samples/zh_piper_tuned.mp3"></audio>
+  </div>
+
+  <div class="pick">
+    👉 Reply with one <b>EN</b> + one <b>中文</b> pick, e.g. <code>onyx + xiaoxiao</code>. I'll set them and re-voice today's post.
+  </div>
+</div>
+</body>
+</html>
