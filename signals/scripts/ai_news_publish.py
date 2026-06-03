@@ -113,25 +113,26 @@ def translate_markdown(text, target_lang="Chinese"):
     return _translate_gemini(text, target_lang)
 
 
-def get_translated_content(date_str, session_type, original_content):
-    """Retrieve translated content from cache, or translate and save if not cached (with MD5 hash validation)."""
+def get_translated_content(date_str, session_type, original_content, part="full"):
+    """Translate `original_content` to Chinese, cached by content hash. `part` (public/cofounder)
+    keeps each section in its OWN cache file — the public and gated cofounder parts are translated
+    SEPARATELY so the confidential section can never leak into the public ZH text via a mistranslated
+    header. Returns the translated markdown, or "" on empty input / failure."""
     import hashlib
-    cache_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md")
-    hash_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.zh.md.hash")
-    
+    if not original_content or not original_content.strip():
+        return ""
+    cache_file = os.path.join(TRANS_DIR, f"{date_str}-{session_type}.{part}.zh.md")
+    hash_file = cache_file + ".hash"
     current_hash = hashlib.md5((original_content + "::opus-v2").encode("utf-8")).hexdigest()
-    
+
     if os.path.exists(cache_file) and os.path.exists(hash_file) and os.path.getsize(cache_file) > 0:
         try:
-            with open(hash_file, "r", encoding="utf-8") as hf:
-                cached_hash = hf.read().strip()
-            if cached_hash == current_hash:
-                with open(cache_file, "r", encoding="utf-8") as f:
-                    return f.read()
+            if open(hash_file, "r", encoding="utf-8").read().strip() == current_hash:
+                return open(cache_file, "r", encoding="utf-8").read()
         except Exception as e:
             print(f"  Error reading translation cache hash: {e}")
-            
-    print(f"  Chinese cache for {date_str} {session_type} is missing or stale. Translating...")
+
+    print(f"  Translating {date_str} {session_type} [{part}] (Opus)...")
     translated = translate_markdown(original_content, "Chinese")
     if translated:
         try:
@@ -139,23 +140,24 @@ def get_translated_content(date_str, session_type, original_content):
                 f.write(translated)
             with open(hash_file, "w", encoding="utf-8") as hf:
                 hf.write(current_hash)
-            print(f"  ✓ Cached translation and hash for {date_str} {session_type}")
+            print(f"  ✓ Cached {part} translation for {date_str} {session_type}")
             return translated
         except Exception as e:
             print(f"  Error writing translation cache or hash: {e}")
-    return None
+    return ""
 
 NARRATION_DIR = os.path.join(_SIGNALS_DIR, "data", "narration")
 
-_NARRATION_PROMPT = r"""You write the script for a twice-daily spoken AUDIO briefing ("ArcLeap Signals") for a busy AI founder. Turn the Markdown briefing section below into a smooth, natural script that sounds great READ ALOUD — first in English, then in Simplified Chinese.
+_NARRATION_PROMPT = r"""You write the script for a twice-daily spoken AUDIO briefing ("ArcLeap Signals") for an AI founder. Turn the Markdown briefing section below into a COMPLETE, smooth, natural script that sounds great READ ALOUD — first in English, then in Simplified Chinese.
 
-Make it sound like a sharp, calm co-founder talking for ~75 seconds, NOT a list being read out:
-- Flowing spoken prose with natural transitions ("First up,", "The bigger story is,", "On the contrarian side,", "One to watch:"). Short, clear sentences.
-- Synthesize the substance: the few items that matter and WHY, the freshest new-direction spark, and the most interesting contrarian angle. Do not enumerate every bullet.
+COVERAGE IS THE TOP PRIORITY: walk through EVERY item in the briefing — all five top stories, every new-direction spark, every tracked-direction hit, every contrarian-watch item, and every verification flag. Omit NOTHING. Completeness matters more than brevity; the script can be as long as the content requires.
+
+Make it sound like a sharp co-founder walking the founder through the WHOLE briefing, not a list read aloud:
+- Follow the briefing's section order. Open each section with a short spoken transition ("Let's start with the top stories.", "Now, the new-direction sparks.", "On the tracked directions...", "Contrarian watch:", "And a few things to verify before acting."). Then cover EACH item in that section as one or two flowing sentences — the what AND the why-it-matters. Do not merge items together and do not skip any.
 - Spoken style: NO markdown, NO URLs, NO source/citation names, NO emojis, NO hashtags. Spell out symbols for the ear ("$1M" -> "a million dollars", "20%" -> "twenty percent"). Keep product names (GPT-5, Gemini).
 - Open with one orienting line; close with one crisp takeaway. Never say "link" or reference reading.
 
-Chinese version: native idiomatic Mandarin (机器之心 register), Chinese numerals, product/company names kept in English. A natural Chinese script, not a translation of the English wording.
+Chinese version: native idiomatic Mandarin (机器之心 register), Chinese numerals, product/company names kept in English. Cover every item too. A natural Chinese script, not a literal translation of the English wording.
 
 Output EXACTLY:
 <<<EN
@@ -181,7 +183,7 @@ def get_narration(date_str, session_type, public_en):
     os.makedirs(NARRATION_DIR, exist_ok=True)
     if not public_en or len(public_en) < 40:
         return "", ""
-    h = hashlib.md5((public_en + "::narr-v1").encode("utf-8")).hexdigest()
+    h = hashlib.md5((public_en + "::narr-v2-full").encode("utf-8")).hexdigest()
     en_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.en.txt")
     zh_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.zh.txt")
     hash_f = os.path.join(NARRATION_DIR, f"{date_str}-{session_type}.hash")
@@ -561,24 +563,23 @@ def build_site():
         
     sorted_dates = sorted(briefings_by_date.keys(), reverse=True)
     SESSION_ORDER = ["morning", "afternoon"]
-    # One post per (date, session) — morning & afternoon are SEPARATE pages.
-    entries = [(d, s) for d in sorted_dates for s in SESSION_ORDER if s in briefings_by_date[d]]
-    
+    # One archive page per DAY (both sessions stacked); sidebar + index = one entry per day.
+
     # Layout wrapper
     def wrap_template(title, content_html, active_key=None):
         sidebar_items = []
-        for (d, s) in entries:
+        for d in sorted_dates:
             dt_obj = datetime.strptime(d, "%Y-%m-%d")
             pretty_date = dt_obj.strftime("%b %d, %Y")
-            icon = "🌅" if s == "morning" else "🌇"
-            sess_label = "Morning" if s == "morning" else "Afternoon"
-            if f"{d}-{s}" == active_key:
+            sessions = [s for s in SESSION_ORDER if s in briefings_by_date[d]]
+            sub_label = " · ".join("Morning" if s == "morning" else "Afternoon" for s in sessions)
+            if d == active_key:
                 card = "bg-zinc-900/80 border border-zinc-800/60"
                 txt = "text-sky-400 font-bold"
             else:
                 card = "hover:bg-zinc-900/60 border border-transparent"
                 txt = "text-zinc-300 hover:text-sky-400"
-            sidebar_items.append(f'<a href="/signals/archive/{d}-{s}.html" class="block px-3 py-2.5 rounded-xl transition-all {card}"><div class="text-sm font-semibold {txt} transition-all">{pretty_date}</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">{icon} {sess_label}</div></a>')
+            sidebar_items.append(f'<a href="/signals/archive/{d}.html" class="block px-3 py-2.5 rounded-xl transition-all {card}"><div class="text-sm font-semibold {txt} transition-all">{pretty_date}</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">📅 {sub_label}</div></a>')
         sidebar_html = chr(10).join(sidebar_items)
         
         return f"""<!DOCTYPE html>
@@ -769,6 +770,15 @@ def build_site():
 </html>
 """
 
+    # Remove superseded per-session pages (we now write one {date}.html per day).
+    import glob as _glob
+    for _old in (_glob.glob(os.path.join(SITE_DIR, "archive", "*-morning.html"))
+                 + _glob.glob(os.path.join(SITE_DIR, "archive", "*-afternoon.html"))):
+        try:
+            os.remove(_old)
+        except Exception:
+            pass
+
     # Generate daily pages
     for d in sorted_dates:
         day_briefings = briefings_by_date[d]
@@ -783,12 +793,13 @@ def build_site():
                 icon = "🌅" if s_type == "morning" else "🌆"
                 label = "Morning Briefing" if s_type == "morning" else "Afternoon Update"
                 
-                # Fetch Chinese translation
-                translated_md = get_translated_content(d, s_type, brief["content"])
-                
-                # Split content into public and cofounder parts
+                # Split EN FIRST (its header is exact + reliable), then translate each part
+                # SEPARATELY. Translating the full briefing and splitting the result leaked the
+                # gated section whenever Opus rephrased the Chinese header — so we never split
+                # translated text anymore.
                 pub_en, co_en = split_cofounder_content(brief["content"])
-                pub_zh, co_zh = split_cofounder_content(translated_md if translated_md else "")
+                pub_zh = get_translated_content(d, s_type, pub_en, "public")
+                co_zh = get_translated_content(d, s_type, co_en, "cofounder") if co_en else ""
                 
                 # Convert both to HTML
                 stats_html = render_stats(d)
@@ -883,40 +894,52 @@ def build_site():
                     {cofounder_html_section}
                 </section>
                 """
-                raw_materials_html = render_raw_materials(d)
-                page_body = f"""
+                day_content_blocks.append(session_html)
+
+        # One page per DAY (both sessions stacked) — sidebar/index now have one entry per day.
+        if not day_content_blocks:
+            continue
+        sessions_present = [s for s in SESSION_ORDER if s in day_briefings]
+        sess_summary = " + ".join("Morning" if s == "morning" else "Afternoon" for s in sessions_present)
+        raw_materials_html = render_raw_materials(d)
+        page_body = f"""
         <div class="mb-12">
             <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-400 transition-colors group mb-4">
                 <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to Signals Hub
             </a>
             <h1 class="text-4xl font-extrabold tracking-tight text-zinc-100">{pretty_date}</h1>
-            <p class="text-zinc-500 mt-2">{icon} {label}</p>
+            <p class="text-zinc-500 mt-2">📅 {sess_summary}</p>
         </div>
-        {session_html}
+        {chr(10).join(day_content_blocks)}
         {raw_materials_html}
         """
-                page_html = wrap_template(f"ArcLeap AI — {pretty_date} ({label})", page_body, f"{d}-{s_type}")
-                with open(os.path.join(SITE_DIR, "archive", f"{d}-{s_type}.html"), "w", encoding="utf-8") as f:
-                    f.write(page_html)
-            
-    # Generate dedicated index.html (Signals Hub) — one card per (date, session)
+        page_html = wrap_template(f"ArcLeap AI — {pretty_date}", page_body, d)
+        with open(os.path.join(SITE_DIR, "archive", f"{d}.html"), "w", encoding="utf-8") as f:
+            f.write(page_html)
+
+    # Generate dedicated index.html (Signals Hub) — one card per DAY
     archive_cards = []
-    for (d, s) in entries:
+    for d in sorted_dates:
         dt_obj = datetime.strptime(d, "%Y-%m-%d")
         pretty_date = dt_obj.strftime("%B %d, %Y")
-        icon = "🌅" if s == "morning" else "🌇"
-        sess_label = "Morning" if s == "morning" else "Afternoon"
-        badge = ("bg-sky-500/10 text-sky-400 border-sky-500/20" if s == "morning"
-                 else "bg-indigo-500/10 text-indigo-400 border-indigo-500/20")
+        sessions = [s for s in SESSION_ORDER if s in briefings_by_date[d]]
+        badges = []
+        for s in sessions:
+            icon = "🌅" if s == "morning" else "🌇"
+            sess_label = "Morning" if s == "morning" else "Afternoon"
+            bcls = ("bg-sky-500/10 text-sky-400 border-sky-500/20" if s == "morning"
+                    else "bg-indigo-500/10 text-indigo-400 border-indigo-500/20")
+            badges.append(f'<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border {bcls}">{icon} {sess_label}</span>')
+        badges_html = " ".join(badges)
         archive_cards.append(f"""
         <div class="p-6 bg-zinc-900/40 border border-zinc-900 rounded-2xl hover:border-zinc-800 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group">
             <div>
                 <span class="text-xs text-zinc-500 font-bold uppercase tracking-wider">{dt_obj.strftime("%A")}</span>
                 <h3 class="text-xl font-bold text-zinc-100 mt-1">{pretty_date}</h3>
-                <div class="flex gap-2 mt-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border {badge}">{icon} {sess_label}</span></div>
+                <div class="flex gap-2 mt-3 flex-wrap">{badges_html}</div>
             </div>
-            <a href="/signals/archive/{d}-{s}.html" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-zinc-950 bg-sky-400 rounded-xl hover:bg-sky-300 active:scale-95 transition-all">
+            <a href="/signals/archive/{d}.html" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-zinc-950 bg-sky-400 rounded-xl hover:bg-sky-300 active:scale-95 transition-all">
                 Read Intelligence
                 <svg class="w-4 h-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
@@ -963,7 +986,7 @@ def build_site():
     with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
         
-    print(f"✓ Rebuilt: index.html + {len(entries)} per-session archive pages.")
+    print(f"✓ Rebuilt: index.html + {len(sorted_dates)} daily archive pages.")
     
     # Push to GitHub
     git_push_changes()
