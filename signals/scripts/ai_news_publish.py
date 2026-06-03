@@ -151,7 +151,7 @@ def markdown_to_html(md_text):
     
     # Convert Headers
     html = re.sub(r"^###\s+(.+)$", "<h3 class='text-lg font-bold text-zinc-100 mt-6 mb-2'>\g<1></h3>", html, flags=re.MULTILINE)
-    html = re.sub(r"^##\s+(.+)$", "<h2 class='text-xl font-bold text-amber-400 mt-8 mb-4 border-b border-zinc-800 pb-2'>\g<1></h2>", html, flags=re.MULTILINE)
+    html = re.sub(r"^##\s+(.+)$", "<h2 class='text-xl font-bold text-sky-400 mt-8 mb-4 border-b border-zinc-800 pb-2'>\g<1></h2>", html, flags=re.MULTILINE)
     html = re.sub(r"^#\s+(.+)$", "<h1 class='text-2xl font-black text-zinc-100 mt-8 mb-6'>\g<1></h1>", html, flags=re.MULTILINE)
     
     # Convert bold and italic
@@ -159,7 +159,7 @@ def markdown_to_html(md_text):
     html = re.sub(r"\*([^*\n]+)\*", "<em class='text-zinc-400 italic'>\g<1></em>", html)
     
     # Convert links
-    html = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", "<a href='\g<2>' target='_blank' class='text-amber-400 hover:text-amber-300 underline inline-flex items-center gap-1 transition-colors'>\g<1> <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>", html)
+    html = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", "<a href='\g<2>' target='_blank' class='text-sky-400 hover:text-sky-300 underline inline-flex items-center gap-1 transition-colors'>\g<1> <svg class='w-3 h-3 inline' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'></path></svg></a>", html)
     
     # Bullet points
     lines = html.split("\n")
@@ -237,7 +237,7 @@ def render_raw_materials(date_str):
     for e in items:
         conf = e.get("confidence", "Rumor")
         b = badge.get(conf, badge["Rumor"])
-        star = '<span class="text-amber-400 font-bold" title="preserved non-consensus outlier">&#9733;</span> ' if e.get("outlier") else ""
+        star = '<span class="text-sky-400 font-bold" title="preserved non-consensus outlier">&#9733;</span> ' if e.get("outlier") else ""
         url = e.get("url", "#")
         title = (e.get("title", "") or "").replace("<", "&lt;").replace(">", "&gt;")
         rows.append(
@@ -245,14 +245,14 @@ def render_raw_materials(date_str):
             f'<td class="py-1.5 pr-2 align-top whitespace-nowrap"><span class="text-[10px] px-1.5 py-0.5 rounded border {b}">{conf}</span></td>'
             f'<td class="py-1.5 pr-2 align-top text-[10px] text-zinc-500 whitespace-nowrap">{e.get("delta","")}</td>'
             f'<td class="py-1.5 pr-2 align-top text-[10px] text-zinc-500 whitespace-nowrap">i{e.get("importance","")}/e{e.get("edge","")}</td>'
-            f'<td class="py-1.5 align-top">{star}<a href="{url}" target="_blank" class="text-zinc-300 hover:text-amber-400">{title}</a> '
+            f'<td class="py-1.5 align-top">{star}<a href="{url}" target="_blank" class="text-zinc-300 hover:text-sky-400">{title}</a> '
             f'<span class="text-zinc-600 text-[10px]">[{e.get("source","")}]</span></td></tr>'
         )
     summary = (f'{c.get("total", len(items))} items &middot; {c.get("outliers", 0)} &#9733;outliers &middot; '
                f'Confirmed {bc.get("Confirmed",0)} / Reported {bc.get("Reported",0)} / Rumor {bc.get("Rumor",0)}')
     return (
         '<details class="mt-16 group">'
-        '<summary class="cursor-pointer select-none text-sm font-bold text-zinc-400 uppercase tracking-wider hover:text-amber-400 transition-colors flex items-center gap-2">'
+        '<summary class="cursor-pointer select-none text-sm font-bold text-zinc-400 uppercase tracking-wider hover:text-sky-400 transition-colors flex items-center gap-2">'
         '<span class="transition-transform group-open:rotate-90">&#9656;</span> Raw Materials '
         '<span class="text-[10px] font-normal text-zinc-600 normal-case tracking-normal">(Tier 1 &mdash; verified &amp; scored; &#9733; = preserved outlier)</span>'
         '</summary>'
@@ -260,6 +260,41 @@ def render_raw_materials(date_str):
         '<div class="overflow-x-auto"><table class="w-full text-sm border-collapse">'
         + "".join(rows) +
         '</table></div></details>'
+    )
+
+
+def render_stats(date_str):
+    """Source Statistics header, computed deterministically from the Tier-1 enriched sidecar."""
+    path = os.path.join(_SIGNALS_DIR, "data", "enriched", f"{date_str}.json")
+    if not os.path.exists(path):
+        return ""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return ""
+    items = data.get("items", [])
+    if not items:
+        return ""
+    c = data.get("counts", {})
+    bc = c.get("by_confidence", {})
+    hn = sum(1 for e in items if str(e.get("source", "")).startswith("hackernews"))
+    reddit = sum(1 for e in items if str(e.get("source", "")).startswith("reddit/"))
+    subs = len({e.get("source", "") for e in items if str(e.get("source", "")).startswith("reddit/")})
+    x = sum(1 for e in items if str(e.get("source", "")).startswith("x.com"))
+    total = c.get("total", len(items))
+    return (
+        '<div class="mb-8 p-4 rounded-xl bg-zinc-900/40 border border-zinc-900 not-prose">'
+        '<div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">&#128202; Source Statistics</div>'
+        '<div class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-zinc-400">'
+        f'<span><b class="text-zinc-200">{total}</b> unique items</span>'
+        f'<span>HackerNews <b class="text-zinc-200">{hn}</b></span>'
+        f'<span>Reddit <b class="text-zinc-200">{reddit}</b> ({subs} subs)</span>'
+        f'<span>X.com <b class="text-zinc-200">{x}</b></span>'
+        f'<span><b class="text-zinc-200">{c.get("outliers",0)}</b> &#9733;outliers</span>'
+        f'<span>{c.get("new",0)} new / {c.get("ongoing",0)} ongoing</span>'
+        f'<span class="text-zinc-500">Confirmed {bc.get("Confirmed",0)} &middot; Reported {bc.get("Reported",0)} &middot; Rumor {bc.get("Rumor",0)}</span>'
+        '</div></div>'
     )
 
 
@@ -299,35 +334,26 @@ def build_site():
         return
         
     sorted_dates = sorted(briefings_by_date.keys(), reverse=True)
+    SESSION_ORDER = ["morning", "afternoon"]
+    # One post per (date, session) — morning & afternoon are SEPARATE pages.
+    entries = [(d, s) for d in sorted_dates for s in SESSION_ORDER if s in briefings_by_date[d]]
     
     # Layout wrapper
-    def wrap_template(title, content_html, active_date=None):
+    def wrap_template(title, content_html, active_key=None):
         sidebar_items = []
-        for d in sorted_dates:
+        for (d, s) in entries:
             dt_obj = datetime.strptime(d, "%Y-%m-%d")
             pretty_date = dt_obj.strftime("%b %d, %Y")
-            if d == active_date:
-                active_card_class = "bg-zinc-900/80 border border-zinc-800/60"
-                active_text_class = "text-amber-400 font-bold"
+            icon = "🌅" if s == "morning" else "🌇"
+            sess_label = "Morning" if s == "morning" else "Afternoon"
+            if f"{d}-{s}" == active_key:
+                card = "bg-zinc-900/80 border border-zinc-800/60"
+                txt = "text-sky-400 font-bold"
             else:
-                active_card_class = "hover:bg-zinc-900/60 border border-transparent"
-                active_text_class = "text-zinc-300 hover:text-amber-400"
-            
-            sessions_available = []
-            if "morning" in briefings_by_date[d]:
-                sessions_available.append(f'<a href="/signals/archive/{d}.html#morning" class="hover:text-amber-400 hover:underline transition-all">🌅 Morning</a>')
-            if "afternoon" in briefings_by_date[d]:
-                sessions_available.append(f'<a href="/signals/archive/{d}.html#afternoon" class="hover:text-orange-400 hover:underline transition-all">🌇 Afternoon</a>')
-            sessions_str = " <span class='text-zinc-700'>&</span> ".join(sessions_available)
-            
-            sidebar_items.append(f"""
-            <div class="px-3 py-3 rounded-xl transition-all {active_card_class}">
-                <a href="/signals/archive/{d}.html" class="text-sm font-semibold {active_text_class} block transition-all">{pretty_date}</a>
-                <div class="text-[11px] text-zinc-500 mt-1.5 flex gap-1.5 font-medium">{sessions_str}</div>
-            </div>
-            """)
-        
-        sidebar_html = "\n".join(sidebar_items)
+                card = "hover:bg-zinc-900/60 border border-transparent"
+                txt = "text-zinc-300 hover:text-sky-400"
+            sidebar_items.append(f'<a href="/signals/archive/{d}-{s}.html" class="block px-3 py-2.5 rounded-xl transition-all {card}"><div class="text-sm font-semibold {txt} transition-all">{pretty_date}</div><div class="text-[11px] text-zinc-500 mt-1 font-medium">{icon} {sess_label}</div></a>')
+        sidebar_html = chr(10).join(sidebar_items)
         
         return f"""<!DOCTYPE html>
 <html lang="en" class="bg-zinc-950 text-zinc-100">
@@ -351,7 +377,7 @@ def build_site():
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
-        <span class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+        <span class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-500">ArcLeap AI</span>
         <div class="w-6"></div> <!-- spacer to center logo -->
     </div>
 
@@ -372,7 +398,7 @@ def build_site():
         <!-- Brand -->
         <div class="p-6 border-b border-zinc-900 hidden md:block">
             <a href="/" class="flex items-center gap-3">
-                <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI</span>
+                <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-500">ArcLeap AI</span>
             </a>
             <p class="text-xs text-zinc-500 mt-2 font-medium uppercase tracking-wider">Startup Intelligence Hub</p>
         </div>
@@ -391,9 +417,9 @@ def build_site():
         <div class="p-6 border-t border-zinc-900 bg-zinc-950">
             <p class="text-xs font-bold text-zinc-400 mb-2 uppercase tracking-wider">Join 1,000+ Founders</p>
             <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="space-y-2">
-                <input type="email" name="email" required placeholder="Founder email..." class="w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2.5 rounded-xl text-xs focus:outline-none focus:border-amber-400 placeholder-zinc-600 transition-all" />
+                <input type="email" name="email" required placeholder="Founder email..." class="w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2.5 rounded-xl text-xs focus:outline-none focus:border-sky-400 placeholder-zinc-600 transition-all" />
                 <input type="hidden" value="1" name="embed" />
-                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                <button type="submit" class="w-full bg-gradient-to-r from-sky-400 to-indigo-500 text-zinc-950 font-bold py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
                     Subscribe
                 </button>
             </form>
@@ -424,13 +450,13 @@ def build_site():
         if (lang === 'en') {{
             enBlock.classList.remove('hidden');
             zhBlock.classList.add('hidden');
-            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+            btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-sky-400 font-semibold border border-zinc-700 transition-all';
             btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
         }} else {{
             enBlock.classList.add('hidden');
             zhBlock.classList.remove('hidden');
             btnEn.className = 'px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all';
-            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all';
+            btnZh.className = 'px-3 py-1 text-xs rounded-full bg-zinc-800 text-sky-400 font-semibold border border-zinc-700 transition-all';
         }}
         
         // Update cofounder section visibility if decrypted
@@ -539,8 +565,9 @@ def build_site():
                 pub_zh, co_zh = split_cofounder_content(translated_md if translated_md else "")
                 
                 # Convert both to HTML
-                html_en = markdown_to_html(pub_en)
-                html_zh = markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
+                stats_html = render_stats(d)
+                html_en = stats_html + markdown_to_html(pub_en)
+                html_zh = stats_html + markdown_to_html(pub_zh if pub_zh else "*(Translation failed or not available)*")
                 
                 block_id = f"{d}-{s_type}"
                 
@@ -559,10 +586,10 @@ def build_site():
                     <textarea id="data-zh-{block_id}" class="hidden">{b64_zh}</textarea>
                     
                     <!-- Locked/Decryption Container -->
-                    <div id="cofounder-lock-{block_id}" class="mt-8 p-8 bg-zinc-950 border border-amber-500/20 rounded-2xl text-center relative overflow-hidden backdrop-blur-md">
-                        <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent"></div>
+                    <div id="cofounder-lock-{block_id}" class="mt-8 p-8 bg-zinc-950 border border-sky-500/20 rounded-2xl text-center relative overflow-hidden backdrop-blur-md">
+                        <div class="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent"></div>
                         <div class="relative z-10 max-w-sm mx-auto">
-                            <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-500/20">
+                            <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-sky-500/20">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
@@ -570,8 +597,8 @@ def build_site():
                             <h3 class="text-lg font-bold text-zinc-100">Co-founder Channel Locked</h3>
                             <p class="text-xs text-zinc-400 mt-1 mb-4">This section contains subjective, strategic co-founder signals. Enter passcode to decrypt.</p>
                             <div class="flex gap-2 justify-center">
-                                <input type="password" id="passcode-input-{block_id}" placeholder="Enter passcode..." class="bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2 rounded-xl text-xs focus:outline-none focus:border-amber-400 w-48 text-center transition-all" onkeydown="if(event.key === 'Enter') unlockCofounder('{block_id}')" />
-                                <button onclick="unlockCofounder('{block_id}')" class="bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold px-4 py-2 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
+                                <input type="password" id="passcode-input-{block_id}" placeholder="Enter passcode..." class="bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2 rounded-xl text-xs focus:outline-none focus:border-sky-400 w-48 text-center transition-all" onkeydown="if(event.key === 'Enter') unlockCofounder('{block_id}')" />
+                                <button onclick="unlockCofounder('{block_id}')" class="bg-gradient-to-r from-sky-400 to-indigo-500 text-zinc-950 font-bold px-4 py-2 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all">
                                     Decrypt
                                 </button>
                             </div>
@@ -580,16 +607,16 @@ def build_site():
                     </div>
                     
                     <!-- Decrypted Containers -->
-                    <div id="cofounder-content-en-{block_id}" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
-                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                    <div id="cofounder-content-en-{block_id}" class="hidden mt-8 p-8 bg-sky-500/5 border border-sky-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-sky-400 uppercase tracking-widest border-b border-sky-500/10 pb-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             Co-founder Confidential (EN)
                         </div>
                         <div class="prose prose-invert max-w-none text-zinc-200" id="cofounder-body-en-{block_id}"></div>
                     </div>
                     
-                    <div id="cofounder-content-zh-{block_id}" class="hidden mt-8 p-8 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
-                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-amber-500/10 pb-2">
+                    <div id="cofounder-content-zh-{block_id}" class="hidden mt-8 p-8 bg-sky-500/5 border border-sky-500/10 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-xs font-bold text-sky-400 uppercase tracking-widest border-b border-sky-500/10 pb-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             联合创始人机密 (ZH)
                         </div>
@@ -597,7 +624,7 @@ def build_site():
                     </div>
                     """
                 
-                day_content_blocks.append(f"""
+                session_html = f"""
                 <section id="{s_type}" class="scroll-mt-24 mb-16 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-8 backdrop-blur-sm">
                     <!-- Section Header -->
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-zinc-900">
@@ -611,7 +638,7 @@ def build_site():
                         
                         <!-- Language Switcher -->
                         <div class="flex gap-2 self-start md:self-center">
-                            <button onclick="setLanguage('{block_id}', 'en')" id="btn-en-{block_id}" class="px-3 py-1 text-xs rounded-full bg-zinc-800 text-amber-400 font-semibold border border-zinc-700 transition-all">English 🇺🇸</button>
+                            <button onclick="setLanguage('{block_id}', 'en')" id="btn-en-{block_id}" class="px-3 py-1 text-xs rounded-full bg-zinc-800 text-sky-400 font-semibold border border-zinc-700 transition-all">English 🇺🇸</button>
                             <button onclick="setLanguage('{block_id}', 'zh')" id="btn-zh-{block_id}" class="px-3 py-1 text-xs rounded-full bg-zinc-900 text-zinc-500 font-medium hover:bg-zinc-800 transition-all">中文 🇨🇳</button>
                         </div>
                     </div>
@@ -626,62 +653,52 @@ def build_site():
                     
                     {cofounder_html_section}
                 </section>
-                """)
-                
-        day_blocks_str = "\n".join(day_content_blocks)
-        raw_materials_html = render_raw_materials(d)
-        combined_html = f"""
+                """
+                raw_materials_html = render_raw_materials(d)
+                page_body = f"""
         <div class="mb-12">
-            <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors group mb-4">
+            <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-400 transition-colors group mb-4">
                 <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to Signals Hub
             </a>
             <h1 class="text-4xl font-extrabold tracking-tight text-zinc-100">{pretty_date}</h1>
-            <p class="text-zinc-500 mt-2">Comprehensive AI market telemetry and strategic startup signals.</p>
+            <p class="text-zinc-500 mt-2">{icon} {label}</p>
         </div>
-        {day_blocks_str}
+        {session_html}
         {raw_materials_html}
         """
-        
-        page_html = wrap_template(f"ArcLeap AI Briefing — {pretty_date}", combined_html, d)
-        
-        # Save to archive
-        with open(os.path.join(SITE_DIR, "archive", f"{d}.html"), "w", encoding="utf-8") as f:
-            f.write(page_html)
+                page_html = wrap_template(f"ArcLeap AI — {pretty_date} ({label})", page_body, f"{d}-{s_type}")
+                with open(os.path.join(SITE_DIR, "archive", f"{d}-{s_type}.html"), "w", encoding="utf-8") as f:
+                    f.write(page_html)
             
-    # Generate dedicated index.html (Signals Hub)
+    # Generate dedicated index.html (Signals Hub) — one card per (date, session)
     archive_cards = []
-    for d in sorted_dates:
+    for (d, s) in entries:
         dt_obj = datetime.strptime(d, "%Y-%m-%d")
         pretty_date = dt_obj.strftime("%B %d, %Y")
-        day_briefings = briefings_by_date[d]
-        
-        sessions_available = []
-        if "morning" in day_briefings:
-            sessions_available.append("<span class='inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20'>🌅 Morning</span>")
-        if "afternoon" in day_briefings:
-            sessions_available.append("<span class='inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-500/10 text-orange-400 border border-orange-500/20'>🌇 Afternoon</span>")
-        sessions_str = " ".join(sessions_available)
-        
+        icon = "🌅" if s == "morning" else "🌇"
+        sess_label = "Morning" if s == "morning" else "Afternoon"
+        badge = ("bg-sky-500/10 text-sky-400 border-sky-500/20" if s == "morning"
+                 else "bg-indigo-500/10 text-indigo-400 border-indigo-500/20")
         archive_cards.append(f"""
         <div class="p-6 bg-zinc-900/40 border border-zinc-900 rounded-2xl hover:border-zinc-800 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group">
             <div>
                 <span class="text-xs text-zinc-500 font-bold uppercase tracking-wider">{dt_obj.strftime("%A")}</span>
                 <h3 class="text-xl font-bold text-zinc-100 mt-1">{pretty_date}</h3>
-                <div class="flex gap-2 mt-3">{sessions_str}</div>
+                <div class="flex gap-2 mt-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border {badge}">{icon} {sess_label}</span></div>
             </div>
-            <a href="/signals/archive/{d}.html" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-zinc-950 bg-amber-400 rounded-xl hover:bg-amber-300 active:scale-95 transition-all">
+            <a href="/signals/archive/{d}-{s}.html" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-zinc-950 bg-sky-400 rounded-xl hover:bg-sky-300 active:scale-95 transition-all">
                 Read Intelligence
                 <svg class="w-4 h-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
         </div>
         """)
-    archive_cards_html = "\n".join(archive_cards)
+    archive_cards_html = chr(10).join(archive_cards)
 
     index_content = f"""
     <!-- Hero Section -->
     <div class="text-center py-12 border-b border-zinc-900 mb-12">
-        <h1 class="text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ArcLeap AI Signals</h1>
+        <h1 class="text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-500">ArcLeap AI Signals</h1>
         <p class="text-lg text-zinc-400 max-w-xl mx-auto mt-4 leading-relaxed">
             Twice-daily technical market telemetry, non-consensus startup opportunities, and developer sentiment shifts.
         </p>
@@ -689,16 +706,16 @@ def build_site():
 
     <!-- Newsletter Subscription Card -->
     <div class="p-8 bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800/80 rounded-2xl shadow-xl mb-16 relative overflow-hidden group">
-        <div class="absolute -right-16 -top-16 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl group-hover:bg-amber-400/10 transition-colors"></div>
+        <div class="absolute -right-16 -top-16 w-32 h-32 bg-sky-400/5 rounded-full blur-3xl group-hover:bg-sky-400/10 transition-colors"></div>
         <div class="max-w-2xl mx-auto text-center relative z-10">
             <h2 class="text-2xl font-bold text-zinc-100">Subscribe to Daily Signals</h2>
             <p class="text-sm text-zinc-400 mt-2 mb-6">
                 Receive the morning briefing and afternoon market intel directly in your inbox. No fluff, just hard signals.
             </p>
             <form action="https://buttondown.email/api/emails/embed-subscribe/arcleap" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/arcleap', 'popupwindow')" class="flex flex-col sm:flex-row gap-3">
-                <input type="email" name="email" required placeholder="Enter your email address..." class="bg-zinc-950 border border-zinc-800 text-zinc-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 flex-1 min-w-0 placeholder-zinc-600 transition-all" />
+                <input type="email" name="email" required placeholder="Enter your email address..." class="bg-zinc-950 border border-zinc-800 text-zinc-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 flex-1 min-w-0 placeholder-zinc-600 transition-all" />
                 <input type="hidden" value="1" name="embed" />
-                <button type="submit" class="bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 font-bold px-6 py-3 rounded-xl text-sm hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
+                <button type="submit" class="bg-gradient-to-r from-sky-400 to-indigo-500 text-zinc-950 font-bold px-6 py-3 rounded-xl text-sm hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
                     Subscribe
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
@@ -717,7 +734,7 @@ def build_site():
     with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
         
-    print(f"✓ Rebuilt completed. Generated dedicated index.html and {len(sorted_dates)} daily archive pages with dual-language support!")
+    print(f"✓ Rebuilt: index.html + {len(entries)} per-session archive pages.")
     
     # Push to GitHub
     git_push_changes()
