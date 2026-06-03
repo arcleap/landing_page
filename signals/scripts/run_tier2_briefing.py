@@ -32,10 +32,9 @@ CLAUDE_MODEL = "opus"          # Opus 4.8 per spec (Tier 2/3 heavy reasoning)
 MAX_DIGEST_ITEMS = 160         # outliers (capped) + top-signal fill; full set stays in the sidecar
 OUTLIER_CAP = 90               # max outliers fed to Opus (the sidecar always preserves all of them)
 
-COVERAGE = """Tracked directions (Coverage Map) — flag VALIDATORS and THREATS against these:
-- #22 Animated Life (diaspora legacy films) — LIVE bet, meaning-pass, whole-self (T+H)
-- #18 VPA/digital twins · C Cognitive Sovereignty (personal AI infra) · #9 AI-era anxiety/human value · #11 Arm the Super Individuals — the human-AI frontier (T+H) = Jin's real fit
-- #17 Agent-Native Computing/ATCP · #19 Confidential AI + RL Verification · #15 Agents-World infra · B Financial infra for AI-as-asset — infra plays: high ceiling but meaning-thin / technical-only"""
+COVERAGE = """Tracked directions — REFERENCE ONLY. Cite one ONLY on a strong, direct hit. NEVER force-fit, and never relate a signal to these just to fill space. Most signals map to NONE of these — that is expected and fine. Your priority is surfacing genuinely NEW directions, not re-validating the existing board.
+- Human-AI frontier: #22 Animated Life · #18 digital twins · C Cognitive Sovereignty · #9 human-value · #11 super-individuals
+- Infra (historically over-surfaced — do NOT default here): #17 ATCP · #19 Confidential AI + RL Verification · #15 Agents-World · B AI-as-asset finance"""
 
 PROMPT = r"""You are "Leo", Lead Intelligence Analyst and co-founder voice at ArcLeap Research Lab, writing Jin's twice-daily Founder Reading Notes for {DATE} ({LABEL}).
 
@@ -60,19 +59,22 @@ Output EXACTLY this markdown, starting with "## Response":
 ### 1. Top 5 — what actually matters today
 Ranked by importance × relevance-to-Jin. Each = **one line what** + *one line so-what-for-me*, with a clickable [source](url). Prefer Confirmed/Reported; if a pick rests on a Rumor, flag it.
 
-### 2. Coverage-Map hits
-Map today's signals onto the tracked directions. State **VALIDATORS** (support a direction) AND **THREATS** (competitor/substrate risk) explicitly, each with [source](url). If none, write "none today."
+### 2. New-direction sparks
+Plainly flag any signal that could seed a GENUINELY NEW direction — judged on its own merit, NOT mapped to the tracked board. One line: the spark + why it's non-obvious + [source](url). If nothing fresh stands out, write "nothing new today" — do not manufacture.
 
-### 3. Contrarian watch
+### 3. Tracked-direction hits — only genuine, direct ones
+Cite a tracked direction ONLY when a signal *directly and materially* validates or threatens it (VALIDATOR / THREAT, with [source](url)). Do NOT force-fit or relate signals to the tracked list to fill space — most days this is 0–2 items, often "none today." Never stretch.
+
+### 4. Contrarian watch
 Consensus-vs-edge divergences worth tracking before they're priced in. Draw primarily from [OUTLIER] / high-edge items — these are the protected non-consensus signals; do NOT let them get buried under the consensus stories.
 
-### 4. Verification flags
+### 5. Verification flags
 Big claims still [Rumor] (funding amounts, benchmarks, IPOs, acquisitions): list as "⚠️ do not act on yet — needs primary source", with [source].
 
 ## 🕵️‍♂️ Co-founder Confidential
 
 ### Opportunity convergence (candidates — UNVALIDATED)
-ONLY surface a wedge where >=2 INDEPENDENT sources converge on the SAME pain (pattern extraction). Run each survivor through Jin's bar: meaning gate, whole-self T+H edge, on-ramp, ceiling. DROP one-step-obvious ideas an LLM would propose unprompted (Gate 13). For each survivor give: the pain, the >=2 [sources](url), the bar read, and why it's non-consensus. Mark every one "candidate — needs Tier-3 /brainstorm + customer interviews." If nothing clears the bar, say so plainly — do NOT manufacture opportunities.
+ONLY surface a wedge where >=2 INDEPENDENT sources converge on the SAME pain (pattern extraction). Run each survivor through Jin's bar: meaning gate, whole-self T+H edge, on-ramp, ceiling. DROP one-step-obvious ideas an LLM would propose unprompted (Gate 13). For each survivor give: the pain, the >=2 [sources](url), the bar read, and why it's non-consensus. Judge each on its own merit; do NOT shoehorn it into a tracked direction unless it genuinely is one. Mark every one "candidate — needs Tier-3 /brainstorm + customer interviews." If nothing clears the bar, say so plainly — do NOT manufacture opportunities.
 
 ### The one move
 The single highest-conviction strategic action for ArcLeap from today's telemetry. Sharp, private, co-founder-DM tone.
