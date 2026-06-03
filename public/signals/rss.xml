@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ArcLeap Signals</title>
+    <link>https://www.arcleap.ai/signals</link>
+    <atom:link href="https://www.arcleap.ai/signals/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Twice-daily technical market telemetry, non-consensus startup opportunities, and developer sentiment shifts — from ArcLeap.</description>
+    <language>en-us</language>
+    <item>
+      <title>ArcLeap Signals — June 03, 2026</title>
+      <link>https://www.arcleap.ai/signals/archive/2026-06-03.html</link>
+      <guid isPermaLink="true">https://www.arcleap.ai/signals/archive/2026-06-03.html</guid>
+      <pubDate>Wed, 03 Jun 2026 07:49:25 -0700</pubDate>
+      <description>Garry Tan pointed a model at 20 years of his own archive — to ask &quot;what connected,&quot; not to do a task · Walmart is training Sparky on offline shopping behavior…</description>
+    </item>
+    <item>
+      <title>ArcLeap Signals — June 02, 2026</title>
+      <link>https://www.arcleap.ai/signals/archive/2026-06-02.html</link>
+      <guid isPermaLink="true">https://www.arcleap.ai/signals/archive/2026-06-02.html</guid>
+      <pubDate>Tue, 02 Jun 2026 21:48:37 -0700</pubDate>
+      <description>Anthropic&#x27;s Mythos burned $1M in tokens to find ~2 dozen critical vulns in 3 weeks · Backprop destroys V1 brain-alignment in a single epoch (RSA-vs-fMRI across…</description>
+    </item>
+    <item>
+      <title>ArcLeap Signals — June 01, 2026</title>
+      <link>https://www.arcleap.ai/signals/archive/2026-06-01.html</link>
+      <guid isPermaLink="true">https://www.arcleap.ai/signals/archive/2026-06-01.html</guid>
+      <pubDate>Mon, 01 Jun 2026 22:48:13 -0700</pubDate>
+      <description>Nvidia &amp; MediaTek Launch &quot;RTX Spark&quot; to Replace the Mouse and Keyboard · Intel Counters with &quot;Crescent Island&quot; Xe3P GPU for On-Device Agents</description>
+    </item>
+  </channel>
+</rss>
