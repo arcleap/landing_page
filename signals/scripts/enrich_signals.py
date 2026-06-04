@@ -29,6 +29,8 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 FLASH_MODELS = ["gemini-3.5-flash", "gemini-2.5-flash"]   # primary + fallback
 BATCH_SIZE = 60
+DELTA_WINDOW_DAYS = 7                      # "ONGOING" lookback, INCLUDING today's earlier sessions
+SESSION_ORDER = ["morning", "afternoon"]
 
 # ── Verification (rule-based, no LLM) ──────────────────────────────────────────
 PRIMARY_HINTS = (
@@ -88,12 +90,14 @@ def fingerprint(t):
     return hashlib.md5(norm_title(t).encode("utf-8")).hexdigest()[:16]
 
 
-def load_prior_fingerprints(today_iso, days=7):
+def load_prior_fingerprints(today_iso, session=None, days=DELTA_WINDOW_DAYS):
+    """Fingerprints already seen in the dedup window = the prior `days` of raw scrapes
+    PLUS what today's EARLIER sessions already surfaced (so the afternoon marks the
+    morning's items ONGOING instead of re-hyping them)."""
     seen = set()
     base = date.fromisoformat(today_iso)
-    for i in range(1, days + 1):
-        d = (base - timedelta(days=i)).isoformat()
-        fp = os.path.join(RAW_DIR, f"{d}.jsonl")
+    for i in range(1, days + 1):  # prior calendar days (raw)
+        fp = os.path.join(RAW_DIR, f"{(base - timedelta(days=i)).isoformat()}.jsonl")
         if os.path.exists(fp):
             with open(fp) as f:
                 for line in f:
@@ -101,6 +105,16 @@ def load_prior_fingerprints(today_iso, days=7):
                         seen.add(fingerprint(json.loads(line).get("title", "")))
                     except Exception:
                         pass
+    for s in SESSION_ORDER:  # today's earlier sessions (their enriched output)
+        if session and s == session.lower():
+            break
+        ef = os.path.join(OUT_DIR, f"{today_iso}-{s}.json")
+        if os.path.exists(ef):
+            try:
+                for it in json.load(open(ef, encoding="utf-8")).get("items", []):
+                    seen.add(fingerprint(it.get("title", "")))
+            except Exception:
+                pass
     return seen
 
 
@@ -229,7 +243,7 @@ def main():
                 by_fp[fp] = it
 
     items = list(by_fp.items())
-    prior = load_prior_fingerprints(today)
+    prior = load_prior_fingerprints(today, label)
 
     api_key = load_google_key()
     raw_list = [it for _, it in items]
@@ -292,7 +306,7 @@ def main():
         "counts": counts,
         "items": enriched,
     }
-    out_path = os.path.join(OUT_DIR, f"{today}.json")
+    out_path = os.path.join(OUT_DIR, f"{today}-{label.lower()}.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(sidecar, f, ensure_ascii=False, indent=2)
     print(f"[enrich] {out_path}: {counts['total']} items "

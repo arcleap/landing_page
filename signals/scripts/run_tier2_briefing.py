@@ -58,6 +58,7 @@ Output EXACTLY this markdown, starting with "## Response":
 
 ### 1. Top 5 — what actually matters today
 A bulleted list of EXACTLY 5 items, each on its own line starting with "- ". Format each bullet as: **<headline>** — <one-line so-what-for-me> [source](url). One signal per bullet; do NOT merge them into a paragraph or a single block. Prefer Confirmed/Reported; if a pick rests on a Rumor, flag it.
+FRESHNESS — this is the {LABEL} edition: LEAD with delta=NEW signals. Include a delta=ONGOING item ONLY if it materially advanced since earlier today, and say what changed. Do NOT re-list stories an earlier session already led with — surface what is genuinely new this {LABEL}.
 
 ### 2. New-direction sparks
 Plainly flag any signal that could seed a GENUINELY NEW direction — judged on its own merit, NOT mapped to the tracked board. One line: the spark + why it's non-obvious + [source](url). If nothing fresh stands out, write "nothing new today" — do not manufacture.
@@ -95,11 +96,13 @@ Rules: keep clickable [anchor](url) links from the feed. High-density, Jin reads
 
 
 def ensure_sidecar(today, label):
-    path = os.path.join(ENRICHED_DIR, f"{today}.json")
+    # Per-SESSION sidecar so the afternoon enriches its OWN fresh data (the old per-date
+    # file was created by the morning run and reused — that caused the dup briefing).
+    path = os.path.join(ENRICHED_DIR, f"{today}-{label.lower()}.json")
     if not os.path.exists(path):
-        print(f"[tier2] enriched sidecar missing — running enrich_signals.py", file=sys.stderr)
-        subprocess.run([sys.executable, os.path.join(_SCRIPT_DIR, "enrich_signals.py"), "--label", label],
-                       check=False)
+        print(f"[tier2] enriched sidecar missing for {label} — running enrich_signals.py", file=sys.stderr)
+        subprocess.run([sys.executable, os.path.join(_SCRIPT_DIR, "enrich_signals.py"),
+                        "--label", label, "--date", today], check=False)
     return path
 
 
@@ -203,12 +206,34 @@ CANDIDATES (JSON):
 """
 
 
-def monica_redteam(cands):
-    """Independent adversarial second pass over the convergence candidates (additive, non-fatal)."""
-    if not cands:
-        return ""
+MONICA_NOCAND_PROMPT = r"""You are "Monica", ArcLeap's adversarial red-team analyst — deliberately skeptical; your job is to KILL weak thinking, not encourage it.
+
+Today's Tier-2 filter surfaced NO convergence candidate that cleared the bar. Do NOT rubber-stamp that — red-team the day's actual reasoning below:
+
+1. **The "no-go" verdict** — is "nothing clears the bar" right, or did the analyst dismiss a real wedge? Name it if so.
+2. **The new-direction spark(s)** — attack each: wrapper test (can ChatGPT/Gemini already do it?), one-step-obvious (Gate 13), who is better-positioned than Jin, and is the demand real (>=2 independent sources) or a single hot take?
+3. **The "one move"** — is the proposed probe the cheapest decisive test, or busywork? What would disprove it fastest?
+4. **Edge-inflation audit** — treat any "Jin's edge / your fit / T+H" claim as 3/5 until proven; name who could out-execute him.
+5. **Verdict** — one line: 🔴 the spark is a trap · 🟡 NEEDS-EVIDENCE (the single customer-interview question that decides it) · 🟢 worth the probe (the one non-consensus reason).
+
+Output concise markdown starting EXACTLY with "### 🔴 Monica Red-Team — adversarial check". No preamble.
+
+TODAY'S READING NOTES:
+{NOTES}
+"""
+
+
+def monica_redteam(cands, fallback_notes=""):
+    """Adversarial second pass — ALWAYS runs (additive, non-fatal). With candidates it red-teams
+    them; with none it red-teams the day's new-direction spark + 'one move' + the no-go verdict,
+    so the skeptical lens is present every session."""
     try:
-        prompt = MONICA_PROMPT.replace("{CANDS}", json.dumps(cands, ensure_ascii=False, indent=2))
+        if cands:
+            prompt = MONICA_PROMPT.replace("{CANDS}", json.dumps(cands, ensure_ascii=False, indent=2))
+        elif fallback_notes.strip():
+            prompt = MONICA_NOCAND_PROMPT.replace("{NOTES}", fallback_notes)
+        else:
+            return ""
         report = run_claude(prompt, timeout=400)
         if report and "Monica" in report:
             return report
@@ -257,7 +282,7 @@ def main():
 
     # Additive: independent Monica red-team of the candidates, appended INSIDE the
     # passcode-gated Co-founder Confidential section (it follows that header in `clean`).
-    monica = monica_redteam(cands)
+    monica = monica_redteam(cands, fallback_notes=clean)
     if monica:
         clean = clean.rstrip() + "\n\n---\n\n" + monica.strip()
 

@@ -412,9 +412,19 @@ def sync_briefings():
                 print(f"  Briefing sync failed for {src}: {e}")
 
 
-def render_raw_materials(date_str):
+def _enriched_path(date_str, session=None):
+    """Per-session enriched sidecar (`<date>-<session>.json`), falling back to the legacy per-date file."""
+    base = os.path.join(_SIGNALS_DIR, "data", "enriched")
+    if session:
+        p = os.path.join(base, f"{date_str}-{session}.json")
+        if os.path.exists(p):
+            return p
+    return os.path.join(base, f"{date_str}.json")
+
+
+def render_raw_materials(date_str, session=None):
     """Bottom-of-page collapsible: the Tier-1 verified, dual-scored, outlier-tagged raw signal set."""
-    path = os.path.join(_SIGNALS_DIR, "data", "enriched", f"{date_str}.json")
+    path = _enriched_path(date_str, session)
     if not os.path.exists(path):
         return ""
     try:
@@ -460,9 +470,9 @@ def render_raw_materials(date_str):
     )
 
 
-def render_stats(date_str):
+def render_stats(date_str, session=None):
     """Source Statistics header, computed deterministically from the Tier-1 enriched sidecar."""
-    path = os.path.join(_SIGNALS_DIR, "data", "enriched", f"{date_str}.json")
+    path = _enriched_path(date_str, session)
     if not os.path.exists(path):
         return ""
     try:
@@ -656,7 +666,7 @@ def audio_player(url):
             f'<audio controls preload="none" class="w-full h-10" src="{url}"></audio></div>')
 
 
-def prune_audio(days=14):
+def prune_audio(days=60):   # ~2 months retention for public mp3 + encrypted .enc
     import time
     cutoff = time.time() - days * 86400
     for sub in ("audio", "vault"):   # public mp3s AND encrypted confidential .enc
@@ -1026,7 +1036,7 @@ def build_site():
     # Ingest latest Hermes briefings into the repo store, then build from the repo copy
     sync_briefings()
     os.makedirs(os.path.join(SITE_DIR, "audio"), exist_ok=True)
-    prune_audio(14)
+    prune_audio(60)
     
     # Collect all briefings
     briefings_by_date = {}
@@ -1364,7 +1374,7 @@ def build_site():
                 co_zh = get_translated_content(d, s_type, co_en, "cofounder") if co_en else ""
                 
                 # Convert both to HTML
-                stats_html = render_stats(d)
+                stats_html = render_stats(d, s_type)
                 narr_en, narr_zh = get_narration(d, s_type, pub_en)
                 audio_en = generate_audio(narr_en or pub_en, "en", d, s_type)
                 audio_zh = generate_audio(narr_zh or pub_zh, "zh", d, s_type)
@@ -1469,7 +1479,7 @@ def build_site():
             continue
         sessions_present = [s for s in SESSION_ORDER if s in day_briefings]
         sess_summary = " + ".join("Morning" if s == "morning" else "Afternoon" for s in sessions_present)
-        raw_materials_html = render_raw_materials(d)
+        raw_materials_html = render_raw_materials(d, sessions_present[-1] if sessions_present else None)
         page_body = f"""
         <div class="mb-12">
             <a href="/signals" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-400 transition-colors group mb-4">

@@ -124,7 +124,7 @@ it would re-inject the Anthropic key and silently switch to per-token. Tier-1 en
 - **Env vars:** `SIGNALS_NO_PUSH=1` (dry-run), `SIGNALS_TTS_MAX_PER_RUN=N` (cap audio synths/run; Kokoro is slow —
   default 2; raise for backfills), `SIGNALS_GATE_PASSCODE`, `SIGNALS_TTS_PY`, `SIGNALS_TTS_VOICES`.
 - **Deploy = git push** of `public/signals` (the publisher does this autonomously unless `SIGNALS_NO_PUSH=1`).
-- **Retention:** `prune_audio(14)` removes `audio/` mp3s and `vault/` .enc older than 14 days.
+- **Retention:** `prune_audio(60)` removes `audio/` mp3s and `vault/` .enc older than ~2 months. NOTE: these are git-committed, so prune frees the working tree but git *history* still retains every blob (~20 MB/day) — host audio off-repo (Blob/S3) if `.git` growth becomes a problem.
 - Legacy: `~/.hermes/scripts/ai_news_scraper.py` (predecessor, unused).
 
 ## Shareability & distribution
