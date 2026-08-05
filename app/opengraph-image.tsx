@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap — From intent to verified build";
+export const alt = "ArcLeap — AI for the physical world";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -13,8 +13,8 @@ export default function OpenGraphImage() {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "#071017",
-        color: "#f3f5f3",
+        background: "#0b0b0c",
+        color: "#f4f1ea",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -24,31 +24,32 @@ export default function OpenGraphImage() {
           inset: 0,
           display: "flex",
           backgroundImage:
-            "linear-gradient(rgba(62,184,255,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(62,184,255,.10) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+            "radial-gradient(circle at 76% 38%, rgba(243,184,91,.18), transparent 22%), radial-gradient(circle at 82% 56%, rgba(126,140,255,.14), transparent 28%)",
+          backgroundSize: "100% 100%",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 76,
-          right: 90,
+          top: 122,
+          right: 36,
           display: "flex",
-          width: 320,
-          height: 320,
-          border: "2px solid #3eb8ff",
-          transform: "rotate(8deg)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: 142,
-          right: 154,
-          display: "flex",
-          width: 190,
+          width: 470,
           height: 190,
-          border: "1px solid rgba(62,184,255,.65)",
+          border: "2px solid #f3b85b",
+          borderRadius: 999,
+          transform: "rotate(-18deg)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 190,
+          right: 126,
+          display: "flex",
+          width: 330,
+          height: 150,
+          border: "1px solid rgba(126,140,255,.75)",
           borderRadius: 999,
         }}
       />
@@ -68,7 +69,7 @@ export default function OpenGraphImage() {
               display: "flex",
               width: 12,
               height: 12,
-              border: "1px solid #3eb8ff",
+              border: "1px solid #f3b85b",
               transform: "rotate(45deg)",
             }}
           />
@@ -84,11 +85,11 @@ export default function OpenGraphImage() {
               letterSpacing: -3,
             }}
           >
-            From intent to
-            <span>verified build.</span>
+            AI for the
+            <span>physical world.</span>
           </div>
-          <div style={{ marginTop: 30, fontSize: 22, color: "#aeb9bf" }}>
-            The compiler between wanting and making.
+          <div style={{ marginTop: 30, fontSize: 22, color: "#9a968d" }}>
+            An independent company building a family of AI-native products.
           </div>
         </div>
       </div>

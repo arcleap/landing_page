@@ -1,8 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { Positioning } from "@/components/Positioning";
-import { Process } from "@/components/Process";
-import { Builders } from "@/components/Builders";
+import { Direction } from "@/components/Direction";
+import { Portfolio } from "@/components/Portfolio";
 import { Company } from "@/components/Company";
 import { Footer } from "@/components/Footer";
 
@@ -12,9 +11,8 @@ export default function Page() {
       <Nav />
       <main id="main-content" className="flex-1">
         <Hero />
-        <Process />
-        <Positioning />
-        <Builders />
+        <Direction />
+        <Portfolio />
         <Company />
       </main>
       <Footer />

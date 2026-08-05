@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --color-ground: #071017;
-  --color-panel: #0c1821;
-  --color-ink: #f3f5f3;
-  --color-ink-dim: #aeb9bf;
-  --color-ink-faint: #71848f;
-  --color-rule: #20313b;
-  --color-accent: #3eb8ff;
-  --color-accent-2: #80d5ff;
+  --color-ground: #0b0b0c;
+  --color-panel: #121214;
+  --color-ink: #f4f1ea;
+  --color-ink-dim: #b2ada3;
+  --color-ink-faint: #8a857b;
+  --color-rule: #2a2926;
+  --color-accent: #f3b85b;
+  --color-accent-2: #9aa3ff;
 
-  --max-w: 1280px;
+  --max-w: 1200px;
   color-scheme: dark;
 }
 
@@ -24,7 +24,7 @@
   --color-accent: var(--color-accent);
   --color-accent-2: var(--color-accent-2);
 
-  --font-display: var(--font-inter);
+  --font-display: var(--font-fraunces);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
 }
@@ -44,9 +44,9 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   background:
-    radial-gradient(circle at 72% 8%, rgba(62, 184, 255, 0.07), transparent 28rem),
+    radial-gradient(circle at 76% 7%, rgba(243, 184, 91, 0.055), transparent 30rem),
     var(--color-ground);
 }
 
@@ -82,34 +82,36 @@ body {
 
 @utility text-display {
   font-family: var(--font-display);
-  font-size: clamp(3.35rem, 7.25vw, 6.9rem);
-  line-height: 0.94;
-  letter-spacing: -0.065em;
-  font-weight: 540;
+  font-size: clamp(3.45rem, 7.4vw, 6.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  font-weight: 400;
+  font-optical-sizing: auto;
 }
 
 @utility text-h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.35rem, 4.8vw, 4.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.05em;
-  font-weight: 520;
+  font-size: clamp(2.5rem, 4.8vw, 4.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+  font-optical-sizing: auto;
 }
 
 @utility text-h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
   line-height: 1.12;
-  letter-spacing: -0.035em;
-  font-weight: 520;
+  letter-spacing: -0.025em;
+  font-weight: 400;
 }
 
 @utility text-h3 {
   font-family: var(--font-display);
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   line-height: 1.25;
-  letter-spacing: -0.025em;
-  font-weight: 520;
+  letter-spacing: -0.015em;
+  font-weight: 400;
 }
 
 @utility text-body {
@@ -169,75 +171,90 @@ body {
 
 .primary-cta:hover {
   background: var(--color-accent-2);
-  box-shadow: 0 0 0 5px rgba(62, 184, 255, 0.1);
+  box-shadow: 0 0 0 5px rgba(243, 184, 91, 0.1);
 }
 
-.blueprint-panel {
+.world-field {
   color: var(--color-accent);
-  border: 1px solid rgba(62, 184, 255, 0.28);
-  background: rgba(8, 22, 31, 0.72);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.015),
-    0 32px 90px rgba(0, 0, 0, 0.24);
+  isolation: isolate;
 }
 
-.blueprint-panel::before,
-.blueprint-panel::after {
+.world-field::before,
+.world-field::after {
   content: "";
   position: absolute;
-  z-index: 2;
-  width: 2rem;
-  height: 2rem;
+  inset: 9%;
+  border-radius: 50%;
   pointer-events: none;
 }
 
-.blueprint-panel::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--color-accent);
-  border-left: 2px solid var(--color-accent);
+.world-field::before {
+  border: 1px solid rgba(243, 184, 91, 0.13);
+  transform: rotate(22deg) scaleY(0.56);
+  opacity: 0.9;
 }
 
-.blueprint-panel::after {
-  right: -1px;
-  bottom: -1px;
-  border-right: 2px solid var(--color-accent);
-  border-bottom: 2px solid var(--color-accent);
+.world-field::after {
+  inset: 19%;
+  border: 1px solid rgba(126, 140, 255, 0.2);
+  transform: rotate(-38deg) scaleY(0.68);
+  opacity: 0.8;
 }
 
-.blueprint-grid {
-  opacity: 0.55;
-  background-image:
-    linear-gradient(rgba(62, 184, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(62, 184, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(rgba(62, 184, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(62, 184, 255, 0.03) 1px, transparent 1px);
-  background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+.world-halo {
+  background: radial-gradient(circle, rgba(243, 184, 91, 0.13), rgba(126, 140, 255, 0.06) 38%, transparent 70%);
+  filter: blur(18px);
+  opacity: 0.9;
 }
 
-.blueprint-glow {
-  background: radial-gradient(circle at 60% 52%, rgba(62, 184, 255, 0.13), transparent 40%);
+.orbit {
+  transform-origin: 350px 350px;
+  animation: orbit-drift 12s ease-in-out infinite;
 }
 
-.trace-line {
-  stroke-dasharray: 900;
-  stroke-dashoffset: 900;
-  animation: trace 2.2s cubic-bezier(0.65, 0, 0.35, 1) 180ms forwards;
+.orbit-two {
+  animation-duration: 16s;
 }
 
-.trace-line-delay {
-  animation-delay: 520ms;
+.signal-path {
+  stroke-dasharray: 760;
+  stroke-dashoffset: 760;
+  animation: signal-draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) 180ms forwards;
 }
 
-@keyframes trace {
+.portfolio-row {
+  background: rgba(18, 18, 20, 0.38);
+  transition: background-color 180ms ease;
+}
+
+.portfolio-row:hover {
+  background: rgba(24, 23, 25, 0.9);
+}
+
+.portfolio-dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 5px rgba(243, 184, 91, 0.08);
+}
+
+@keyframes orbit-drift {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes signal-draw {
   to {
     stroke-dashoffset: 0;
   }
 }
 
 @media (max-width: 639px) {
-  .blueprint-panel {
-    max-width: 29rem;
+  .world-field {
+    max-width: 31rem;
   }
 }
 
@@ -255,7 +272,7 @@ body {
     transition-duration: 0.01ms !important;
   }
 
-  .trace-line {
+  .signal-path {
     stroke-dashoffset: 0;
   }
 }

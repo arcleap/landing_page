@@ -1,10 +1,10 @@
 export const hero = {
-  eyebrow: "ARCLEAP / PHYSICAL BUILD",
-  h1: "From intent to verified build.",
-  body: "Describe the part you need. We’re building a system that returns a verified design, drawings, bill of materials, and a real factory price—ready to move toward production.",
-  mission: "The compiler between wanting and making.",
+  eyebrow: "ARCLEAP / INDEPENDENT AI COMPANY",
+  h1: "AI for the physical world.",
+  body: "ArcLeap is building a family of AI-native products that help ideas cross into reality. We work across design, making, and new ways for people to shape the things around them.",
+  mission: "Intelligence, beyond the screen.",
   cta: {
-    label: "Contact ArcLeap",
-    href: "mailto:contact@arcleap.ai",
+    label: "Our direction",
+    href: "#direction",
   },
 } as const;

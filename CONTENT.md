@@ -1,95 +1,77 @@
 # ArcLeap — Public Content Spec
 
-**Status:** Implemented candidate · production publication requires Jin’s approval of the exact SHA
+**Status:** Parent-company iteration · production publication requires Jin’s approval of the exact SHA
 **Updated:** 2026-08-05
-**Authority:** `docs/PUBLIC-COPY-SOURCE.md` and Track A of `ARCLEAP-DIRECTION-AND-PLATFORM-RFC.md`
+**Authority:** Jin’s 2026-08-05 review direction, the current live `arcleap.ai`, and the public-safe portions of the ArcLeap source-of-truth
 
-This file is the implementation map. If wording conflicts with the public-copy snapshot, the snapshot wins. Held source language must never be transcribed.
+This iteration presents ArcLeap as the parent company. No one product, workflow, or customer segment defines the company.
 
 ## Page structure
 
 1. Navigation
-2. Hero
-3. How it works
-4. Verification thesis
-5. Who it is for
-6. Company
-7. Contact/footer
-
-Production includes no request form, promise section, hiring copy, legal placeholders, or Signals links.
+2. Company-level hero
+3. Direction
+4. Products and explorations
+5. Company and founder
+6. Contact and footer
 
 ## Navigation
 
 - ArcLeap wordmark → `#top`
-- How it works → `#how`
-- Who it is for → `#builders`
+- Direction → `#direction`
+- Work → `#work`
 - Company → `#company`
 - Contact → `#contact`
 
-Navigation links are anchors, not duplicate email CTAs.
-
 ## Hero
 
-- Eyebrow: `ARCLEAP / PHYSICAL BUILD`
-- H1: **From intent to verified build.**
-- Body: **Describe the part you need. We’re building a system that returns a verified design, drawings, bill of materials, and a real factory price—ready to move toward production.**
-- Mission: **The compiler between wanting and making.**
-- Sole Production CTA: **Contact ArcLeap** → `mailto:contact@arcleap.ai`
+- Eyebrow: `ARCLEAP / INDEPENDENT AI COMPANY`
+- H1: **AI for the physical world.**
+- Body: **ArcLeap is building a family of AI-native products that help ideas cross into reality. We work across design, making, and new ways for people to shape the things around them.**
+- Descriptor: **Intelligence, beyond the screen.**
+- CTA: **Our direction** → `#direction`
 
-The engineering diagram is decorative. It resolves an imprecise intent curve into constrained geometry and names geometry, physics, and manufacturability as verification layers.
+The artwork is a decorative field of arcs, signals, and emerging forms. It must not depict CAD, one part, or one product flow.
 
-## How it works
+## Direction
 
-H2: **The path we’re building.**
+- H2: **The next chapter of AI moves into the world.**
+- Intro explains the physical frontier through how things are imagined, created, and brought into everyday life.
 
-1. **Describe** — Start with words, a sketch, reference images, and the dimensions that matter.
-2. **Confirm** — Turn the request into a clear, mutually confirmed specification.
-3. **Generate + verify** — Generate candidate designs and check geometry, physics, and manufacturability, with human review during early access.
-4. **Build** — Produce shop-ready files, a bill of materials, and a real factory price; order when ready.
+1. **Understand** — reason about space, materials, constraints, and change.
+2. **Create** — make physical creation more accessible and expressive.
+3. **Connect** — bring human intent, machine intelligence, and making closer together.
 
-The future-state framing is deliberate. Do not convert these steps into unsupported present-capability claims.
+## Products and explorations
 
-## Verification thesis
+- H2: **Different products. One direction.**
+- ArcLeap is the portfolio-level home for multiple answers to the physical-AI thesis.
 
-- H2: **Generation is only the beginning.**
-- Canonical thesis: **AI learned software jobs because code could be verified; we're teaching it physical jobs the same way.**
-- Supporting copy keeps geometry, physics, manufacturability, and early-access human review visible.
+1. **Physical intelligence** — AI systems moving ideas toward real-world outcomes.
+2. **Wishlist** — a consumer product asking what people wish existed.
+3. **What comes next** — room for future products in other forms and markets.
 
-## Who it is for
-
-- H2: **For teams and independent builders.**
-- Robotics and automation teams: fixtures, jigs, brackets, and tooling.
-- Makers and independent builders: people who know what they need and need help closing the design gap.
-
-These examples show breadth; they do not limit ArcLeap to B2B or B2C.
+Wishlist remains high-altitude: no marketplace mechanics, deposits, factory bidding, dividends, launch timing, or other private details.
 
 ## Company
 
-- H2: **Verification culture, brought into the physical world.**
-- Body: **ArcLeap was founded by Jin Miao to bring verification discipline into AI systems that build for the physical world.**
+- H2: **One company. Multiple paths into the physical world.**
+- Copy describes an independent Silicon Valley AI company combining advanced AI, product thinking, and respect for physical reality.
 - Founder label: **Jin Miao · Founder & CEO**
-
-Employer affiliation remains omitted until separately cleared. Competitive biography claims are prohibited.
 
 ## Contact and footer
 
 - Display `contact@arcleap.ai` as plain contact information.
-- Repeat the mission line.
-- No careers address, legal links without real routes, or personal-brand cross-links.
+- Footer line: **Building AI that belongs in the world.**
+- No hiring, legal placeholders, product request form, or personal-brand cross-links.
 
 ## Metadata
 
-- Title: `ArcLeap — From intent to verified build`
-- Description: `ArcLeap is building an AI system that turns a plain-language part request into a verified, manufacturable design, production-ready files, and a real factory price.`
+- Title: `ArcLeap — AI for the physical world`
+- Description: `ArcLeap is an independent AI company building a family of products at the intersection of intelligence and the physical world.`
 - Canonical: `https://arcleap.ai/`
-- Open Graph, Twitter, and Organization JSON-LD use the same aspirational framing.
 - Preview builds add `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.
-- Production is indexable.
 
-## Release holds
+## Release gate
 
-- The remake-or-refund promise remains held until linked Terms define it.
-- Request-a-part and early-access forms remain Preview-only.
-- Public file upload remains disabled.
-- Employer-specific founder language remains held.
-- Hiring and `careers@arcleap.ai` remain omitted.
+Production remains unchanged until Jin approves the exact protected Preview candidate.

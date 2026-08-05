@@ -1,12 +1,12 @@
 export const nav = [
-  { label: "How it works", href: "#how" },
-  { label: "Who it is for", href: "#builders" },
+  { label: "Direction", href: "#direction" },
+  { label: "Work", href: "#work" },
   { label: "Company", href: "#company" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
 export const footer = {
-  tagline: "The compiler between wanting and making.",
+  tagline: "Building AI that belongs in the world.",
   email: "contact@arcleap.ai",
   rights: `© ${new Date().getFullYear()} ArcLeap, Inc.`,
 } as const;
