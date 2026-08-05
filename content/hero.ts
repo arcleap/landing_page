@@ -1,5 +1,10 @@
 export const hero = {
-  h1: "Frontier AI, shipped as consumer products.",
-  sub: "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and large-scale multimodal AI — with reinforcement and continual learning at the core. We ship that work inside consumer products.",
-  meta: ["Silicon Valley", "Founded 2026", "Hiring"],
-};
+  eyebrow: "ARCLEAP / PHYSICAL BUILD",
+  h1: "From intent to verified build.",
+  body: "Describe the part you need. We’re building a system that returns a verified design, drawings, bill of materials, and a real factory price—ready to move toward production.",
+  mission: "The compiler between wanting and making.",
+  cta: {
+    label: "Contact ArcLeap",
+    href: "mailto:contact@arcleap.ai",
+  },
+} as const;

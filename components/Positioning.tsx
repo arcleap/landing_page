@@ -3,21 +3,18 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function Positioning() {
   return (
-    <section
-      id="positioning"
-      className="container-page py-24 md:py-32 border-t border-rule"
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <div className="lg:col-span-4">
+    <section id="positioning" className="border-y border-rule bg-panel/35">
+      <div className="container-page grid grid-cols-1 gap-12 py-24 md:py-36 lg:grid-cols-12">
+        <div className="lg:col-span-3">
           <Eyebrow>{positioning.eyebrow}</Eyebrow>
-          <h2 className="text-h1 text-ink">{positioning.h2}</h2>
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-ink-faint">Verification thesis</p>
         </div>
-        <div className="lg:col-span-7 lg:col-start-6 space-y-6">
-          {positioning.body.map((p, i) => (
-            <p key={i} className="text-body text-ink/85 max-w-[60ch]">
-              {p}
-            </p>
-          ))}
+        <div className="lg:col-span-8 lg:col-start-5">
+          <h2 className="text-h1 max-w-[20ch] text-ink">{positioning.h2}</h2>
+          <blockquote className="mt-10 border-l-2 border-accent pl-6 text-2xl leading-[1.35] tracking-[-0.025em] text-ink md:pl-9 md:text-4xl">
+            {positioning.thesis}
+          </blockquote>
+          <p className="mt-8 max-w-[62ch] text-body text-ink-dim">{positioning.body}</p>
         </div>
       </div>
     </section>

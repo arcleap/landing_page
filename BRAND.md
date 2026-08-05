@@ -1,183 +1,85 @@
 # ArcLeap — Brand Spec
 
-**Status:** Draft v0.1 · Needs sign-off before code starts
-**Owner:** Jin
-**Last updated:** 2026-04-24
+**Status:** Track A implementation baseline
+**Updated:** 2026-08-05
+**Authority:** `docs/PUBLIC-COPY-SOURCE.md` for language; this file for visual execution
 
-> This document defines how ArcLeap *sounds*, *feels*, and *looks* on its public surfaces. It is the arbiter when copy or design decisions are ambiguous. Dreamist has its own brand system; ArcLeap is the quieter parent above it.
+## Identity
 
----
+ArcLeap is a vertical full-loop company building toward verified physical work. It is product-clear and market-broad: precise about the intent-to-build loop without limiting the company to one customer type, one part family, B2B, or B2C.
 
-## 1. What ArcLeap Is
+- Mission: **The compiler between wanting and making.**
+- Product headline: **From intent to verified build.**
+- ArcLeap is the company. JinMiao Signals and `jinmiao.ai` are Jin’s personal brand and never mix with ArcLeap navigation, metadata, feeds, or identity.
 
-ArcLeap is a **deep-tech and advanced AI company building consumer products**. We invest in foundational systems — world models, neural rendering, on-device inference, cryptographic provenance — and ship them inside products that normal people love. **Dreamist is the first.**
+Never describe ArcLeap as a verification platform, verification-as-a-service, a CAD tool, or a model wrapper.
 
-The landing page's job is to make three things unambiguous to a first-time visitor in under 10 seconds:
+## Voice
 
-1. ArcLeap is a *company*, not a product. (A parent. More is coming.)
-2. We do *real* research, not wrappers.
-3. The research is pointed at *consumer* experiences, not enterprise infra.
+1. Calm, plain-spoken, and engineering-grade.
+2. Specific about the work; broad about who may use it.
+3. Aspirational by default. Present tense is reserved for operations Jin confirms are live.
+4. Verification and human review stay visible.
+5. No hype, emojis, competitor callouts, or invented claims.
 
----
+Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, `guaranteed manufacturable`, `revolutionize`, and claims of optimal design.
 
-## 2. Positioning
+## Visual direction
 
-**Category:** Deep tech for consumer.
+The system combines an editorial layout with engineering-drawing structure:
 
-**Against (what we are not):**
-- Not a research lab (labs publish; we ship).
-- Not an AI app studio (studios ship; we also invent the substrate).
-- Not a foundation-model company (we use and build *on top of* frontier models; we don't compete with Anthropic/OpenAI at the base layer).
+- near-black blue ground rather than pure black;
+- warm off-white reading color;
+- machinist blue as the single technical accent;
+- drawing grids, datums, dimension marks, constraint arcs, and thin rules;
+- abstract intent resolving into measured geometry;
+- no robot arms, humanoids, factory stock photography, glowing AI brains, CAD screenshots, or speculative hardware renders.
 
-**For (what we are):**
-- A small company that thinks labs-deep and ships consumer-fast.
-- The house that makes Dreamist, and whatever comes after it.
+### Palette
 
-**One-liner (proposed, lock this):**
-> *ArcLeap builds frontier AI into products worth keeping.*
-
-**Alternates — pick one before build:**
-- (A) *Frontier AI, shipped as consumer products.*
-- (B) *We build deep-tech for the moments people keep.*
-- (C) *ArcLeap is a deep tech for consumer company. Dreamist is the first thing we've built.*
-
-**Recommendation:** primary one-liner + (C) as the sub-hero paragraph.
-
----
-
-## 3. Voice & Tone
-
-### Principles
-
-1. **Plain-spoken, research-grade.** Sentences are short. Claims are specific. If we can't back it, we don't say it.
-2. **Show the craft, not the category.** "We reconstruct a day as 3D scenes" beats "we leverage AI."
-3. **Wonder, never cringe.** A small amount of awe is allowed — earned awe. Never exclamation-mark awe.
-4. **Confident understatement.** The work is the flex. The copy is quiet.
-5. **First person plural.** "We built," "we think." Never "our team of passionate innovators."
-
-### House words (use freely)
-build, ship, reconstruct, render, capture, remember, keep, frontier, foundation, provenance, world model, on-device, open.
-
-### Banned words (hard no)
-leverage, unlock, empower, seamless(ly), revolutionary, game-changing, disrupt, democratize, delight, magical, AI-powered, next-generation, cutting-edge, state-of-the-art, transform your life, passionate, mission-driven, journey. No emoji. No exclamation marks in body copy. No "🚀".
-
-### Do / Don't
-
-| Don't | Do |
-|---|---|
-| "We leverage cutting-edge AI to unlock magical experiences." | "We turn a day of real life into a 3D scene you can walk through." |
-| "Our revolutionary platform democratizes creativity." | "We built a director. It watches your day and picks the moments worth keeping." |
-| "Join us on this exciting journey!" | "We're hiring. See [Company](#company)." |
-| "AI-powered memory assistant." | "A personal world model. Built from the days you actually lived." |
-
-### Length discipline
-
-- **Headlines:** ≤ 9 words. Prefer 5–7.
-- **Sub-heads:** one sentence, ≤ 22 words.
-- **Body paragraphs:** ≤ 3 sentences.
-- **Product card copy:** ≤ 40 words.
-
----
-
-## 4. Visual Direction
-
-### Mood
-
-**Quiet, literary, technical.** Think: the inside of an art-house film's opening credits. Closer to *Anthropic × A24* than *OpenAI × Apple*. Dark surface, warm light, serif type, one living motif.
-
-### Palette (proposed — lock)
-
-| Role | Hex | Notes |
+| Role | Value | Use |
 |---|---|---|
-| Ground | `#0B0B0C` | Near-black. Site background. Never pure black. |
-| Page ink | `#F4F1EA` | Warm off-white for body copy. Never pure white. |
-| Ink dim | `#9A968D` | 60% warm gray for captions and metadata. |
-| Rule | `#1E1D1B` | Hairline dividers, 1px. |
-| Accent (warm) | `#F3B85B` | Amber. Used sparingly: CTA underlines, single "keep" glyph, focus rings. |
-| Accent (cool, secondary) | `#7E8CFF` | Violet-blue. For research-pillar tags only. |
-| Signal green | `#A4F66B` | Reserved for "Lived & Animated ✓" badge contexts only (Dreamist). Do not use on ArcLeap chrome. |
+| Ground | `#071017` | Primary background |
+| Panel | `#0C1821` | Subtle section surfaces |
+| Ink | `#F3F5F3` | Headlines and primary copy |
+| Ink dim | `#AEB9BF` | Body and supporting copy |
+| Ink faint | `#71848F` | Metadata |
+| Rule | `#20313B` | Hairlines and grids |
+| Accent | `#3EB8FF` | CTA, focus, datums, labels |
+| Accent light | `#80D5FF` | CTA hover |
 
-**Decision needed:** amber (recommended — warmth of memory, avoids default AI-blue) vs violet-blue primary. Recommend amber; keep violet as a secondary tag color.
+### Type
 
-### Type (proposed — lock)
-
-- **Display / H1–H2:** `Fraunces` — serif with optical sizing, slightly bookish. Free (Google Fonts). Pairs with Dreamist's "classical serif" wordmark direction.
-  - Fallback: `Tiempos Headline` or `PP Editorial New` (licensed — consider for v1.1).
-- **Body / UI:** `Inter` at tight tracking, weights 400 / 500. Free.
-- **Mono / metadata:** `JetBrains Mono` 400. Free. Used for captions, version tags, research-tile labels.
-
-**Scale (rem, 16px base):**
-
-```
-display   4.5  (72px) - hero H1
-h1        3.0  (48px)
-h2        2.0  (32px)
-h3        1.375 (22px)
-body      1.0625 (17px)   ← slightly larger than default; landing page copy is the product
-caption   0.8125 (13px)
-mono      0.8125 (13px) uppercase tracked
-```
+- Display, body, and navigation: Inter.
+- Technical labels and metadata: JetBrains Mono.
+- Headlines use tight tracking and moderate weight; the page should feel precise, not futuristic or industrial-costume.
 
 ### Layout
 
-- 12-col desktop grid, 72px gutters, max-width 1200px.
-- Single narrative column on mobile. No side-by-side tricks under 768px.
-- **Generous vertical rhythm.** 160px between sections desktop, 96px mobile.
-- One idea per fold. Visitors should never feel "crammed."
+- Twelve-column desktop grid, max width 1280px.
+- One narrative column on small screens.
+- Generous vertical rhythm and one idea per section.
+- The hero pairs type with one code-native engineering diagram.
 
 ### Motion
 
-- One signature motion on the hero, and *nothing else moves on scroll*.
-- Signature motif (proposed): a slowly drifting field of soft points — a whisper of 3DGS / point-cloud — behind the H1. Sub-1% opacity, framerate-capped. Alternative: a static framed film-still. **Decision needed.**
-- Hover: 120ms ease-out, subtle underline reveal for links. No float-up cards. No scale transforms on buttons.
-- Respect `prefers-reduced-motion: reduce` — swap motif for a still PNG.
+- One restrained line-trace sequence in the hero.
+- No scroll choreography or floating cards.
+- `prefers-reduced-motion` removes the animation and smooth scrolling.
 
-### Photography / media
+## Interaction and accessibility
 
-- If we show Dreamist output on the ArcLeap page: present it as a **framed film still with a title card**, not a product screenshot. Black matte border, title slug + timestamp in mono type.
-- No stock photography. No lifestyle people-laughing-at-laptops. Ever.
+- One prominent production CTA: Contact ArcLeap.
+- Navigation uses in-page anchors.
+- Focus uses a visible 2px machinist-blue outline with offset.
+- A keyboard skip link targets the main content.
+- Decorative drawing elements are hidden from assistive technology.
+- Do not encode meaning with color alone.
+- Maintain WCAG AA contrast for normal text.
 
-### Iconography
+## Release boundaries
 
-- None, ideally. If we need marks, use single-weight line strokes (1.25px), no filled icons, no rounded corners. Source: hand-drawn or Lucide line set, stripped to neutral.
-
----
-
-## 5. Logo & Wordmark
-
-- **ArcLeap wordmark:** set in Fraunces, medium weight, slight optical adjustment on the `rcl` junction. Lowercase. Tracking: -0.01em.
-- **No logomark for v1.** (Adding a mark invites the wrong comparisons. Type is enough until we've earned the glyph.)
-- Favicon: stacked `a` letterform in amber on near-black, 32×32.
-- Clear space: 1× cap-height on all sides.
-- Lockup with Dreamist (for the product section only):
-  `arcleap` (small, warm gray) / `Dreamist` (display serif, page ink)
-
----
-
-## 6. Accessibility (Brand-level)
-
-- All text on ground meets WCAG AA (4.5:1). Hero display at 3:1 minimum (large-text exemption allowed but we exceed it).
-- Amber accent against ground: verified 8.1:1 — safe for CTA underlines and focus rings.
-- Focus ring: 2px amber at 2px offset, visible on all interactive elements.
-- Never encode information in color alone (e.g., "Lived & Animated ✓" always includes the glyph + word).
-
----
-
-## 7. Open Decisions (lock before build)
-
-| # | Decision | Options | Recommended |
-|---|---|---|---|
-| B1 | Primary one-liner | See §2 | *"ArcLeap builds frontier AI into products worth keeping."* |
-| B2 | Accent color | amber `#F3B85B` / violet `#7E8CFF` / green `#A4F66B` | **amber** |
-| B3 | Display serif | Fraunces (free) / Tiempos (licensed) / PP Editorial (licensed) | **Fraunces** for v1, revisit in v1.1 |
-| B4 | Hero motif | 3DGS drift / framed film still / pure type | **pure type + small framed still** |
-| B5 | Mark vs wordmark only | type-only / add minimal mark | **type-only for v1** |
-| B6 | Contact email | contact@ / jinmiao@ / careers@ | **contact@arcleap.ai + careers@arcleap.ai** |
-
----
-
-## 8. Guardrails
-
-- If a design or copy choice makes the page feel more like a **product** than a **parent company**, it's wrong — route that energy into Dreamist's own surface.
-- If a choice makes us look like a **foundation-model lab**, it's also wrong — we are not competing with Anthropic/OpenAI at the base layer.
-- When in doubt: quieter, slower, fewer words.
+- Protected Preview carries an explicit review banner and noindex controls.
+- Production does not inherit Preview noindex headers.
+- Promise, employer affiliation, forms, uploads, hiring, and missing legal routes stay out until their recorded gates are satisfied.
+- The production canonical host is `https://arcleap.ai`; `www` permanently redirects to apex.

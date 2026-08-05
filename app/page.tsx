@@ -1,7 +1,8 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Positioning } from "@/components/Positioning";
-import { PillarGrid } from "@/components/PillarGrid";
+import { Process } from "@/components/Process";
+import { Builders } from "@/components/Builders";
 import { Company } from "@/components/Company";
 import { Footer } from "@/components/Footer";
 
@@ -9,10 +10,11 @@ export default function Page() {
   return (
     <>
       <Nav />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <Hero />
+        <Process />
         <Positioning />
-        <PillarGrid />
+        <Builders />
         <Company />
       </main>
       <Footer />

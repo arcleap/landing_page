@@ -1,8 +1,7 @@
 export const positioning = {
-  eyebrow: "Positioning",
-  h2: "Research that ships.",
-  body: [
-    "Most frontier AI lives in labs or behind APIs. Most consumer AI is a thin skin over someone else's model. ArcLeap sits in the seam: we do real research on world models, neural rendering, and large-scale multimodal systems — and we put it inside products you'd actually use.",
-    "We build a small number of things, slowly, on purpose. Each one has to earn its place.",
-  ],
-};
+  eyebrow: "WHY VERIFICATION",
+  h2: "Generation is only the beginning.",
+  thesis:
+    "AI learned software jobs because code could be verified; we're teaching it physical jobs the same way.",
+  body: "Physical work needs more than a plausible shape. The path we’re building checks geometry, physics, and manufacturability, with human review during early access.",
+} as const;

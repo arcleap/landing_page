@@ -1,16 +1,12 @@
 export const nav = [
-  { label: "Signals", href: "/signals" },
-  { label: "Research", href: "#research" },
+  { label: "How it works", href: "#how" },
+  { label: "Who it is for", href: "#builders" },
   { label: "Company", href: "#company" },
-  { label: "Contact", href: "mailto:contact@arcleap.ai" },
-];
+  { label: "Contact", href: "#contact" },
+] as const;
 
 export const footer = {
-  tagline: "Deep tech for consumer. Silicon Valley.",
-  contacts: ["contact@arcleap.ai", "careers@arcleap.ai"],
-  legal: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
-  ],
+  tagline: "The compiler between wanting and making.",
+  email: "contact@arcleap.ai",
   rights: `© ${new Date().getFullYear()} ArcLeap, Inc.`,
-};
+} as const;

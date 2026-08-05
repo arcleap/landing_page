@@ -2,45 +2,28 @@ import { footer } from "@/content/links";
 
 export function Footer() {
   return (
-    <footer className="border-t border-rule mt-12">
-      <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div>
-          <p className="font-display text-2xl tracking-tight text-ink">
-            ArcLeap
+    <footer id="contact" className="scroll-mt-24 border-t border-rule bg-panel/40">
+      <div className="container-page grid grid-cols-1 gap-14 py-20 md:grid-cols-12 md:py-28">
+        <div className="md:col-span-7">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+            CONTACT
           </p>
-          <p className="text-caption mt-3">{footer.tagline}</p>
+          <p className="mt-8 max-w-[19ch] text-h1 text-ink">{footer.tagline}</p>
         </div>
-
-        <div className="space-y-2">
-          <p className="text-mono mb-3">Contact</p>
-          {footer.contacts.map((c) => (
-            <p key={c}>
-              <a
-                href={`mailto:${c}`}
-                className="text-body text-ink/85 hover:text-accent transition-colors"
-                rel="noopener noreferrer"
-              >
-                {c}
-              </a>
-            </p>
-          ))}
+        <div className="flex flex-col justify-end md:col-span-4 md:col-start-9">
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-ink-faint">
+            General inquiries
+          </p>
+          <address className="mt-4 not-italic text-xl text-ink">{footer.email}</address>
         </div>
       </div>
-
-      <div className="container-page border-t border-rule py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <p className="text-mono text-ink-faint">{footer.rights}</p>
-        <ul className="flex items-center gap-5">
-          {footer.legal.map((l) => (
-            <li key={l.label}>
-              <a
-                href={l.href}
-                className="text-mono text-ink-faint hover:text-ink-dim transition-colors"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div className="container-page flex flex-col items-start justify-between gap-3 border-t border-rule py-6 md:flex-row md:items-center">
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">
+          {footer.rights}
+        </p>
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">
+          Silicon Valley · California
+        </p>
       </div>
     </footer>
   );

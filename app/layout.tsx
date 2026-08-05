@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  axes: ["opsz", "SOFT"],
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,36 +14,36 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const isPreview = process.env.VERCEL_ENV === "preview";
+const siteDescription =
+  "ArcLeap is building an AI system that turns a plain-language part request into a verified, manufacturable design, production-ready files, and a real factory price.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap — Frontier AI, shipped as consumer products",
-  description:
-    "ArcLeap is a deep-tech and advanced AI company. We build world models, neural rendering, and large-scale multimodal AI — with reinforcement and continual learning at the core.",
+  title: "ArcLeap — From intent to verified build",
+  description: siteDescription,
   openGraph: {
-    title: "ArcLeap — Frontier AI, shipped as consumer products",
-    description:
-      "Deep tech for consumer, from Silicon Valley. Frontier AI, shipped as consumer products.",
-    url: "https://arcleap.ai",
+    title: "ArcLeap — From intent to verified build",
+    description: siteDescription,
+    url: "https://arcleap.ai/",
     siteName: "ArcLeap",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap — Frontier AI, shipped as consumer products",
-    description:
-      "Deep tech for consumer. Frontier AI, shipped as consumer products.",
+    title: "ArcLeap — From intent to verified build",
+    description: siteDescription,
   },
   alternates: {
     canonical: "/",
-    types: { "application/rss+xml": "/signals/rss.xml" },
   },
-  robots: { index: true, follow: true },
+  robots: isPreview
+    ? { index: false, follow: false }
+    : { index: true, follow: true },
 };
 
-// Cookieless analytics (Plausible-style), gated on a domain placeholder.
-// Unset -> nothing is injected (no broken script tag). See OVERNIGHT-SUMMARY.md
-// for the 3-step turn-on. Keep ARCLEAP_ANALYTICS_DOMAIN in sync with the
-// signals pipeline's env of the same name.
+// Cookieless analytics, injected only when the deployment is configured.
 const analyticsDomain = process.env.ARCLEAP_ANALYTICS_DOMAIN?.trim();
 const analyticsSrc =
   process.env.ARCLEAP_ANALYTICS_SRC?.trim() ||
@@ -60,12 +53,12 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "ArcLeap",
-  url: "https://arcleap.ai",
-  description:
-    "Deep-tech and advanced AI company building consumer products.",
+  url: "https://arcleap.ai/",
+  description: siteDescription,
+  slogan: "The compiler between wanting and making.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
-  foundingLocation: "Silicon Valley, CA",
+  foundingLocation: "Silicon Valley, California",
 };
 
 export default function RootLayout({
@@ -74,18 +67,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${inter.variable} ${jetbrains.variable}`}
     >
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c"),
+          }}
         />
         {analyticsDomain ? (
           <script defer data-domain={analyticsDomain} src={analyticsSrc} />
         ) : null}
       </head>
-      <body className="min-h-screen flex flex-col bg-ground text-ink">
+      <body className="flex min-h-screen flex-col bg-ground text-ink">
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         {children}
       </body>
     </html>
