@@ -1,7 +1,7 @@
 export const hero = {
-  eyebrow: "ARCLEAP / FRONTIER AI COMPANY",
-  h1: "Building intelligence for a world in motion.",
-  body: "ArcLeap brings frontier AI into products that expand what people can imagine, create, and make real.",
+  eyebrow: "ARCLEAP AI / FRONTIER AI COMPANY",
+  h1: "Bringing frontier AI to more people.",
+  body: "ArcLeap AI builds products that turn frontier advances into practical ways to imagine, create, and make things real.",
   note: "Technology should widen human possibility.",
   cta: {
     label: "See where we’re building",

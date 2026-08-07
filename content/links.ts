@@ -1,4 +1,5 @@
 export const nav = [
+  { label: "Signals", href: "/signals" },
   { label: "Direction", href: "#direction" },
   { label: "Explorations", href: "#explorations" },
   { label: "Company", href: "#company" },

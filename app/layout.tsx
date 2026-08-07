@@ -16,26 +16,31 @@ const jetbrains = JetBrains_Mono({
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap is an independent AI company bringing frontier capabilities into products that expand what people can imagine, create, and make real.";
+  "ArcLeap AI is an independent AI company turning frontier advances into products that help more people imagine, create, and make things real.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap — Frontier AI for human possibility",
+  title: "ArcLeap AI — Frontier AI for more people",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap — Frontier AI for human possibility",
+    title: "ArcLeap AI — Frontier AI for more people",
     description: siteDescription,
     url: "https://arcleap.ai/",
-    siteName: "ArcLeap",
+    siteName: "ArcLeap AI",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap — Frontier AI for human possibility",
+    title: "ArcLeap AI — Frontier AI for more people",
     description: siteDescription,
   },
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": "/signals/rss.xml",
+    },
+  },
   robots: isPreview
     ? { index: false, follow: false }
     : { index: true, follow: true },
@@ -49,10 +54,11 @@ const analyticsSrc =
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "ArcLeap",
+  name: "ArcLeap AI",
+  legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "Frontier intelligence. Shared possibility.",
+  slogan: "Frontier AI for more people.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
