@@ -1,39 +1,27 @@
+import Image from "next/image";
+import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { nav } from "@/content/links";
 
 export function Nav() {
+  const isPreview = process.env.VERCEL_ENV === "preview";
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-ground/80 border-b border-rule/60">
-      <div className="container-page flex items-center justify-between h-16">
-        <a
-          href="#top"
-          className="font-display text-xl tracking-tight text-ink hover:text-accent transition-colors"
-          aria-label="ArcLeap home"
-        >
-          ArcLeap
+    <header className="site-header">
+      {isPreview ? (
+        <div className="preview-banner">Protected review candidate · not production</div>
+      ) : null}
+      <div className="container-page nav-inner">
+        <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
+          <span className="brand-mark" aria-hidden="true">
+            <Image src={arcleapMark} alt="" fill sizes="42px" className="object-cover" />
+          </span>
+          <span>ARCLEAP AI</span>
         </a>
-        <nav aria-label="Primary" className="flex items-center gap-7">
-          {nav.map((item) => {
-            const isExternal = item.href.startsWith("mailto:");
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                {...(isExternal
-                  ? { rel: "noopener noreferrer" }
-                  : {})}
-                className="text-caption hover:text-ink transition-colors hidden sm:inline"
-              >
-                {item.label}
-              </a>
-            );
-          })}
-          <a
-            href="mailto:contact@arcleap.ai"
-            className="text-caption hover:text-ink transition-colors sm:hidden"
-            rel="noopener noreferrer"
-          >
-            Contact
-          </a>
+        <nav aria-label="Primary" className="nav-links">
+          {nav.map((item) => (
+            <a key={item.label} href={item.href}>{item.label}</a>
+          ))}
+          <a href="#contact" className="nav-contact">Contact</a>
         </nav>
       </div>
     </header>

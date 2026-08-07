@@ -2,45 +2,19 @@ import { footer } from "@/content/links";
 
 export function Footer() {
   return (
-    <footer className="border-t border-rule mt-12">
-      <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <footer id="contact" className="site-footer scroll-mt-24">
+      <div className="container-page footer-main">
         <div>
-          <p className="font-display text-2xl tracking-tight text-ink">
-            ArcLeap
-          </p>
-          <p className="text-caption mt-3">{footer.tagline}</p>
+          <p className="footer-label">CONTACT</p>
+          <p className="footer-tagline">{footer.tagline}</p>
         </div>
-
-        <div className="space-y-2">
-          <p className="text-mono mb-3">Contact</p>
-          {footer.contacts.map((c) => (
-            <p key={c}>
-              <a
-                href={`mailto:${c}`}
-                className="text-body text-ink/85 hover:text-accent transition-colors"
-                rel="noopener noreferrer"
-              >
-                {c}
-              </a>
-            </p>
-          ))}
+        <div className="footer-contact">
+          <p>General inquiries</p>
+          <a href={`mailto:${footer.email}`}>{footer.email}</a>
         </div>
       </div>
-
-      <div className="container-page border-t border-rule py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <p className="text-mono text-ink-faint">{footer.rights}</p>
-        <ul className="flex items-center gap-5">
-          {footer.legal.map((l) => (
-            <li key={l.label}>
-              <a
-                href={l.href}
-                className="text-mono text-ink-faint hover:text-ink-dim transition-colors"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div className="container-page footer-bottom">
+        <p>{footer.rights}</p>
       </div>
     </footer>
   );

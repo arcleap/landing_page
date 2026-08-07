@@ -1,29 +1,24 @@
 import { hero } from "@/content/hero";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function Hero() {
   return (
-    <section
-      id="top"
-      className="container-page pt-20 pb-32 md:pt-28 md:pb-40"
-      aria-labelledby="hero-h1"
-    >
-      <div className="max-w-[60rem]">
-        <h1 id="hero-h1" className="text-display text-ink max-w-[16ch]">
-          {hero.h1}
-        </h1>
-        <p className="mt-8 max-w-[58ch] text-body text-ink/85">{hero.sub}</p>
-        <p className="text-mono mt-12 flex flex-wrap gap-x-3 gap-y-1">
-          {hero.meta.map((m, i) => (
-            <span key={m} className="inline-flex items-center gap-3">
-              {m}
-              {i < hero.meta.length - 1 && (
-                <span aria-hidden className="text-ink-faint">
-                  ·
-                </span>
-              )}
-            </span>
-          ))}
-        </p>
+    <section id="top" className="hero-section" aria-labelledby="hero-title">
+      <div className="container-page hero-grid">
+        <div className="hero-copy">
+          <Eyebrow>{hero.eyebrow}</Eyebrow>
+          <h1 id="hero-title" className="text-display max-w-[12ch] text-ink">
+            {hero.h1}
+          </h1>
+          <p className="hero-body">{hero.body}</p>
+          <div className="hero-actions">
+            <a href={hero.cta.href} className="primary-cta group">
+              <span>{hero.cta.label}</span>
+              <span aria-hidden className="transition-transform group-hover:translate-y-1">↓</span>
+            </a>
+            <p className="hero-note">{hero.note}</p>
+          </div>
+        </div>
       </div>
     </section>
   );
