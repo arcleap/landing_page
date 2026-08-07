@@ -30,12 +30,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.arcleap.ai" }],
-        destination: "https://arcleap.ai/:path*",
-        permanent: true,
-      },
-      {
         source: "/signals",
         destination: "https://jinmiao.ai/signals",
         permanent: true,
