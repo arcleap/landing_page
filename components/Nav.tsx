@@ -16,7 +16,7 @@ export function Nav() {
           className="flex items-center gap-3 text-base font-semibold tracking-[-0.02em] text-ink transition-colors hover:text-accent"
           aria-label="ArcLeap home"
         >
-          <span aria-hidden className="size-2 rotate-45 border border-accent" />
+          <span aria-hidden className="size-2 rounded-full bg-accent shadow-[0_0_0_4px_rgba(36,94,234,0.08)]" />
           ARCLEAP
         </a>
         <nav aria-label="Primary" className="flex items-center gap-6 lg:gap-8">

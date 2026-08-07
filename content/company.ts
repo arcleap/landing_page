@@ -1,9 +1,9 @@
 export const company = {
   eyebrow: "COMPANY",
-  h2: "One company. Multiple paths into the physical world.",
+  h2: "Built where AI meets engineering reality.",
   body: [
-    "ArcLeap is an independent AI company founded by Jin Miao in Silicon Valley. We bring advanced AI, product thinking, and an engineering respect for how the physical world actually works.",
-    "We are not confined to one interface, customer, or industry. We follow the places where intelligence can make the path from imagination to reality meaningfully better.",
+    "ArcLeap was founded by Jin Miao, tech lead on Gemini post-training at Google DeepMind, whose career began in chip design and EDA—the industry where designs are verified before manufacture.",
+    "ArcLeap brings that verification culture to AI systems that create for the physical world.",
   ],
   founder: {
     name: "Jin Miao",

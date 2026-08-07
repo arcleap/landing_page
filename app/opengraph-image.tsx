@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap — AI for the physical world";
+export const alt = "ArcLeap — Engineering agent for the physical world";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -13,8 +13,8 @@ export default function OpenGraphImage() {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "#0b0b0c",
-        color: "#f4f1ea",
+        background: "#f5f7fb",
+        color: "#111827",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -24,33 +24,35 @@ export default function OpenGraphImage() {
           inset: 0,
           display: "flex",
           backgroundImage:
-            "radial-gradient(circle at 76% 38%, rgba(243,184,91,.18), transparent 22%), radial-gradient(circle at 82% 56%, rgba(126,140,255,.14), transparent 28%)",
-          backgroundSize: "100% 100%",
+            "radial-gradient(circle at 78% 24%, rgba(36,94,234,.12), transparent 26%), linear-gradient(rgba(36,94,234,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(36,94,234,.035) 1px, transparent 1px)",
+          backgroundSize: "100% 100%, 40px 40px, 40px 40px",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 122,
-          right: 36,
+          top: 120,
+          right: 68,
           display: "flex",
-          width: 470,
-          height: 190,
-          border: "2px solid #f3b85b",
-          borderRadius: 999,
-          transform: "rotate(-18deg)",
+          width: 420,
+          height: 250,
+          border: "1px solid #dbe2ea",
+          borderRadius: 24,
+          background: "#ffffff",
+          boxShadow: "0 24px 70px rgba(31,50,81,.12)",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 190,
-          right: 126,
+          top: 198,
+          right: 132,
           display: "flex",
-          width: 330,
-          height: 150,
-          border: "1px solid rgba(126,140,255,.75)",
-          borderRadius: 999,
+          width: 290,
+          height: 94,
+          border: "1px solid rgba(36,94,234,.55)",
+          borderRadius: 16,
+          background: "#f2f6ff",
         }}
       />
       <div
@@ -69,7 +71,8 @@ export default function OpenGraphImage() {
               display: "flex",
               width: 12,
               height: 12,
-              border: "1px solid #f3b85b",
+              border: "1px solid #245eea",
+              borderRadius: 999,
               transform: "rotate(45deg)",
             }}
           />
@@ -85,11 +88,11 @@ export default function OpenGraphImage() {
               letterSpacing: -3,
             }}
           >
-            AI for the
-            <span>physical world.</span>
+            Intent in.
+            <span>Verified product out.</span>
           </div>
-          <div style={{ marginTop: 30, fontSize: 22, color: "#9a968d" }}>
-            An independent company building a family of AI-native products.
+          <div style={{ marginTop: 30, fontSize: 22, color: "#536170" }}>
+            The engineering agent for the physical world.
           </div>
         </div>
       </div>

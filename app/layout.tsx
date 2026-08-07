@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  axes: ["opsz", "SOFT"],
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,14 +17,14 @@ const jetbrains = JetBrains_Mono({
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap is an independent AI company building a family of products at the intersection of intelligence and the physical world.";
+  "ArcLeap is building the engineering agent for the physical world, turning plain-language intent into verified designs and delivered products.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap — AI for the physical world",
+  title: "ArcLeap — Engineering agent for the physical world",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap — AI for the physical world",
+    title: "ArcLeap — Engineering agent for the physical world",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap",
@@ -39,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap — AI for the physical world",
+    title: "ArcLeap — Engineering agent for the physical world",
     description: siteDescription,
   },
   alternates: {
@@ -62,7 +56,7 @@ const orgJsonLd = {
   name: "ArcLeap",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "AI for the physical world.",
+  slogan: "Intent in. Verified product out.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
@@ -74,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${inter.variable} ${jetbrains.variable}`}
     >
       <head>
         <script

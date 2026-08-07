@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --color-ground: #0b0b0c;
-  --color-panel: #121214;
-  --color-ink: #f4f1ea;
-  --color-ink-dim: #b2ada3;
-  --color-ink-faint: #8a857b;
-  --color-rule: #2a2926;
-  --color-accent: #f3b85b;
-  --color-accent-2: #9aa3ff;
+  --color-ground: #f5f7fb;
+  --color-panel: #ffffff;
+  --color-ink: #111827;
+  --color-ink-dim: #536170;
+  --color-ink-faint: #607083;
+  --color-rule: #dbe2ea;
+  --color-accent: #245eea;
+  --color-accent-2: #1746b4;
 
   --max-w: 1200px;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -24,7 +24,7 @@
   --color-accent: var(--color-accent);
   --color-accent-2: var(--color-accent-2);
 
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-inter);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
 }
@@ -44,15 +44,15 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   font-weight: 400;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   background:
-    radial-gradient(circle at 76% 7%, rgba(243, 184, 91, 0.055), transparent 30rem),
+    radial-gradient(circle at 78% 8%, rgba(36, 94, 234, 0.075), transparent 31rem),
     var(--color-ground);
 }
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-ground);
+  color: #ffffff;
 }
 
 :focus-visible {
@@ -82,36 +82,34 @@ body {
 
 @utility text-display {
   font-family: var(--font-display);
-  font-size: clamp(3.45rem, 7.4vw, 6.6rem);
-  line-height: 0.96;
-  letter-spacing: -0.045em;
-  font-weight: 400;
-  font-optical-sizing: auto;
+  font-size: clamp(3.35rem, 6.8vw, 6.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  font-weight: 650;
 }
 
 @utility text-h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 4.8vw, 4.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  font-weight: 400;
-  font-optical-sizing: auto;
+  font-size: clamp(2.35rem, 4.6vw, 4.25rem);
+  line-height: 1.03;
+  letter-spacing: -0.052em;
+  font-weight: 620;
 }
 
 @utility text-h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   line-height: 1.12;
-  letter-spacing: -0.025em;
-  font-weight: 400;
+  letter-spacing: -0.038em;
+  font-weight: 620;
 }
 
 @utility text-h3 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1.25;
-  letter-spacing: -0.015em;
-  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-weight: 600;
 }
 
 @utility text-body {
@@ -159,7 +157,7 @@ body {
   gap: 2.75rem;
   border: 1px solid var(--color-accent);
   padding: 0.9rem 1.1rem 0.9rem 1.25rem;
-  color: var(--color-ground);
+  color: #ffffff;
   background: var(--color-accent);
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -171,90 +169,110 @@ body {
 
 .primary-cta:hover {
   background: var(--color-accent-2);
-  box-shadow: 0 0 0 5px rgba(243, 184, 91, 0.1);
+  box-shadow: 0 0 0 5px rgba(36, 94, 234, 0.1);
 }
 
-.world-field {
-  color: var(--color-accent);
-  isolation: isolate;
+.agent-panel {
+  overflow: hidden;
+  border: 1px solid var(--color-rule);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 28px 80px rgba(31, 50, 81, 0.12);
 }
 
-.world-field::before,
-.world-field::after {
-  content: "";
-  position: absolute;
-  inset: 9%;
-  border-radius: 50%;
-  pointer-events: none;
+.agent-endpoint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 0.75rem;
+  background: var(--color-ground);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 550;
+  color: var(--color-ink);
 }
 
-.world-field::before {
-  border: 1px solid rgba(243, 184, 91, 0.13);
-  transform: rotate(22deg) scaleY(0.56);
-  opacity: 0.9;
+.agent-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  border-radius: 0.4rem;
+  background: rgba(36, 94, 234, 0.09);
+  padding-inline: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
 }
 
-.world-field::after {
-  inset: 19%;
-  border: 1px solid rgba(126, 140, 255, 0.2);
-  transform: rotate(-38deg) scaleY(0.68);
-  opacity: 0.8;
+.agent-connector {
+  width: 1px;
+  height: 1.5rem;
+  margin-inline: auto;
+  background: var(--color-rule);
 }
 
-.world-halo {
-  background: radial-gradient(circle, rgba(243, 184, 91, 0.13), rgba(126, 140, 255, 0.06) 38%, transparent 70%);
-  filter: blur(18px);
-  opacity: 0.9;
+.agent-core {
+  border: 1px solid rgba(36, 94, 234, 0.28);
+  border-radius: 0.9rem;
+  background: linear-gradient(145deg, #ffffff, #f2f6ff);
+  padding: 1.25rem;
+  box-shadow: 0 12px 36px rgba(36, 94, 234, 0.08);
 }
 
-.orbit {
-  transform-origin: 350px 350px;
-  animation: orbit-drift 12s ease-in-out infinite;
+.agent-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: rgba(36, 94, 234, 0.09);
+  padding: 0.38rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
 }
 
-.orbit-two {
-  animation-duration: 16s;
+.agent-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.65rem 0.75rem;
 }
 
-.signal-path {
-  stroke-dasharray: 760;
-  stroke-dashoffset: 760;
-  animation: signal-draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) 180ms forwards;
+.verification-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.055);
+  padding: 1.5rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
 }
 
-.portfolio-row {
-  background: rgba(18, 18, 20, 0.38);
+.system-row {
+  background: rgba(255, 255, 255, 0.6);
   transition: background-color 180ms ease;
 }
 
-.portfolio-row:hover {
-  background: rgba(24, 23, 25, 0.9);
+.system-row:hover {
+  background: #ffffff;
 }
 
-.portfolio-dot {
+.system-dot {
   background: var(--color-accent);
-  box-shadow: 0 0 0 5px rgba(243, 184, 91, 0.08);
-}
-
-@keyframes orbit-drift {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
-}
-
-@keyframes signal-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
+  box-shadow: 0 0 0 5px rgba(36, 94, 234, 0.08);
 }
 
 @media (max-width: 639px) {
-  .world-field {
-    max-width: 31rem;
+  .agent-panel {
+    border-radius: 1rem;
   }
 }
 
@@ -270,9 +288,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .signal-path {
-    stroke-dashoffset: 0;
   }
 }
