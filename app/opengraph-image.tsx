@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap — Engineering agent for the physical world";
+export const alt = "ArcLeap — Frontier AI for human possibility";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -13,8 +13,8 @@ export default function OpenGraphImage() {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "#f5f7fb",
-        color: "#111827",
+        background: "#f6f7fb",
+        color: "#13192d",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -24,35 +24,47 @@ export default function OpenGraphImage() {
           inset: 0,
           display: "flex",
           backgroundImage:
-            "radial-gradient(circle at 78% 24%, rgba(36,94,234,.12), transparent 26%), linear-gradient(rgba(36,94,234,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(36,94,234,.035) 1px, transparent 1px)",
-          backgroundSize: "100% 100%, 40px 40px, 40px 40px",
+            "radial-gradient(circle at 79% 28%, rgba(91,104,223,.2), transparent 27%), radial-gradient(circle at 88% 68%, rgba(62,143,170,.12), transparent 24%), linear-gradient(rgba(80,92,130,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(80,92,130,.05) 1px, transparent 1px)",
+          backgroundSize: "100% 100%, 100% 100%, 48px 48px, 48px 48px",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 120,
-          right: 68,
+          top: 112,
+          right: 82,
           display: "flex",
-          width: 420,
+          width: 360,
+          height: 360,
+          border: "1px solid rgba(91,104,223,.28)",
+          borderRadius: 999,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 170,
+          right: 24,
+          display: "flex",
+          width: 455,
           height: 250,
-          border: "1px solid #dbe2ea",
-          borderRadius: 24,
-          background: "#ffffff",
-          boxShadow: "0 24px 70px rgba(31,50,81,.12)",
+          border: "1px solid rgba(62,143,170,.22)",
+          borderRadius: 999,
+          transform: "rotate(-18deg)",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 198,
-          right: 132,
+          top: 258,
+          right: 244,
           display: "flex",
-          width: 290,
-          height: 94,
-          border: "1px solid rgba(36,94,234,.55)",
-          borderRadius: 16,
-          background: "#f2f6ff",
+          width: 34,
+          height: 34,
+          border: "8px solid white",
+          borderRadius: 999,
+          background: "#5b68df",
+          boxShadow: "0 12px 35px rgba(91,104,223,.25)",
         }}
       />
       <div
@@ -69,30 +81,29 @@ export default function OpenGraphImage() {
           <div
             style={{
               display: "flex",
-              width: 12,
-              height: 12,
-              border: "1px solid #245eea",
-              borderRadius: 999,
-              transform: "rotate(45deg)",
+              width: 30,
+              height: 20,
+              borderRadius: 5,
+              background: "linear-gradient(145deg, #8790a8, #aab3c5)",
             }}
           />
           <div style={{ fontSize: 20, letterSpacing: 4 }}>ARCLEAP</div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: 790 }}>
+        <div style={{ display: "flex", flexDirection: "column", maxWidth: 780 }}>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 74,
+              fontSize: 72,
               lineHeight: 1.02,
               letterSpacing: -3,
             }}
           >
-            Intent in.
-            <span>Verified product out.</span>
+            Building intelligence
+            <span>for a world in motion.</span>
           </div>
-          <div style={{ marginTop: 30, fontSize: 22, color: "#536170" }}>
-            The engineering agent for the physical world.
+          <div style={{ marginTop: 28, fontSize: 21, color: "#5e687d" }}>
+            Frontier AI for human possibility.
           </div>
         </div>
       </div>

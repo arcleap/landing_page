@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -17,14 +16,14 @@ const jetbrains = JetBrains_Mono({
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap is building the engineering agent for the physical world, turning plain-language intent into verified designs and delivered products.";
+  "ArcLeap is an independent AI company bringing frontier capabilities into products that expand what people can imagine, create, and make real.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap — Engineering agent for the physical world",
+  title: "ArcLeap — Frontier AI for human possibility",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap — Engineering agent for the physical world",
+    title: "ArcLeap — Frontier AI for human possibility",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap",
@@ -33,18 +32,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap — Engineering agent for the physical world",
+    title: "ArcLeap — Frontier AI for human possibility",
     description: siteDescription,
   },
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   robots: isPreview
     ? { index: false, follow: false }
     : { index: true, follow: true },
 };
 
-// Cookieless analytics, injected only when the deployment is configured.
 const analyticsDomain = process.env.ARCLEAP_ANALYTICS_DOMAIN?.trim();
 const analyticsSrc =
   process.env.ARCLEAP_ANALYTICS_SRC?.trim() ||
@@ -56,20 +52,15 @@ const orgJsonLd = {
   name: "ArcLeap",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "Intent in. Verified product out.",
+  slogan: "Frontier intelligence. Shared possibility.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrains.variable}`}
-    >
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -77,14 +68,10 @@ export default function RootLayout({
             __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        {analyticsDomain ? (
-          <script defer data-domain={analyticsDomain} src={analyticsSrc} />
-        ) : null}
+        {analyticsDomain ? <script defer data-domain={analyticsDomain} src={analyticsSrc} /> : null}
       </head>
       <body className="flex min-h-screen flex-col bg-ground text-ink">
-        <a href="#main-content" className="skip-link">
-          Skip to content
-        </a>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         {children}
       </body>
     </html>

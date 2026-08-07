@@ -1,10 +1,10 @@
 export const hero = {
-  eyebrow: "ARCLEAP / ENGINEERING AGENT",
-  h1: "Intent in. Verified product out.",
-  body: "ArcLeap is building the engineering agent for the physical world—turning plain-language intent into verified designs and delivered products.",
-  mission: "The compiler between wanting and making.",
+  eyebrow: "ARCLEAP / FRONTIER AI COMPANY",
+  h1: "Building intelligence for a world in motion.",
+  body: "ArcLeap brings frontier AI into products that expand what people can imagine, create, and make real.",
+  note: "Technology should widen human possibility.",
   cta: {
-    label: "See how it works",
-    href: "#how",
+    label: "See where we’re building",
+    href: "#explorations",
   },
 } as const;
