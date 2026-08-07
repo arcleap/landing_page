@@ -16,7 +16,7 @@ const jetbrains = JetBrains_Mono({
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is an independent AI company turning frontier advances into products that help more people imagine, create, and make things real.";
+  "ArcLeap AI turns frontier advances into products that help more people imagine, create, and make things real.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),

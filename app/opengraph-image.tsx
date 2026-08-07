@@ -64,7 +64,7 @@ export default function OpenGraphImage() {
             <span>to more people.</span>
           </div>
           <div style={{ marginTop: 28, fontSize: 23, color: "#5e687d" }}>
-            Independent AI company · Silicon Valley
+            Silicon Valley
           </div>
         </div>
       </div>

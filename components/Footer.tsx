@@ -15,7 +15,6 @@ export function Footer() {
       </div>
       <div className="container-page footer-bottom">
         <p>{footer.rights}</p>
-        <p>Independent AI company</p>
       </div>
     </footer>
   );

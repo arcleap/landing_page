@@ -8,5 +8,5 @@ export const nav = [
 export const footer = {
   tagline: "Make more possible.",
   email: "contact@arcleap.ai",
-  rights: `© ${new Date().getFullYear()} ArcLeap, Inc.`,
+  rights: `© ${new Date().getFullYear()} ArcLeap AI, Inc.`,
 } as const;
