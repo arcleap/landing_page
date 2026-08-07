@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,6 +14,16 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
 });
+
+const themeInitScript = `
+  try {
+    const savedTheme = localStorage.getItem("arcleap-theme");
+    document.documentElement.dataset.theme =
+      savedTheme === "dark" ? "dark" : "light";
+  } catch {
+    document.documentElement.dataset.theme = "light";
+  }
+`;
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
@@ -66,7 +77,12 @@ const orgJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+    <html
+      lang="en"
+      data-theme="light"
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrains.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -77,6 +93,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {analyticsDomain ? <script defer data-domain={analyticsDomain} src={analyticsSrc} /> : null}
       </head>
       <body className="flex min-h-screen flex-col bg-ground text-ink">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <a href="#main-content" className="skip-link">Skip to content</a>
         {children}
       </body>
