@@ -1,5 +1,6 @@
 import Image from "next/image";
 import arcleapMark from "@/design-assets/arcleap-logo-source.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { nav } from "@/content/links";
 
 export function Nav() {
@@ -22,6 +23,7 @@ export function Nav() {
             <a key={item.label} href={item.href}>{item.label}</a>
           ))}
           <a href="#contact" className="nav-contact">Contact</a>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

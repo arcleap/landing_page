@@ -12,7 +12,15 @@ export function Company() {
         <div className="company-copy">
           <p>{company.body}</p>
           <div className="company-origin">
-            <span>{company.founder}</span>
+            <span className="company-founder">
+              <span>
+                {company.founderLabel}{" "}
+                <span className="company-founder-name">{company.founderName}</span>
+              </span>
+              <a className="company-founder-email" href={`mailto:${company.founderEmail}`}>
+                {company.founderEmail}
+              </a>
+            </span>
             <span>Silicon Valley · California</span>
           </div>
         </div>
