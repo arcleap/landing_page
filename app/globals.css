@@ -270,7 +270,7 @@ body,
 
 .brand-mark-image {
   object-fit: cover;
-  transform: scaleX(0.72);
+  transform: scaleX(0.86);
 }
 
 .nav-links {
