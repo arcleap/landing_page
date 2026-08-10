@@ -14,7 +14,7 @@ export function Nav() {
       <div className="container-page nav-inner">
         <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
           <span className="brand-mark" aria-hidden="true">
-            <Image src={arcleapMark} alt="" fill sizes="42px" className="object-cover" />
+            <Image src={arcleapMark} alt="" fill sizes="42px" className="brand-mark-image" />
           </span>
           <span>ARCLEAP AI</span>
         </a>
