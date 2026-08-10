@@ -722,6 +722,32 @@ body,
   text-transform: uppercase;
 }
 
+.company-founder {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.9rem;
+}
+
+.company-founder-name {
+  color: var(--color-ink-dim);
+  font-weight: 600;
+}
+
+.company-founder-email {
+  color: inherit;
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-transform: lowercase;
+  text-underline-offset: 0.25em;
+  transition: color 160ms ease;
+}
+
+.company-founder-email:hover {
+  color: var(--color-ink-dim);
+}
+
 .site-footer {
   background: rgba(255, 255, 255, 0.72);
 }
