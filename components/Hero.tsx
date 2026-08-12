@@ -9,9 +9,21 @@ export function Hero() {
       <div className="container-page hero-grid">
         <div className="hero-copy">
           <Eyebrow>{hero.eyebrow}</Eyebrow>
-          <h1 id="hero-title" className="text-display max-w-[12ch] text-ink">
-            {hero.h1}
-          </h1>
+          <div className="hero-title-row">
+            <h1 id="hero-title" className="text-display max-w-[12ch] text-ink">
+              {hero.h1}
+            </h1>
+            <div className="hero-brand" aria-hidden="true">
+              <Image
+                src={arcleapMark}
+                alt=""
+                fill
+                loading="eager"
+                sizes="(min-width: 900px) 19rem, 1px"
+                className="hero-brand-image"
+              />
+            </div>
+          </div>
           <p className="hero-body">{hero.body}</p>
           <div className="hero-actions">
             <a href={hero.cta.href} className="primary-cta group">
@@ -20,16 +32,6 @@ export function Hero() {
             </a>
             <p className="hero-note">{hero.note}</p>
           </div>
-        </div>
-        <div className="hero-brand" aria-hidden="true">
-          <Image
-            src={arcleapMark}
-            alt=""
-            fill
-            loading="eager"
-            sizes="(min-width: 900px) 19rem, 1px"
-            className="hero-brand-image"
-          />
         </div>
       </div>
     </section>
