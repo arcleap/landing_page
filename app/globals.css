@@ -162,7 +162,12 @@ body {
 }
 
 :root[data-theme="dark"] .hero-brand {
+  background: #050507;
   opacity: 0.28;
+}
+
+:root[data-theme="dark"] .hero-brand-image {
+  filter: none;
 }
 
 :root[data-theme="dark"] .direction-section {
@@ -393,15 +398,18 @@ body,
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: 1.25rem;
-  background: #050507;
+  background: var(--color-mist);
   box-shadow: 0 24px 70px rgba(30, 42, 78, 0.14);
-  opacity: 0.18;
+  opacity: 1;
   pointer-events: none;
+  transition: background-color 220ms ease, opacity 220ms ease;
 }
 
 .hero-brand-image {
+  filter: invert(1);
   object-fit: cover;
   transform: scaleX(0.86);
+  transition: filter 220ms ease;
 }
 
 .hero-body {
