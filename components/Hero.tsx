@@ -27,7 +27,7 @@ export function Hero() {
             alt=""
             fill
             loading="eager"
-            sizes="(min-width: 900px) 26vw, 1px"
+            sizes="(min-width: 900px) 19rem, 1px"
             className="hero-brand-image"
           />
         </div>

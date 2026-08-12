@@ -162,7 +162,6 @@ body {
 }
 
 :root[data-theme="dark"] .hero-brand {
-  background: #050507;
   opacity: 0.28;
 }
 
@@ -392,22 +391,20 @@ body,
 }
 
 .hero-brand {
-  position: relative;
+  position: absolute;
+  top: 3.25rem;
+  right: 3rem;
   display: none;
-  width: 100%;
+  width: clamp(13rem, 23vw, 19rem);
   aspect-ratio: 3 / 2;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  background: var(--color-mist);
-  box-shadow: 0 24px 70px rgba(30, 42, 78, 0.14);
   opacity: 1;
   pointer-events: none;
-  transition: background-color 220ms ease, opacity 220ms ease;
+  transition: opacity 220ms ease;
 }
 
 .hero-brand-image {
   filter: invert(1);
-  object-fit: cover;
+  object-fit: contain;
   transform: scaleX(0.86);
   transition: filter 220ms ease;
 }
@@ -463,12 +460,6 @@ body,
 }
 
 @media (min-width: 900px) {
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(16rem, 26vw, 21rem);
-    gap: clamp(2.5rem, 5vw, 5.5rem);
-  }
-
   .hero-brand {
     display: block;
   }
