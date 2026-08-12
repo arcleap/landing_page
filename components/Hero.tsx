@@ -1,3 +1,5 @@
+import Image from "next/image";
+import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { hero } from "@/content/hero";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
@@ -18,6 +20,16 @@ export function Hero() {
             </a>
             <p className="hero-note">{hero.note}</p>
           </div>
+        </div>
+        <div className="hero-brand" aria-hidden="true">
+          <Image
+            src={arcleapMark}
+            alt=""
+            fill
+            loading="eager"
+            sizes="(min-width: 900px) 26vw, 1px"
+            className="hero-brand-image"
+          />
         </div>
       </div>
     </section>
