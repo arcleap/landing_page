@@ -397,7 +397,7 @@ body,
   display: none;
   width: clamp(13rem, 23vw, 19rem);
   aspect-ratio: 3 / 2;
-  opacity: 1;
+  opacity: 0.78;
   pointer-events: none;
   transition: opacity 220ms ease;
 }
