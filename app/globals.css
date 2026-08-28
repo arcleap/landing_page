@@ -189,7 +189,7 @@ body {
     linear-gradient(145deg, #1a2030, #121620 65%);
 }
 
-:root[data-theme="dark"] .exploration-wishes {
+:root[data-theme="dark"] .exploration-feedback {
   background:
     radial-gradient(circle at 50% 50%, rgba(79, 171, 197, 0.18), transparent 29%),
     linear-gradient(145deg, #18252d, #121620 66%);
@@ -575,7 +575,7 @@ body,
     linear-gradient(145deg, #eef1fb, #f8f9fc 62%);
 }
 
-.exploration-wishes {
+.exploration-feedback {
   background:
     radial-gradient(circle at 50% 50%, rgba(72, 158, 187, 0.16), transparent 27%),
     linear-gradient(145deg, #f2f8fa, #f8f9fc 66%);
@@ -678,7 +678,7 @@ body,
   right: 0;
 }
 
-.wish-signal {
+.feedback-signal {
   position: absolute;
   inset: 50% auto auto 50%;
   width: 12rem;
@@ -686,48 +686,48 @@ body,
   transform: translate(-50%, -50%);
 }
 
-.wish-core,
-.wish-ring,
-.wish-dot {
+.feedback-core,
+.feedback-ring,
+.feedback-dot {
   position: absolute;
   border-radius: 50%;
 }
 
-.wish-core {
+.feedback-core {
   inset: 42%;
   background: var(--color-accent-2);
   box-shadow: 0 0 0 0.75rem rgba(62, 143, 170, 0.1), 0 8px 25px rgba(62, 143, 170, 0.22);
 }
 
-.wish-ring {
+.feedback-ring {
   inset: 16%;
   border: 1px solid rgba(62, 143, 170, 0.34);
 }
 
-.wish-ring-two {
+.feedback-ring-two {
   inset: -10%;
   border-color: rgba(91, 104, 223, 0.16);
 }
 
-.wish-dot {
+.feedback-dot {
   width: 0.7rem;
   height: 0.7rem;
   background: var(--color-accent);
   box-shadow: 0 5px 14px rgba(91, 104, 223, 0.2);
 }
 
-.wish-dot-one {
+.feedback-dot-one {
   top: 4%;
   left: 59%;
 }
 
-.wish-dot-two {
+.feedback-dot-two {
   right: 2%;
   bottom: 28%;
   background: var(--color-accent-2);
 }
 
-.wish-dot-three {
+.feedback-dot-three {
   bottom: 5%;
   left: 18%;
   width: 0.5rem;

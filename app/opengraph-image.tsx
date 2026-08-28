@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap AI — Frontier AI for more people";
+export const alt = "ArcLeap AI — AI-native engineering for physical systems";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -60,11 +60,11 @@ export default function OpenGraphImage() {
               letterSpacing: -3,
             }}
           >
-            Bringing frontier AI
-            <span>to more people.</span>
+            AI-native engineering
+            <span>for physical systems.</span>
           </div>
           <div style={{ marginTop: 28, fontSize: 23, color: "#5e687d" }}>
-            Silicon Valley
+            Starting focused. Expanding across the physical world.
           </div>
         </div>
       </div>
