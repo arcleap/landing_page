@@ -1,10 +1,10 @@
 export const hero = {
   eyebrow: "ARCLEAP AI / PHYSICAL SYSTEMS",
   h1: "AI-native engineering for physical systems.",
-  body: "Starting with robotics and electromechanical design, we turn a task into build-ready system options—architecture, components, CAD, BOM, and simulation-backed engineering evidence.",
-  note: "Robotics is the proving ground, not the boundary.",
+  body: "We are building AI systems that help move complex physical ideas from intent toward designs that can be explored, evaluated, and made real.",
+  note: "Starting focused. Built to expand over time.",
   cta: {
-    label: "See the engineering loop",
-    href: "#explorations",
+    label: "See our direction",
+    href: "#direction",
   },
 } as const;

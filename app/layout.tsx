@@ -27,7 +27,7 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building AI-native engineering for physical systems, starting with robotics and electromechanical design.";
+  "ArcLeap AI is building AI-native engineering for physical systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),

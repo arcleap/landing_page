@@ -40,8 +40,8 @@ function PhysicalSignal() {
       <span className="signal-line" />
       <span className="signal-pulse" />
       <span className="signal-node signal-node-end" />
-      <span className="signal-label signal-label-start">task</span>
-      <span className="signal-label signal-label-end">options</span>
+      <span className="signal-label signal-label-start">intent</span>
+      <span className="signal-label signal-label-end">system</span>
     </div>
   );
 }

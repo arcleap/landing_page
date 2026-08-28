@@ -64,7 +64,7 @@ export default function OpenGraphImage() {
             <span>for physical systems.</span>
           </div>
           <div style={{ marginTop: 28, fontSize: 23, color: "#5e687d" }}>
-            Robotics and electromechanical design, first.
+            Starting focused. Expanding across the physical world.
           </div>
         </div>
       </div>

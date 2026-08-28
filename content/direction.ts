@@ -1,22 +1,22 @@
 export const direction = {
-  eyebrow: "OUR STARTING POINT",
-  h2: "From a task to defensible system choices.",
-  body: "A task can begin as a professional specification, video, image, prompt, environment description, or existing design. ArcLeap AI is building the system that carries it toward engineering review and assembly handoff.",
+  eyebrow: "OUR DIRECTION",
+  h2: "A new way to engineer what exists in the real world.",
+  body: "Physical engineering remains fragmented across expertise, tools, and long iteration cycles. We are building an AI-native approach that can reason across the process while keeping evidence and real constraints in the loop.",
   principles: [
     {
       number: "01",
-      label: "Structure the task",
-      description: "Turn the available evidence into requirements, constraints, assumptions, and acceptance criteria.",
+      label: "Understand intent",
+      description: "Begin with the problem, its context, and the constraints that matter—not a predetermined design.",
     },
     {
       number: "02",
-      label: "Explore architectures",
-      description: "Compare system concepts, select proven catalog components, and create custom geometry only where the task requires it.",
+      label: "Explore possibilities",
+      description: "Consider multiple ways a physical system could take shape before committing to one path.",
     },
     {
       number: "03",
-      label: "Evaluate the options",
-      description: "Generate editable CAD and BOMs, then compare cost, compatibility, kinematics, margins, manufacturability, and failure modes before assembly.",
+      label: "Learn through evidence",
+      description: "Use engineering evaluation and real-world feedback to refine each decision and improve what comes next.",
     },
   ],
 } as const;

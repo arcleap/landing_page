@@ -1,7 +1,7 @@
 export const nav = [
   { label: "Signals", href: "/signals" },
-  { label: "Approach", href: "#direction" },
-  { label: "Loop", href: "#explorations" },
+  { label: "Direction", href: "#direction" },
+  { label: "Focus", href: "#explorations" },
   { label: "Company", href: "#company" },
 ] as const;
 
