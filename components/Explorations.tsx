@@ -16,7 +16,7 @@ export function Explorations() {
         {explorations.items.map((item) => (
           <article key={item.number} className="exploration-card">
             <div className={`exploration-visual exploration-${item.visual}`} aria-hidden="true">
-              {item.visual === "physical" ? <PhysicalSignal /> : <WishSignal />}
+              {item.visual === "physical" ? <PhysicalSignal /> : <FeedbackSignal />}
             </div>
             <div className="exploration-copy">
               <div className="exploration-meta">
@@ -40,21 +40,21 @@ function PhysicalSignal() {
       <span className="signal-line" />
       <span className="signal-pulse" />
       <span className="signal-node signal-node-end" />
-      <span className="signal-label signal-label-start">intent</span>
-      <span className="signal-label signal-label-end">outcome</span>
+      <span className="signal-label signal-label-start">task</span>
+      <span className="signal-label signal-label-end">options</span>
     </div>
   );
 }
 
-function WishSignal() {
+function FeedbackSignal() {
   return (
-    <div className="wish-signal">
-      <span className="wish-core" />
-      <span className="wish-ring wish-ring-one" />
-      <span className="wish-ring wish-ring-two" />
-      <span className="wish-dot wish-dot-one" />
-      <span className="wish-dot wish-dot-two" />
-      <span className="wish-dot wish-dot-three" />
+    <div className="feedback-signal">
+      <span className="feedback-core" />
+      <span className="feedback-ring feedback-ring-one" />
+      <span className="feedback-ring feedback-ring-two" />
+      <span className="feedback-dot feedback-dot-one" />
+      <span className="feedback-dot feedback-dot-two" />
+      <span className="feedback-dot feedback-dot-three" />
     </div>
   );
 }

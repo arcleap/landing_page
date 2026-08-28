@@ -1,10 +1,10 @@
 export const hero = {
-  eyebrow: "ARCLEAP AI / FRONTIER AI COMPANY",
-  h1: "Bringing frontier AI to more people.",
-  body: "ArcLeap AI builds products that turn frontier advances into practical ways to imagine, create, and make things real.",
-  note: "Technology should widen human possibility.",
+  eyebrow: "ARCLEAP AI / PHYSICAL SYSTEMS",
+  h1: "AI-native engineering for physical systems.",
+  body: "Starting with robotics and electromechanical design, we turn a task into build-ready system options—architecture, components, CAD, BOM, and simulation-backed engineering evidence.",
+  note: "Robotics is the proving ground, not the boundary.",
   cta: {
-    label: "See where we’re building",
+    label: "See the engineering loop",
     href: "#explorations",
   },
 } as const;

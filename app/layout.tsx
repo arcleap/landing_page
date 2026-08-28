@@ -27,14 +27,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI turns frontier advances into products that help more people imagine, create, and make things real.";
+  "ArcLeap AI is building AI-native engineering for physical systems, starting with robotics and electromechanical design.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — Frontier AI for more people",
+  title: "ArcLeap AI — AI-native engineering for physical systems",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — Frontier AI for more people",
+    title: "ArcLeap AI — AI-native engineering for physical systems",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — Frontier AI for more people",
+    title: "ArcLeap AI — AI-native engineering for physical systems",
     description: siteDescription,
   },
   alternates: {
@@ -69,7 +69,7 @@ const orgJsonLd = {
   legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "Frontier AI for more people.",
+  slogan: "AI-native engineering for physical systems.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",

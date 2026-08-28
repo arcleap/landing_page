@@ -1,7 +1,7 @@
 export const company = {
   eyebrow: "ARCLEAP AI",
-  h2: "A home for ambitious ideas that move the world forward.",
-  body: "ArcLeap AI is based in Silicon Valley. We work at the edge of what intelligence can do—and turn that edge into products that help more people shape what comes next.",
+  h2: "Robotics first. The physical world beyond.",
+  body: "ArcLeap AI is based in Silicon Valley. We are starting with robotic and electromechanical systems, then building toward broader physical-design intelligence backed by executable engineering evaluators and real-world outcomes.",
   founderLabel: "Founded by",
   founderName: "Jin Miao",
   founderEmail: "jinmiao@arcleap.ai",
