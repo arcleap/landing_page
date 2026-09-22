@@ -6,11 +6,7 @@ export function Footer() {
       <div className="container-page footer-main">
         <div>
           <p className="footer-label">CONTACT</p>
-          <p className="footer-tagline">{footer.tagline}</p>
-        </div>
-        <div className="footer-contact">
-          <p>General inquiries</p>
-          <a href={`mailto:${footer.email}`}>{footer.email}</a>
+          <a className="footer-email" href={`mailto:${footer.email}`}>{footer.email}</a>
         </div>
       </div>
       <div className="container-page footer-bottom">

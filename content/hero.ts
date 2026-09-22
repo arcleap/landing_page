@@ -1,10 +1,10 @@
 export const hero = {
-  eyebrow: "ARCLEAP AI / PHYSICAL SYSTEMS",
-  h1: "AI-native engineering for physical systems.",
-  body: "We are building AI systems that help move complex physical ideas from intent toward designs that can be explored, evaluated, and made real.",
-  note: "Starting focused. Built to expand over time.",
+  eyebrow: "ARCLEAP AI",
+  h1: "Where AI meets the physical world.",
+  body: "We are exploring how intelligence can better understand the physical world and the interactions within it.",
+  note: "Currently in stealth.",
   cta: {
-    label: "See our direction",
-    href: "#direction",
+    label: "Get in touch",
+    href: "mailto:contact@arcleap.ai",
   },
 } as const;

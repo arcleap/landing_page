@@ -381,7 +381,7 @@ body,
 .hero-grid {
   position: relative;
   display: flex;
-  min-height: calc(88svh - 4.75rem);
+  min-height: calc(100svh - 4.75rem);
   align-items: center;
   padding-block: 7rem 8rem;
 }
@@ -803,13 +803,10 @@ body,
 }
 
 .footer-main {
-  display: grid;
-  gap: 3rem;
-  padding-block: 5rem;
+  padding-block: 3.5rem;
 }
 
 .footer-label,
-.footer-contact p,
 .footer-bottom {
   color: var(--color-ink-faint);
   font-family: var(--font-mono);
@@ -818,29 +815,16 @@ body,
   text-transform: uppercase;
 }
 
-.footer-tagline {
-  margin-top: 1rem;
-  color: var(--color-ink);
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1;
-  letter-spacing: -0.055em;
-  font-weight: 570;
-}
-
-.footer-contact {
-  align-self: end;
-}
-
-.footer-contact a {
+.footer-email {
   display: inline-block;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   color: var(--color-ink);
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
   letter-spacing: -0.025em;
   transition: color 160ms ease;
 }
 
-.footer-contact a:hover {
+.footer-email:hover {
   color: var(--color-accent);
 }
 
@@ -903,8 +887,7 @@ body,
     padding: 2rem;
   }
 
-  .company-grid,
-  .footer-main {
+  .company-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.75fr);
     align-items: end;
   }
@@ -913,14 +896,6 @@ body,
     padding-block: 8rem;
   }
 
-  .footer-main {
-    padding-block: 6rem;
-  }
-
-  .footer-contact {
-    justify-self: end;
-    min-width: 18rem;
-  }
 
   .footer-bottom {
     flex-direction: row;
@@ -942,12 +917,9 @@ body,
     display: inline;
   }
 
-  .nav-contact {
-    display: none;
-  }
 
   .hero-grid {
-    min-height: calc(82svh - 4.75rem);
+    min-height: calc(100svh - 4.75rem);
     padding-block: 4.75rem 5.5rem;
   }
 
