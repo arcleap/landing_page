@@ -1,22 +1,22 @@
 export const direction = {
   eyebrow: "OUR DIRECTION",
-  h2: "A new way to engineer what exists in the real world.",
-  body: "Physical engineering remains fragmented across expertise, tools, and long iteration cycles. We are building an AI-native approach that can reason across the process while keeping evidence and real constraints in the loop.",
+  h2: "The next frontier of intelligence is physical.",
+  body: "The world beyond the screen is dynamic, contextual, and deeply human. We are exploring models that can reason about those realities—and grow more useful through contact with them.",
   principles: [
     {
       number: "01",
-      label: "Understand intent",
-      description: "Begin with the problem, its context, and the constraints that matter—not a predetermined design.",
+      label: "Understand context",
+      description: "See the relationships between people, objects, and environments—not isolated inputs.",
     },
     {
       number: "02",
-      label: "Explore possibilities",
-      description: "Consider multiple ways a physical system could take shape before committing to one path.",
+      label: "Anticipate change",
+      description: "Reason about how a situation may unfold, not only what a single moment contains.",
     },
     {
       number: "03",
-      label: "Learn through evidence",
-      description: "Use engineering evaluation and real-world feedback to refine each decision and improve what comes next.",
+      label: "Learn from reality",
+      description: "Improve through the evidence created when predictions meet the physical world.",
     },
   ],
 } as const;

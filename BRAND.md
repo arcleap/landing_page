@@ -1,7 +1,7 @@
 # ArcLeap — Brand Spec
 
 **Status:** Stealth landing page for protected review
-**Updated:** 2026-09-21
+**Updated:** 2026-09-22
 
 ## Identity
 
@@ -47,8 +47,8 @@ Simple and technical, with clarity before decoration.
 
 ## Interaction and accessibility
 
-- Hero CTA opens an email to `contact@arcleap.ai`.
-- Navigation contains only the ArcLeap AI wordmark, Contact, and the theme toggle.
+- Hero CTA moves to the Direction section.
+- Navigation contains Signals, Direction, Questions, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
 - Focus uses a visible 2px blue outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 

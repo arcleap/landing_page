@@ -1,6 +1,7 @@
 import Image from "next/image";
 import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { nav } from "@/content/links";
 
 export function Nav() {
   const isPreview = process.env.VERCEL_ENV === "preview";
@@ -18,6 +19,9 @@ export function Nav() {
           <span>ARCLEAP AI</span>
         </a>
         <nav aria-label="Primary" className="nav-links">
+          {nav.map((item) => (
+            <a key={item.label} href={item.href}>{item.label}</a>
+          ))}
           <a href="mailto:contact@arcleap.ai" className="nav-contact">Contact</a>
           <ThemeToggle />
         </nav>
