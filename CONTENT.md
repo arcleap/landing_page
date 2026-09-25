@@ -9,15 +9,13 @@ The page introduces Human World Models at company-level altitude. It may explain
 ## Page structure
 
 1. Hero
-2. Human World Models
-3. Research bet
-4. Contact footer
+2. Research bet
+3. Contact footer
 
 ## Navigation
 
 - ArcLeap AI wordmark → `#top`
 - Signals → `https://jinmiao.ai/signals`
-- Model → `#direction`
 - Research → `#explorations`
 - Contact → `mailto:contact@arcleap.ai`
 - Theme toggle
@@ -28,16 +26,9 @@ The page introduces Human World Models at company-level altitude. It may explain
 - H1: **A physics engine for people.**
 - Body: **We are building predictive intelligence for how people perceive, act, and adapt in the physical world.**
 - Note: **Currently in stealth.**
-- CTA: **Explore the model** → `#direction`
+- CTA: **Explore the research** → `#explorations`
 
 “A physics engine for people” is a directional metaphor. Pair it with “building,” “researching,” or predictive-language so it does not imply a finished simulator or proven generalization.
-
-## Human World Models
-
-- H2: **The world changes when people enter it.**
-- Explain that perception, choice, physical capability, and adaptation jointly shape interaction.
-- Organize the section around perceive, act, and adapt.
-- Do not describe internal architecture or physiological simulation.
 
 ## Research bet
 

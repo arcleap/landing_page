@@ -48,8 +48,8 @@ Simple and technical, with clarity before decoration.
 
 ## Interaction and accessibility
 
-- Hero CTA moves to the Human World Models section.
-- Navigation contains Signals, Model, Research, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
+- Hero CTA moves to the Research section.
+- Navigation contains Signals, Research, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
 - Focus uses a visible 2px blue outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 

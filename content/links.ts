@@ -1,6 +1,5 @@
 export const nav = [
   { label: "Signals", href: "https://jinmiao.ai/signals" },
-  { label: "Model", href: "#direction" },
   { label: "Research", href: "#explorations" },
 ] as const;
 

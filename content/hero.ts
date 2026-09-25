@@ -4,7 +4,7 @@ export const hero = {
   body: "We are building predictive intelligence for how people perceive, act, and adapt in the physical world.",
   note: "Currently in stealth.",
   cta: {
-    label: "Explore the model",
-    href: "#direction",
+    label: "Explore the research",
+    href: "#explorations",
   },
 } as const;
