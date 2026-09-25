@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap AI — AI-native engineering for physical systems";
+export const alt = "ArcLeap AI — A physics engine for people";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -60,11 +60,11 @@ export default function OpenGraphImage() {
               letterSpacing: -3,
             }}
           >
-            AI-native engineering
-            <span>for physical systems.</span>
+            A physics engine
+            <span>for people.</span>
           </div>
           <div style={{ marginTop: 28, fontSize: 23, color: "#5e687d" }}>
-            Starting focused. Expanding across the physical world.
+            Human World Models · ArcLeap AI
           </div>
         </div>
       </div>

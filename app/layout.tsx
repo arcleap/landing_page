@@ -27,14 +27,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building AI-native engineering for physical systems.";
+  "ArcLeap AI is building Human World Models: predictive intelligence for how people interact with the physical world.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — AI-native engineering for physical systems",
+  title: "ArcLeap AI — Human World Models",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — AI-native engineering for physical systems",
+    title: "ArcLeap AI — Human World Models",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — AI-native engineering for physical systems",
+    title: "ArcLeap AI — Human World Models",
     description: siteDescription,
   },
   alternates: {
@@ -69,7 +69,7 @@ const orgJsonLd = {
   legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "AI-native engineering for physical systems.",
+  slogan: "A physics engine for people.",
   founder: [{ "@type": "Person", name: "Jin Miao" }],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
