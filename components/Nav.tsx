@@ -1,6 +1,5 @@
 import Image from "next/image";
 import arcleapMark from "@/design-assets/arcleap-logo-source.png";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { nav } from "@/content/links";
 
 export function Nav() {
@@ -9,7 +8,7 @@ export function Nav() {
   return (
     <header className="site-header">
       {isPreview ? (
-        <div className="preview-banner">Protected review candidate · not production</div>
+        <div className="preview-banner">Private preview · not indexed or linked from the live site</div>
       ) : null}
       <div className="container-page nav-inner">
         <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
@@ -23,7 +22,6 @@ export function Nav() {
             <a key={item.label} href={item.href}>{item.label}</a>
           ))}
           <a href="mailto:contact@arcleap.ai" className="nav-contact">Contact</a>
-          <ThemeToggle />
         </nav>
       </div>
     </header>

@@ -1,7 +1,7 @@
 # ArcLeap AI — Brand Spec
 
 **Status:** Human World Models landing page for protected review
-**Updated:** 2026-09-24
+**Updated:** 2026-09-25
 
 ## Identity
 
@@ -24,33 +24,31 @@ Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments,
 
 ## Visual direction
 
-Simple and technical, with clarity before decoration.
+Plain and editorial, with language and proportion carrying the identity.
 
-- Light neutral ground rather than pure black.
-- Cool blue as the only active accent; no yellow highlight system.
-- Inter-led typography with JetBrains Mono reserved for system labels.
-- One quiet abstract grid in the hero; no literal human simulation diagram.
-- Quiet white panels, thin cool-gray borders, and restrained shadows.
-- No orbital artwork, CAD objects, dimension drawings, robots, glowing brains, anatomical imagery, or factory stock photography.
+- Warm paper ground and charcoal typography.
+- Inter throughout, with weight and scale creating the hierarchy.
+- Simple horizontal rules organize the page without turning content into cards.
+- Quiet numbering and labels support a steady reading rhythm.
+- No diagrams, grids, glows, atmospheric gradients, glass panels, pill buttons, or decorative animation.
+- No orbital artwork, CAD objects, robots, glowing brains, anatomical imagery, or factory stock photography.
 
 ### Palette
 
 | Role | Value |
 |---|---|
-| Ground | `#F5F7FB` |
-| Panel | `#FFFFFF` |
-| Ink | `#111827` |
-| Ink dim | `#536170` |
-| Ink faint | `#607083` |
-| Rule | `#DBE2EA` |
-| Accent | `#245EEA` |
-| Accent dark | `#1746B4` |
+| Ground | `#F2EFE7` |
+| Panel | `#F8F6F0` |
+| Ink | `#24231F` |
+| Ink dim | `#5E5B53` |
+| Ink faint | `#858178` |
+| Rule | `#CEC9BD` |
 
 ## Interaction and accessibility
 
 - Hero CTA moves to the Research section.
-- Navigation contains Signals, Research, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
-- Focus uses a visible 2px blue outline with offset.
+- Navigation contains Signals, Research, and Contact. Signals links directly to `https://jinmiao.ai/signals`.
+- Focus uses a visible 2px charcoal outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 
 ## Release boundaries

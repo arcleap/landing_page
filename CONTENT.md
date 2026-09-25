@@ -1,7 +1,7 @@
 # ArcLeap AI — Public Content Spec
 
 **Status:** Human World Models staging page · production publication requires Jin’s approval of the exact SHA
-**Updated:** 2026-09-24
+**Updated:** 2026-09-25
 **Authority:** `_ARCLEAP — Source of Truth.md` current thesis section dated 2026-09-20, including subsequent status updates
 
 The page introduces Human World Models at company-level altitude. It may explain embodied human behavior in plain language, but it must not publish architecture, datasets, experiments, applications, commercial wedges, internal status, or unproven capability claims.
@@ -18,7 +18,6 @@ The page introduces Human World Models at company-level altitude. It may explain
 - Signals → `https://jinmiao.ai/signals`
 - Research → `#explorations`
 - Contact → `mailto:contact@arcleap.ai`
-- Theme toggle
 
 ## Hero
 
