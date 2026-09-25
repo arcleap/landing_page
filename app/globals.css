@@ -815,9 +815,17 @@ body,
   text-transform: uppercase;
 }
 
+.footer-note {
+  margin-top: 1rem;
+  max-width: 38ch;
+  color: var(--color-ink-dim);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 .footer-email {
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   color: var(--color-ink);
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
   letter-spacing: -0.025em;

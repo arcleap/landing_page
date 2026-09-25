@@ -1,58 +1,61 @@
 # ArcLeap AI — Public Content Spec
 
-**Status:** Stealth landing page · production publication requires Jin’s approval of the exact SHA
-**Updated:** 2026-09-22
-**Authority:** `_ARCLEAP — Source of Truth.md` updated 2026-09-20
+**Status:** Human World Models staging page · production publication requires Jin’s approval of the exact SHA
+**Updated:** 2026-09-24
+**Authority:** `_ARCLEAP — Source of Truth.md` current thesis section dated 2026-09-20, including subsequent status updates
 
-The public page places ArcLeap AI at the intersection of AI and the physical world. It should feel substantive and intriguing without publishing the company’s research thesis, technical approach, applications, initial wedge, or claimed capabilities.
+The page introduces Human World Models at company-level altitude. It may explain embodied human behavior in plain language, but it must not publish architecture, datasets, experiments, applications, commercial wedges, internal status, or unproven capability claims.
 
 ## Page structure
 
 1. Hero
-2. Direction
-3. Questions we’re exploring
+2. Human World Models
+3. Research bet
 4. Contact footer
 
 ## Navigation
 
 - ArcLeap AI wordmark → `#top`
 - Signals → `https://jinmiao.ai/signals`
-- Direction → `#direction`
-- Questions → `#explorations`
+- Model → `#direction`
+- Research → `#explorations`
 - Contact → `mailto:contact@arcleap.ai`
 - Theme toggle
 
 ## Hero
 
-- Eyebrow: `ARCLEAP AI`
-- H1: **Where AI meets the physical world.**
-- Body: **We are exploring AI that can understand more than information—how the physical world behaves, changes, and responds.**
+- Eyebrow: `ARCLEAP AI / HUMAN WORLD MODELS`
+- H1: **A physics engine for people.**
+- Body: **We are building predictive intelligence for how people perceive, act, and adapt in the physical world.**
 - Note: **Currently in stealth.**
-- CTA: **Explore our direction** → `#direction`
+- CTA: **Explore the model** → `#direction`
 
-## Direction
+“A physics engine for people” is a directional metaphor. Pair it with “building,” “researching,” or predictive-language so it does not imply a finished simulator or proven generalization.
 
-- H2: **The next frontier of intelligence is physical.**
-- Body stays at the level of the dynamic, contextual, and human nature of the physical world.
-- Principles: understand context, anticipate change, and learn from reality.
+## Human World Models
 
-## Questions we’re exploring
+- H2: **The world changes when people enter it.**
+- Explain that perception, choice, physical capability, and adaptation jointly shape interaction.
+- Organize the section around perceive, act, and adapt.
+- Do not describe internal architecture or physiological simulation.
 
-- H2: **From observation to understanding.**
-- Present two open questions around interaction and generalization.
-- Do not name products, applications, datasets, model architecture, experiments, or the Human World Models thesis.
+## Research bet
 
-The visual treatment remains abstract. It must not depict or name a product category, research mechanism, application, dataset, or architecture.
+- H2: **Can one model learn across many interactions?**
+- Present prediction and transfer as research questions.
+- Generalization is a goal to test, not an established capability.
+- Keep applications and products deliberately unnamed.
 
 ## Contact and footer
 
-- Display `contact@arcleap.ai` as plain contact information.
+- Display `contact@arcleap.ai`.
+- Invite research, partnership, and company inquiries.
 - No founder bio, Wishlist, hiring, product claims, request form, or public uploads.
 
 ## Metadata
 
-- Title: `ArcLeap AI — Where AI meets the physical world`
-- Description: `ArcLeap AI is exploring how intelligence can better understand the physical world and the interactions within it.`
+- Title: `ArcLeap AI — Human World Models`
+- Description: `ArcLeap AI is building Human World Models: predictive intelligence for how people interact with the physical world.`
 - Canonical: `https://arcleap.ai/`
 - Preview adds `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.
 

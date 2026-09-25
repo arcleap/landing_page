@@ -1,20 +1,20 @@
 export const explorations = {
-  eyebrow: "QUESTIONS WE'RE EXPLORING",
-  h2: "From observation to understanding.",
-  intro: "We are starting with fundamental questions that recur across physical AI, while keeping the products and paths deliberately open.",
+  eyebrow: "THE RESEARCH BET",
+  h2: "Can one model learn across many interactions?",
+  intro: "We are testing whether recurring structure in human behavior can carry across unfamiliar objects, machines, and environments.",
   items: [
     {
       number: "01",
       signal: "INTERACTION",
       title: "What happens next?",
-      description: "How can AI understand what matters when people, machines, and environments affect one another?",
+      description: "Predict how people respond when something in the physical world changes.",
       visual: "physical",
     },
     {
       number: "02",
       signal: "GENERALIZATION",
       title: "What carries forward?",
-      description: "How can learning from one physical situation help make sense of another?",
+      description: "Measure whether learning from one interaction reduces what must be relearned in the next.",
       visual: "feedback",
     },
   ],

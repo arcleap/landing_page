@@ -1,24 +1,26 @@
-# ArcLeap — Brand Spec
+# ArcLeap AI — Brand Spec
 
-**Status:** Stealth landing page for protected review
-**Updated:** 2026-09-22
+**Status:** Human World Models landing page for protected review
+**Updated:** 2026-09-24
 
 ## Identity
 
-ArcLeap AI is building at the intersection of AI and the physical world. Public positioning remains intentionally broad while the company is in stealth.
+ArcLeap AI is building Human World Models: predictive models of how people perceive, act, and adapt in the physical world.
 
-- Public line: **Where AI meets the physical world.**
-- Do not publish the Human World Models name, detailed thesis, research mechanisms, application landscape, or initial wedge.
-- The public language should remain consistent when ArcLeap AI later reveals its fuller thesis.
+- Category: **Human World Models.**
+- Explanatory line: **Predictive intelligence for how people interact with the physical world.**
+- Headline metaphor: **A physics engine for people.**
+- The metaphor is directional. It must be paired with “building,” “researching,” or predictive-language and must not imply a finished simulator.
+- Keep architecture, datasets, experiments, application choices, commercial wedges, and internal status private.
 
 ## Voice
 
-1. Calm, clear, and engineering-grade.
-2. Specific only about the intersection of intelligence and the physical world.
-3. Aspirational claims use “we’re building” until present capability is confirmed.
-4. Use “verified,” never “verifiable”; keep “part” out of headlines, slogans, and one-liners.
+1. Calm, clear, and research-grade.
+2. Explain embodied human behavior in plain language.
+3. Aspirational claims use “building,” “researching,” and “with the goal of” until capability is demonstrated.
+4. Distinguish research questions from established results.
 
-Avoid `Human World Models`, `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments, capability claims, hype, competitor callouts, and internal numbers.
+Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments, capability claims, hype, competitor callouts, and internal numbers.
 
 ## Visual direction
 
@@ -27,10 +29,9 @@ Simple and technical, with clarity before decoration.
 - Light neutral ground rather than pure black.
 - Cool blue as the only active accent; no yellow highlight system.
 - Inter-led typography with JetBrains Mono reserved for system labels.
-- One quiet abstract grid in the hero; no system diagram.
+- One quiet abstract grid in the hero; no literal human simulation diagram.
 - Quiet white panels, thin cool-gray borders, and restrained shadows.
-- A dark navy verification section may create contrast; never use black as the full-page identity.
-- No orbital artwork, CAD objects, dimension drawings, robots, glowing brains, or factory stock photography.
+- No orbital artwork, CAD objects, dimension drawings, robots, glowing brains, anatomical imagery, or factory stock photography.
 
 ### Palette
 
@@ -47,8 +48,8 @@ Simple and technical, with clarity before decoration.
 
 ## Interaction and accessibility
 
-- Hero CTA moves to the Direction section.
-- Navigation contains Signals, Direction, Questions, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
+- Hero CTA moves to the Human World Models section.
+- Navigation contains Signals, Model, Research, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
 - Focus uses a visible 2px blue outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 
@@ -56,5 +57,6 @@ Simple and technical, with clarity before decoration.
 
 - Protected Preview carries an explicit review banner and noindex controls.
 - Production never inherits Preview noindex headers.
+- Generalization, predictive accuracy, and transfer remain research goals until supported by evidence.
 - Wishlist and its mechanics remain private.
-- JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap branding.
+- JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap AI branding.

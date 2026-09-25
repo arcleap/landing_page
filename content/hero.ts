@@ -1,10 +1,10 @@
 export const hero = {
-  eyebrow: "ARCLEAP AI",
-  h1: "Where AI meets the physical world.",
-  body: "We are exploring AI that can understand more than information—how the physical world behaves, changes, and responds.",
+  eyebrow: "ARCLEAP AI / HUMAN WORLD MODELS",
+  h1: "A physics engine for people.",
+  body: "We are building predictive intelligence for how people perceive, act, and adapt in the physical world.",
   note: "Currently in stealth.",
   cta: {
-    label: "Explore our direction",
+    label: "Explore the model",
     href: "#direction",
   },
 } as const;
