@@ -22,7 +22,7 @@ export function Nav() {
           {nav.map((item) => (
             <a key={item.label} href={item.href}>{item.label}</a>
           ))}
-          <a href="#contact" className="nav-contact">Contact</a>
+          <a href="mailto:contact@arcleap.ai" className="nav-contact">Contact</a>
           <ThemeToggle />
         </nav>
       </div>

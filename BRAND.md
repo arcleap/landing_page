@@ -1,27 +1,26 @@
-# ArcLeap — Brand Spec
+# ArcLeap AI — Brand Spec
 
-**Status:** Engineering-agent iteration for protected review
-**Updated:** 2026-08-06
+**Status:** Human World Models landing page for protected review
+**Updated:** 2026-09-24
 
 ## Identity
 
-ArcLeap is the engineering agent for the physical world: a full-loop company building toward verified physical outcomes.
+ArcLeap AI is building Human World Models: predictive models of how people perceive, act, and adapt in the physical world.
 
-- Category: **The engineering agent for the physical world.**
-- Short form: **Intent in. Verified product out.**
-- Mission: **The compiler between wanting and making.**
-
-- ArcLeap is a vertical company that sells verified work, not a CAD tool or verification platform.
-- Wishlist is private, separately branded, and absent from `arcleap.ai` until its own launch decision.
+- Category: **Human World Models.**
+- Explanatory line: **Predictive intelligence for how people interact with the physical world.**
+- Headline metaphor: **A physics engine for people.**
+- The metaphor is directional. It must be paired with “building,” “researching,” or predictive-language and must not imply a finished simulator.
+- Keep architecture, datasets, experiments, application choices, commercial wedges, and internal status private.
 
 ## Voice
 
-1. Calm, clear, and engineering-grade.
-2. Technical enough to explain the agent loop without internal architecture detail.
-3. Aspirational claims use “we’re building” until present capability is confirmed.
-4. Use “verified,” never “verifiable”; keep “part” out of headlines, slogans, and one-liners.
+1. Calm, clear, and research-grade.
+2. Explain embodied human behavior in plain language.
+3. Aspirational claims use “building,” “researching,” and “with the goal of” until capability is demonstrated.
+4. Distinguish research questions from established results.
 
-Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, `guaranteed manufacturable`, hype, competitor callouts, and internal numbers.
+Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments, capability claims, hype, competitor callouts, and internal numbers.
 
 ## Visual direction
 
@@ -30,10 +29,9 @@ Simple and technical, with clarity before decoration.
 - Light neutral ground rather than pure black.
 - Cool blue as the only active accent; no yellow highlight system.
 - Inter-led typography with JetBrains Mono reserved for system labels.
-- One minimal agent-run diagram in the hero.
+- One quiet abstract grid in the hero; no literal human simulation diagram.
 - Quiet white panels, thin cool-gray borders, and restrained shadows.
-- A dark navy verification section may create contrast; never use black as the full-page identity.
-- No orbital artwork, CAD objects, dimension drawings, robots, glowing brains, or factory stock photography.
+- No orbital artwork, CAD objects, dimension drawings, robots, glowing brains, anatomical imagery, or factory stock photography.
 
 ### Palette
 
@@ -50,8 +48,8 @@ Simple and technical, with clarity before decoration.
 
 ## Interaction and accessibility
 
-- Hero CTA moves to the agent loop.
-- Navigation uses How it works, Why verification, Company, and Contact.
+- Hero CTA moves to the Research section.
+- Navigation contains Signals, Research, Contact, and the theme toggle. Signals links directly to `https://jinmiao.ai/signals`.
 - Focus uses a visible 2px blue outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 
@@ -59,5 +57,6 @@ Simple and technical, with clarity before decoration.
 
 - Protected Preview carries an explicit review banner and noindex controls.
 - Production never inherits Preview noindex headers.
+- Generalization, predictive accuracy, and transfer remain research goals until supported by evidence.
 - Wishlist and its mechanics remain private.
-- JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap branding.
+- JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap AI branding.
