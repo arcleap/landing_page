@@ -1,55 +1,65 @@
 # ArcLeap AI — Public Content Spec
 
-**Status:** Human World Models staging page · production publication requires Jin’s approval of the exact SHA
+**Status:** Crystal-ball positioning staging page · production publication requires Jin’s approval of the exact SHA
 **Updated:** 2026-10-08
-**Authority:** `_ARCLEAP — Source of Truth.md` current thesis section dated 2026-09-20, including subsequent status updates
+**Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling dated 2026-10-08
 
-The page introduces Human World Models at company-level altitude. It may explain embodied human behavior in plain language, but it must not publish architecture, datasets, experiments, applications, commercial wedges, internal status, or unproven capability claims.
+The page explains ArcLeap AI as a prediction company for embodied human behavior. It leads with the public crystal-ball framing, explains accountability against observed outcomes, and names application areas without publishing architecture, datasets, partners, experiments, customers, or fundraising.
 
 ## Page structure
 
 1. Hero
-2. Research bet
-3. Contact footer
+2. Prediction approach and application areas
+3. Partner call to action and footer
 
 ## Navigation
 
 - ArcLeap AI wordmark → `#top`
 - Signals → `https://jinmiao.ai/signals`
-- Research → `#explorations`
+- Approach → `#approach`
 - Contact → `mailto:contact@arcleap.ai`
 - Light/dark theme button
 
 ## Hero
 
-- Eyebrow: `ARCLEAP AI / HUMAN WORLD MODELS`
-- H1: **A physics engine for people.**
-- Body: **We are building predictive intelligence for how people perceive, act, and adapt in the physical world.**
-- Note: **Currently in stealth.**
-- CTA: **Explore the research** → `#explorations`
+- Eyebrow: `ARCLEAP AI`
+- H1: **A crystal ball for the physical world.**
+- Body: **ArcLeap AI predicts how real people will respond, physically and psychologically, when their world changes, and keeps score against what actually happens.**
+- CTA: **How prediction works** → `#approach`
 
-“A physics engine for people” is a directional metaphor. Pair it with “building,” “researching,” or predictive-language so it does not imply a finished simulator or proven generalization.
+## Prediction approach
 
-## Research bet
+- Lead with prediction rather than generation.
+- Explain that the output is a range of possible futures: likelihood, variation, and failure modes.
+- Explain that forecasts are logged before outcomes and checked afterward.
+- Keep the work clearly in progress and make no claim of proven accuracy.
 
-- H2: **Can one model learn across many interactions?**
-- Present prediction and transfer as research questions.
-- Generalization is a goal to test, not an established capability.
-- Keep applications and products deliberately unnamed.
+## Application order
+
+1. Robots that work around people
+2. Physical products and spaces
+3. Generated media that needs real human behavior
 
 ## Contact and footer
 
+- CTA: **Building robots that work around people, or physical products and spaces? We’re looking for data and design partners.**
 - Display `contact@arcleap.ai`.
-- Invite research, partnership, and company inquiries.
-- Include the low-profile founder attribution `Co-Founder & CEO: Jin Miao` and `Co-Founder: Qi Guo` in the footer utility row.
-- No founder bio, Wishlist, hiring, product claims, request form, or public uploads.
+- Include the low-profile founder attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`. Jin explicitly approved showing Qi and Yifan by name.
+- No founder biographies, portraits, hiring copy, request form, or public uploads.
 
 ## Metadata
 
-- Title: `ArcLeap AI — Human World Models`
-- Description: `ArcLeap AI is building Human World Models: predictive intelligence for how people interact with the physical world.`
+- Title: `ArcLeap AI — A Crystal Ball for the Physical World`
+- Description: `ArcLeap AI predicts how real people will respond when their world changes, and keeps score against what actually happens.`
 - Canonical: `https://arcleap.ai/`
 - Preview adds `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.
+
+## Never publish
+
+- “World model” in the headline or subheadline
+- Absolute claims such as “predicts the future,” “prove,” or “guarantee”
+- Competitors, method details, data partners, active studies, customers, or fundraising
+- Retired engineering-agent, fixture, marketplace, consumer, or delivery-guarantee directions
 
 ## Release gate
 

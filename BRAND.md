@@ -1,26 +1,26 @@
 # ArcLeap AI — Brand Spec
 
-**Status:** Human World Models landing page for protected review
+**Status:** Crystal-ball positioning landing page for protected review
 **Updated:** 2026-10-08
 
 ## Identity
 
-ArcLeap AI is building Human World Models: predictive models of how people perceive, act, and adapt in the physical world.
+ArcLeap AI is building predictive intelligence for how real people respond when the physical world changes.
 
-- Category: **Human World Models.**
-- Explanatory line: **Predictive intelligence for how people interact with the physical world.**
-- Headline metaphor: **A physics engine for people.**
-- The metaphor is directional. It must be paired with “building,” “researching,” or predictive-language and must not imply a finished simulator.
-- Keep architecture, datasets, experiments, application choices, commercial wedges, and internal status private.
+- Public headline: **A crystal ball for the physical world.**
+- Accountability line: **Prediction that keeps score against reality.**
+- Public category context: an infrastructure layer for physical AI that models the people.
+- `Human World Models` is an internal and technical descriptor, not the public headline.
+- Keep architecture, datasets, experiments, partners, customers, fundraising, and unproven results private.
 
 ## Voice
 
-1. Calm, clear, and research-grade.
-2. Explain embodied human behavior in plain language.
-3. Aspirational claims use “building,” “researching,” and “with the goal of” until capability is demonstrated.
-4. Distinguish research questions from established results.
+1. Calm, concrete, and clearly in progress.
+2. Lead with prediction, ranges, and checking forecasts against observed outcomes.
+3. Explain embodied human behavior in plain language.
+4. Use “we’re building” and “our models”; never imply the problem is solved.
 
-Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments, capability claims, hype, competitor callouts, and internal numbers.
+Avoid absolute claims, competitor callouts, technical method details, generic AI language, and retired company directions.
 
 ## Visual direction
 
@@ -31,7 +31,7 @@ Plain and editorial, with language and proportion carrying the identity.
 - Simple horizontal rules organize the page without turning content into cards.
 - Quiet numbering and labels support a steady reading rhythm.
 - No diagrams, grids, glows, atmospheric gradients, glass panels, pill buttons, or decorative animation.
-- No orbital artwork, CAD objects, robots, glowing brains, anatomical imagery, or factory stock photography.
+- No generic neural-network art, robots, glowing brains, or stock photography.
 
 ### Palette
 
@@ -46,8 +46,8 @@ Plain and editorial, with language and proportion carrying the identity.
 
 ## Interaction and accessibility
 
-- Hero CTA moves to the Research section.
-- Navigation contains Signals, Research, Contact, and a compact light/dark theme button. Signals links directly to `https://jinmiao.ai/signals`.
+- Hero CTA moves to the prediction approach.
+- Navigation contains Signals, Approach, Contact, and a compact light/dark theme button.
 - The selected theme persists locally and otherwise follows the visitor’s system preference.
 - Focus uses a visible 2px outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
@@ -56,6 +56,5 @@ Plain and editorial, with language and proportion carrying the identity.
 
 - Protected Preview carries an explicit review banner and noindex controls.
 - Production never inherits Preview noindex headers.
-- Generalization, predictive accuracy, and transfer remain research goals until supported by evidence.
-- Wishlist and its mechanics remain private.
+- Prediction quality and improvement remain goals until supported by scored evidence.
 - JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap AI branding.

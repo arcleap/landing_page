@@ -237,7 +237,7 @@ a {
 }
 
 .hero-body {
-  max-width: 47ch;
+  max-width: 61ch;
   margin: 2.75rem 0 0;
   color: var(--color-ink-dim);
   font-size: clamp(1.1rem, 2vw, 1.35rem);
@@ -296,16 +296,35 @@ a {
   line-height: 1;
 }
 
-.research-intro {
-  max-width: 54ch;
-  margin: 2rem 0 0;
+.research-intro,
+.research-detail,
+.research-proof {
+  max-width: 58ch;
   color: var(--color-ink-dim);
   font-size: 1.08rem;
-  line-height: 1.7;
+  line-height: 1.72;
+}
+
+.research-intro {
+  margin: 2rem 0 0;
+  color: var(--color-ink);
+}
+
+.research-detail,
+.research-proof {
+  margin: 1.25rem 0 0;
+}
+
+.application-label {
+  margin: 5.5rem 0 0;
+  color: var(--color-ink-dim);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
 }
 
 .research-list {
-  margin: 5.5rem 0 0;
+  margin: 1.25rem 0 0;
   padding: 0;
   border-top: 1px solid var(--color-rule);
   list-style: none;
@@ -438,7 +457,7 @@ a {
     font-size: 0.8rem;
   }
 
-  .nav-links a[href="#explorations"] {
+  .nav-links a[href="#approach"] {
     display: none;
   }
 
@@ -487,8 +506,12 @@ a {
     font-size: clamp(2.7rem, 12vw, 3.8rem);
   }
 
-  .research-list {
+  .application-label {
     margin-top: 4rem;
+  }
+
+  .research-list {
+    margin-top: 1.25rem;
   }
 
   .research-row {

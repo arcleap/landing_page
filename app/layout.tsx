@@ -25,14 +25,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building Human World Models: predictive intelligence for how people interact with the physical world.";
+  "ArcLeap AI predicts how real people will respond when their world changes, and keeps score against what actually happens.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — Human World Models",
+  title: "ArcLeap AI — A Crystal Ball for the Physical World",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — Human World Models",
+    title: "ArcLeap AI — A Crystal Ball for the Physical World",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — Human World Models",
+    title: "ArcLeap AI — A Crystal Ball for the Physical World",
     description: siteDescription,
   },
   alternates: {
@@ -67,10 +67,11 @@ const orgJsonLd = {
   legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "A physics engine for people.",
+  slogan: "A crystal ball for the physical world, that keeps score.",
   founder: [
-    { "@type": "Person", name: "Jin Miao", jobTitle: "Co-Founder & CEO" },
+    { "@type": "Person", name: "Jin Miao", jobTitle: "Founder & CEO" },
     { "@type": "Person", name: "Qi Guo", jobTitle: "Co-Founder" },
+    { "@type": "Person", name: "Yifan Wang", jobTitle: "Co-Founder" },
   ],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",

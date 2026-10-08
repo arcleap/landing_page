@@ -13,7 +13,6 @@ export function Hero() {
               <span>{hero.cta.label}</span>
               <span aria-hidden="true">↓</span>
             </a>
-            <span className="hero-note">{hero.note}</span>
           </div>
         </div>
       </div>

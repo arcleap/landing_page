@@ -4,9 +4,9 @@ export function Footer() {
   return (
     <footer id="contact" className="site-footer scroll-mt-24">
       <div className="container-page footer-main">
-        <p className="footer-label">CONTACT</p>
+        <p className="footer-label">WORK WITH US</p>
         <div className="footer-contact-copy">
-          <p className="footer-note">Research, partnerships, and company inquiries.</p>
+          <p className="footer-note">{footer.contactNote}</p>
           <a className="footer-email" href={`mailto:${footer.email}`}>{footer.email}</a>
         </div>
       </div>
