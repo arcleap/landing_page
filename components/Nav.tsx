@@ -9,7 +9,7 @@ export function Nav() {
   return (
     <header className="site-header">
       {isPreview ? (
-        <div className="preview-banner">Protected review candidate · not production</div>
+        <div className="preview-banner">Private preview · not indexed or linked from the live site</div>
       ) : null}
       <div className="container-page nav-inner">
         <a href="#top" className="brand-link" aria-label="ArcLeap AI home">

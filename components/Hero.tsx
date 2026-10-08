@@ -1,22 +1,19 @@
 import { hero } from "@/content/hero";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function Hero() {
   return (
     <section id="top" className="hero-section" aria-labelledby="hero-title">
-      <div className="container-page hero-grid">
+      <div className="container-page hero-inner">
         <div className="hero-copy">
-          <Eyebrow>{hero.eyebrow}</Eyebrow>
-          <h1 id="hero-title" className="text-display max-w-[13ch] text-ink">
-            {hero.h1}
-          </h1>
+          <p className="section-kicker">{hero.eyebrow}</p>
+          <h1 id="hero-title">{hero.h1}</h1>
           <p className="hero-body">{hero.body}</p>
           <div className="hero-actions">
-            <a href={hero.cta.href} className="primary-cta group">
+            <a className="hero-link" href={hero.cta.href}>
               <span>{hero.cta.label}</span>
-              <span aria-hidden className="transition-transform group-hover:translate-x-1">↗</span>
+              <span aria-hidden="true">↓</span>
             </a>
-            <p className="hero-note">{hero.note}</p>
+            <span className="hero-note">{hero.note}</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,17 +9,15 @@ const inter = Inter({
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
 const themeInitScript = `
   try {
-    const savedTheme = localStorage.getItem("arcleap-theme");
-    document.documentElement.dataset.theme =
-      savedTheme === "dark" ? "dark" : "light";
+    const stored = localStorage.getItem("arcleap-theme");
+    const theme = stored === "light" || stored === "dark"
+      ? stored
+      : window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    document.documentElement.dataset.theme = theme;
   } catch {
     document.documentElement.dataset.theme = "light";
   }
@@ -70,19 +68,17 @@ const orgJsonLd = {
   url: "https://arcleap.ai/",
   description: siteDescription,
   slogan: "A physics engine for people.",
-  founder: [{ "@type": "Person", name: "Jin Miao" }],
+  founder: [
+    { "@type": "Person", name: "Jin Miao", jobTitle: "Co-Founder & CEO" },
+    { "@type": "Person", name: "Qi Guo", jobTitle: "Co-Founder" },
+  ],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      data-theme="light"
-      suppressHydrationWarning
-      className={`${inter.variable} ${jetbrains.variable}`}
-    >
+    <html lang="en" data-theme="light" suppressHydrationWarning className={inter.variable}>
       <head>
         <script
           type="application/ld+json"
