@@ -12,6 +12,13 @@ export function Footer() {
       </div>
       <div className="container-page footer-bottom">
         <p>{footer.rights}</p>
+        <div className="footer-founders" aria-label="ArcLeap AI founders">
+          {footer.founders.map((founder) => (
+            <p key={founder.name}>
+              {founder.role}: <span>{founder.name}</span>
+            </p>
+          ))}
+        </div>
       </div>
     </footer>
   );

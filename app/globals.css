@@ -12,6 +12,17 @@
   color-scheme: light;
 }
 
+:root[data-theme="dark"] {
+  --color-ground: #1c1b18;
+  --color-panel: #24231f;
+  --color-ink: #eeeae0;
+  --color-ink-dim: #b8b2a7;
+  --color-ink-faint: #827d74;
+  --color-rule: #44413a;
+  --color-accent: #eeeae0;
+  color-scheme: dark;
+}
+
 @theme inline {
   --color-ground: var(--color-ground);
   --color-panel: var(--color-panel);
@@ -41,6 +52,7 @@ body {
   font-family: var(--font-inter), Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 a {
@@ -86,7 +98,7 @@ a {
 
 .preview-banner {
   border-bottom: 1px solid var(--color-rule);
-  background: #e8e3d8;
+  background: var(--color-panel);
   padding: 0.65rem 1.5rem;
   color: var(--color-ink-dim);
   font-size: 0.75rem;
@@ -144,6 +156,52 @@ a {
 .nav-contact {
   border-bottom: 1px solid currentColor;
   padding-bottom: 0.15rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  width: 2.2rem;
+  height: 2.2rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-rule);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-ink-dim);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-ink-dim);
+  color: var(--color-ink);
+}
+
+.theme-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .brand-mark-image {
+  filter: none;
 }
 
 .hero-section {
@@ -346,6 +404,18 @@ a {
   margin: 0;
 }
 
+.footer-founders {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 1.25rem;
+  text-align: right;
+}
+
+.footer-founders span {
+  color: var(--color-ink-dim);
+}
+
 @media (max-width: 720px) {
   .container-page {
     width: min(calc(100% - 32px), var(--max-w));
@@ -433,6 +503,11 @@ a {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.6rem;
+  }
+
+  .footer-founders {
+    justify-content: flex-start;
+    text-align: left;
   }
 }
 

@@ -5,5 +5,9 @@ export const nav = [
 
 export const footer = {
   email: "contact@arcleap.ai",
+  founders: [
+    { role: "Co-Founder & CEO", name: "Jin Miao" },
+    { role: "Co-Founder", name: "Qi Guo" },
+  ],
   rights: `© ${new Date().getFullYear()} ArcLeap AI, Inc.`,
 } as const;

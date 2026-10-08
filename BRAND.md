@@ -1,7 +1,7 @@
 # ArcLeap AI — Brand Spec
 
 **Status:** Human World Models landing page for protected review
-**Updated:** 2026-09-25
+**Updated:** 2026-10-08
 
 ## Identity
 
@@ -47,8 +47,9 @@ Plain and editorial, with language and proportion carrying the identity.
 ## Interaction and accessibility
 
 - Hero CTA moves to the Research section.
-- Navigation contains Signals, Research, and Contact. Signals links directly to `https://jinmiao.ai/signals`.
-- Focus uses a visible 2px charcoal outline with offset.
+- Navigation contains Signals, Research, Contact, and a compact light/dark theme button. Signals links directly to `https://jinmiao.ai/signals`.
+- The selected theme persists locally and otherwise follows the visitor’s system preference.
+- Focus uses a visible 2px outline with offset.
 - Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
 
 ## Release boundaries
