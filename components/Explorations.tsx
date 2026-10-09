@@ -14,7 +14,9 @@ export function Explorations() {
             <h2 id="approach-title">{explorations.h2}</h2>
             <p className="research-intro">{explorations.intro}</p>
             <p className="research-detail">{explorations.detail}</p>
+            <p className="research-distribution">{explorations.distribution}</p>
             <p className="research-proof">{explorations.proof}</p>
+            <p className="research-data">{explorations.data}</p>
           </div>
         </div>
 

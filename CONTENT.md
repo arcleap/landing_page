@@ -1,10 +1,10 @@
 # ArcLeap AI — Public Content Spec
 
-**Status:** Crystal-ball positioning staging page · production publication requires Jin’s approval of the exact SHA
-**Updated:** 2026-10-08
-**Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling dated 2026-10-08
+**Status:** Six-narrative positioning staging page · production publication requires Jin’s approval of the exact SHA
+**Updated:** 2026-10-09
+**Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling revised 2026-10-09
 
-The page explains ArcLeap AI as a prediction company for embodied human behavior. It leads with the public crystal-ball framing, explains accountability against observed outcomes, and names application areas without publishing architecture, datasets, partners, experiments, customers, or fundraising.
+The page explains ArcLeap AI as predictive intelligence for human behavior around physical change. It carries physicality and psychology together, software-speed testing, the outcome flywheel, partner-built data, prediction rather than generation, and distributions from populations down to individuals. It does not publish architecture, datasets, named partners, experiments, customers, pricing, or fundraising.
 
 ## Page structure
 
@@ -23,16 +23,18 @@ The page explains ArcLeap AI as a prediction company for embodied human behavior
 ## Hero
 
 - Eyebrow: `ARCLEAP AI`
-- H1: **A crystal ball for the physical world.**
-- Body: **ArcLeap AI predicts how real people will respond, physically and psychologically, when their world changes, and keeps score against what actually happens.**
+- H1: **Predict how people will respond, before you change their world.**
+- Body: **ArcLeap AI models the physicality and psychology of real people together, so robots, products, and spaces can be tested against human behavior at the speed and scale of software.**
 - CTA: **How prediction works** → `#approach`
 
 ## Prediction approach
 
-- Lead with prediction rather than generation.
-- Explain that the output is a range of possible futures: likelihood, variation, and failure modes.
-- Explain that forecasts are logged before outcomes and checked afterward.
-- Keep the work clearly in progress and make no claim of proven accuracy.
+- Lead with physicality and psychology modeled together.
+- Contrast prediction with generation.
+- Explain the full distribution across people, down to individuals.
+- Explain that forecasts are logged before outcomes and scored afterward.
+- State that the needed data is built with partners, change by change, with consent and clean rights.
+- Keep speed and scale framed as what the system is being built to achieve until measured.
 
 ## Application order
 
@@ -44,21 +46,22 @@ The page explains ArcLeap AI as a prediction company for embodied human behavior
 
 - CTA: **Building robots that work around people, or physical products and spaces? We’re looking for data and design partners.**
 - Display `contact@arcleap.ai`.
-- Include the low-profile founder attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`. Jin explicitly approved showing Qi and Yifan by name.
+- Include the low-profile attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
 
 ## Metadata
 
-- Title: `ArcLeap AI — A Crystal Ball for the Physical World`
-- Description: `ArcLeap AI predicts how real people will respond when their world changes, and keeps score against what actually happens.`
+- Title: `ArcLeap AI — Predict How People Will Respond`
+- Description reflects physicality and psychology modeled together for software-speed testing.
 - Canonical: `https://arcleap.ai/`
 - Preview adds `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.
 
 ## Never publish
 
+- “Crystal ball”
 - “World model” in the headline or subheadline
 - Absolute claims such as “predicts the future,” “prove,” or “guarantee”
-- Competitors, method details, data partners, active studies, customers, or fundraising
+- Competitors, method details, named data partners, active studies, customers, pricing, or fundraising
 - Retired engineering-agent, fixture, marketplace, consumer, or delivery-guarantee directions
 
 ## Release gate

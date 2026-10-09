@@ -228,9 +228,9 @@ a {
 }
 
 .hero-copy h1 {
-  max-width: 10ch;
+  max-width: 13ch;
   margin: 0;
-  font-size: clamp(4rem, 9vw, 7.25rem);
+  font-size: clamp(3.5rem, 7.3vw, 6.5rem);
   font-weight: 480;
   letter-spacing: -0.065em;
   line-height: 0.94;
@@ -298,7 +298,9 @@ a {
 
 .research-intro,
 .research-detail,
-.research-proof {
+.research-distribution,
+.research-proof,
+.research-data {
   max-width: 58ch;
   color: var(--color-ink-dim);
   font-size: 1.08rem;
@@ -311,7 +313,9 @@ a {
 }
 
 .research-detail,
-.research-proof {
+.research-distribution,
+.research-proof,
+.research-data {
   margin: 1.25rem 0 0;
 }
 
@@ -471,8 +475,8 @@ a {
   }
 
   .hero-copy h1 {
-    max-width: 9ch;
-    font-size: clamp(3.45rem, 16vw, 5rem);
+    max-width: 12ch;
+    font-size: clamp(3rem, 13vw, 4.5rem);
   }
 
   .hero-body {

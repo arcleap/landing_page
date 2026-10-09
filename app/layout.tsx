@@ -25,14 +25,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI predicts how real people will respond when their world changes, and keeps score against what actually happens.";
+  "ArcLeap AI models the physicality and psychology of real people together, so robots, products, and spaces can be tested against human behavior at software speed and scale.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — A Crystal Ball for the Physical World",
+  title: "ArcLeap AI — Predict How People Will Respond",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — A Crystal Ball for the Physical World",
+    title: "ArcLeap AI — Predict How People Will Respond",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — A Crystal Ball for the Physical World",
+    title: "ArcLeap AI — Predict How People Will Respond",
     description: siteDescription,
   },
   alternates: {
@@ -67,7 +67,7 @@ const orgJsonLd = {
   legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "A crystal ball for the physical world, that keeps score.",
+  slogan: "Predict how people will respond, before you change their world.",
   founder: [
     { "@type": "Person", name: "Jin Miao", jobTitle: "Founder & CEO" },
     { "@type": "Person", name: "Qi Guo", jobTitle: "Co-Founder" },

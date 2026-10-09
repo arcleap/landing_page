@@ -1,8 +1,8 @@
 export const hero = {
   eyebrow: "ARCLEAP AI",
-  h1: "A crystal ball for the physical world.",
+  h1: "Predict how people will respond, before you change their world.",
   body:
-    "ArcLeap AI predicts how real people will respond, physically and psychologically, when their world changes, and keeps score against what actually happens.",
+    "ArcLeap AI models the physicality and psychology of real people together, so robots, products, and spaces can be tested against human behavior at the speed and scale of software.",
   cta: {
     label: "How prediction works",
     href: "#approach",

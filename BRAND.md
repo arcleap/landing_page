@@ -1,26 +1,26 @@
 # ArcLeap AI — Brand Spec
 
-**Status:** Crystal-ball positioning landing page for protected review
-**Updated:** 2026-10-08
+**Status:** Six-narrative positioning landing page for protected review
+**Updated:** 2026-10-09
 
 ## Identity
 
 ArcLeap AI is building predictive intelligence for how real people respond when the physical world changes.
 
-- Public headline: **A crystal ball for the physical world.**
-- Accountability line: **Prediction that keeps score against reality.**
-- Public category context: an infrastructure layer for physical AI that models the people.
+- Public headline: **Predict how people will respond, before you change their world.**
+- Public pair: **Physicality and psychology.**
+- Core distinction: predict the full range of human outcomes and check forecasts against reality.
 - `Human World Models` is an internal and technical descriptor, not the public headline.
-- Keep architecture, datasets, experiments, partners, customers, fundraising, and unproven results private.
+- Keep architecture, datasets, experiments, partners, customers, pricing, fundraising, and unproven results private.
 
 ## Voice
 
 1. Calm, concrete, and clearly in progress.
-2. Lead with prediction, ranges, and checking forecasts against observed outcomes.
-3. Explain embodied human behavior in plain language.
+2. Explain physicality and psychology together in plain language.
+3. Lead with distributions, scoring against outcomes, and partner-built data.
 4. Use “we’re building” and “our models”; never imply the problem is solved.
 
-Avoid absolute claims, competitor callouts, technical method details, generic AI language, and retired company directions.
+Avoid “crystal ball,” absolute claims, competitor callouts, technical method details, generic AI language, and retired company directions.
 
 ## Visual direction
 
@@ -56,5 +56,5 @@ Plain and editorial, with language and proportion carrying the identity.
 
 - Protected Preview carries an explicit review banner and noindex controls.
 - Production never inherits Preview noindex headers.
-- Prediction quality and improvement remain goals until supported by scored evidence.
+- Speed, scale, prediction quality, and improvement remain goals until supported by scored evidence.
 - JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap AI branding.

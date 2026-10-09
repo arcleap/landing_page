@@ -1,12 +1,16 @@
 export const explorations = {
-  eyebrow: "PREDICTION, NOT GENERATION",
-  h2: "One plausible picture is not enough.",
+  eyebrow: "PHYSICALITY + PSYCHOLOGY",
+  h2: "Physicality and psychology, predicted together.",
   intro:
-    "Most AI built for the physical world generates one plausible picture of what might happen. ArcLeap AI predicts.",
+    "Most AI built for the physical world generates: it produces one plausible picture of what might happen. ArcLeap AI predicts.",
   detail:
-    "Before a robot update ships, a space is rebuilt, or a product launches, our models run thousands of possible futures for the people it touches and return the full range: what is most likely, how much it varies, and what could go wrong.",
+    "We model people’s physicality—how they move, reach, carry, and tire—together with their psychology—what they intend, notice, and feel—because real-world outcomes depend on both.",
+  distribution:
+    "For any change, whether a robot update, a new layout, or a new product, we’re building models that run thousands of possible futures and return the full distribution across people, down to each individual: what is most likely, how much it varies, and what could go wrong.",
   proof:
-    "Every forecast is logged before reality happens and checked afterward, so the predictions can get sharper with every change. We are building the infrastructure layer for physical AI that models the people.",
+    "Every forecast is logged before the outcome and scored after, so each change our partners make can sharpen the next prediction.",
+  data:
+    "The data that makes this work is not on the internet. We build it with partners, change by change, with consent and clean rights.",
   applicationLabel: "WHERE IT APPLIES",
   items: [
     {
@@ -14,21 +18,21 @@ export const explorations = {
       signal: "ROBOTS",
       title: "Robots that work around people",
       description:
-        "Model the range of human responses before a robot update ships.",
+        "Test how people may respond before a robot update reaches the real world.",
     },
     {
       number: "02",
       signal: "PRODUCTS & SPACES",
       title: "Physical products and spaces",
       description:
-        "Explore how people may use and adapt before a product launches or a space is rebuilt.",
+        "Explore the range of human behavior before a product launches or a space changes.",
     },
     {
       number: "03",
       signal: "GENERATED MEDIA",
-      title: "Generated people that behave like people",
+      title: "Generated media that needs real human behavior",
       description:
-        "Judge whether movement and behavior in a generated scene hold up against real human behavior.",
+        "Evaluate whether generated people move and act like people in the real world.",
     },
   ],
 } as const;

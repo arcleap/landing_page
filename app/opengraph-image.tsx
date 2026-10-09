@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap AI — A crystal ball for the physical world";
+export const alt = "ArcLeap AI — Predict how people will respond";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -32,22 +32,22 @@ export default function OpenGraphImage() {
         <div style={{ display: "flex", width: 42, height: 1, background: "#24231f" }} />
         ARCLEAP AI
       </div>
-      <div style={{ display: "flex", flexDirection: "column", maxWidth: 1000 }}>
+      <div style={{ display: "flex", flexDirection: "column", maxWidth: 1060 }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            fontSize: 76,
+            fontSize: 68,
             fontWeight: 500,
-            lineHeight: 0.98,
-            letterSpacing: -4,
+            lineHeight: 1,
+            letterSpacing: -3.5,
           }}
         >
-          A crystal ball for
-          <span>the physical world.</span>
+          Predict how people will respond,
+          <span>before you change their world.</span>
         </div>
         <div style={{ marginTop: 32, fontSize: 23, color: "#5e5b53" }}>
-          Prediction that keeps score against reality.
+          Physicality and psychology, predicted together.
         </div>
       </div>
     </div>,
