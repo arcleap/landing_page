@@ -7,7 +7,7 @@
 
 ArcLeap AI is building predictive intelligence for how real people respond when the physical world changes.
 
-- Public headline: **Predict how people will respond, before you change their world.**
+- Public headline on this concise staging candidate: **Physicality and psychology, predicted together.**
 - Public pair: **Physicality and psychology.**
 - Core distinction: predict the full range of human outcomes and check forecasts against reality.
 - `Human World Models` is an internal and technical descriptor, not the public headline.

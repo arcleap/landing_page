@@ -23,8 +23,8 @@ The page explains ArcLeap AI as predictive intelligence for human behavior aroun
 ## Hero
 
 - Eyebrow: `ARCLEAP AI`
-- H1: **Predict how people will respond, before you change their world.**
-- Body: **ArcLeap AI models the physicality and psychology of real people together, so robots, products, and spaces can be tested against human behavior at the speed and scale of software.**
+- H1: **Physicality and psychology, predicted together.**
+- Body: **We’re building models that test robots, products, and spaces against real human behavior at software speed and scale.**
 - CTA: **How prediction works** → `#approach`
 
 ## Prediction approach
@@ -51,7 +51,7 @@ The page explains ArcLeap AI as predictive intelligence for human behavior aroun
 
 ## Metadata
 
-- Title: `ArcLeap AI — Predict How People Will Respond`
+- Title: `ArcLeap AI — Physicality and Psychology, Predicted Together`
 - Description reflects physicality and psychology modeled together for software-speed testing.
 - Canonical: `https://arcleap.ai/`
 - Preview adds `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.

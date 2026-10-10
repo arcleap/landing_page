@@ -25,14 +25,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI models the physicality and psychology of real people together, so robots, products, and spaces can be tested against human behavior at software speed and scale.";
+  "ArcLeap AI is building models that test robots, products, and spaces against real human behavior at software speed and scale.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — Predict How People Will Respond",
+  title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — Predict How People Will Respond",
+    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — Predict How People Will Respond",
+    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
     description: siteDescription,
   },
   alternates: {

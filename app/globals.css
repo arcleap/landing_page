@@ -298,9 +298,7 @@ a {
 
 .research-intro,
 .research-detail,
-.research-distribution,
-.research-proof,
-.research-data {
+.research-proof {
   max-width: 58ch;
   color: var(--color-ink-dim);
   font-size: 1.08rem;
@@ -313,9 +311,7 @@ a {
 }
 
 .research-detail,
-.research-distribution,
-.research-proof,
-.research-data {
+.research-proof {
   margin: 1.25rem 0 0;
 }
 

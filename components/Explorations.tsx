@@ -14,9 +14,7 @@ export function Explorations() {
             <h2 id="approach-title">{explorations.h2}</h2>
             <p className="research-intro">{explorations.intro}</p>
             <p className="research-detail">{explorations.detail}</p>
-            <p className="research-distribution">{explorations.distribution}</p>
             <p className="research-proof">{explorations.proof}</p>
-            <p className="research-data">{explorations.data}</p>
           </div>
         </div>
 
@@ -28,7 +26,6 @@ export function Explorations() {
               <div className="research-entry">
                 <p className="research-signal">{item.signal}</p>
                 <h3>{item.title}</h3>
-                <p className="research-description">{item.description}</p>
               </div>
             </li>
           ))}

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap AI — Predict how people will respond";
+export const alt = "ArcLeap AI — Physicality and psychology, predicted together";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -37,17 +37,17 @@ export default function OpenGraphImage() {
           style={{
             display: "flex",
             flexDirection: "column",
-            fontSize: 68,
+            fontSize: 74,
             fontWeight: 500,
             lineHeight: 1,
             letterSpacing: -3.5,
           }}
         >
-          Predict how people will respond,
-          <span>before you change their world.</span>
+          Physicality and psychology,
+          <span>predicted together.</span>
         </div>
         <div style={{ marginTop: 32, fontSize: 23, color: "#5e5b53" }}>
-          Physicality and psychology, predicted together.
+          Test physical change against real human behavior.
         </div>
       </div>
     </div>,
