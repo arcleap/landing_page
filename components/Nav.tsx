@@ -7,25 +7,27 @@ export function Nav() {
   const isPreview = process.env.VERCEL_ENV === "preview";
 
   return (
-    <header className="site-header">
+    <>
       {isPreview ? (
         <div className="preview-banner">Private preview · not indexed or linked from the live site</div>
       ) : null}
-      <div className="container-page nav-inner">
-        <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
-          <span className="brand-mark" aria-hidden="true">
-            <Image src={arcleapMark} alt="" fill sizes="42px" className="brand-mark-image" />
-          </span>
-          <span>ARCLEAP AI</span>
-        </a>
-        <nav aria-label="Primary" className="nav-links">
-          {nav.map((item) => (
-            <a key={item.label} href={item.href}>{item.label}</a>
-          ))}
-          <a href="mailto:contact@arcleap.ai" className="nav-contact">Contact</a>
-          <ThemeToggle />
-        </nav>
-      </div>
-    </header>
+      <header className="site-header">
+        <div className="container-page nav-inner">
+          <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
+            <span className="brand-mark" aria-hidden="true">
+              <Image src={arcleapMark} alt="" fill sizes="42px" className="brand-mark-image" />
+            </span>
+            <span>ARCLEAP AI</span>
+          </a>
+          <nav aria-label="Primary" className="nav-links">
+            {nav.map((item) => (
+              <a key={item.label} href={item.href}>{item.label}</a>
+            ))}
+            <a href="mailto:contact@arcleap.ai" className="nav-contact">Contact</a>
+            <ThemeToggle />
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }

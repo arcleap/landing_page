@@ -1,6 +1,6 @@
 # ArcLeap AI — Public Content Spec
 
-**Status:** Six-narrative positioning staging page · production publication requires Jin’s approval of the exact SHA
+**Status:** Six-narrative positioning staging page, visual redesign · production publication requires Jin’s approval of the exact SHA
 **Updated:** 2026-10-09
 **Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling revised 2026-10-09
 
@@ -8,9 +8,12 @@ The page explains ArcLeap AI as predictive intelligence for human behavior aroun
 
 ## Page structure
 
-1. Hero
-2. Prediction approach and application areas
-3. Partner call to action and footer
+1. Hero with Fig. 1
+2. 01 Prediction, not generation
+3. 02 Physicality + psychology
+4. 03 The loop: Predict. Measure. Learn.
+5. 04 Where it applies
+6. 05 Work with us and footer
 
 ## Navigation
 
@@ -22,32 +25,51 @@ The page explains ArcLeap AI as predictive intelligence for human behavior aroun
 
 ## Hero
 
-- Eyebrow: `ARCLEAP AI`
+- Eyebrow: `ARCLEAP AI` with status `NOW BUILDING`
 - H1: **Physicality and psychology, predicted together.**
 - Body: **We’re building models that test robots, products, and spaces against real human behavior at software speed and scale.**
-- CTA: **How prediction works** → `#approach`
+- Primary CTA: **How prediction works** → `#approach`
+- Secondary CTA: **Work with us** → `mailto:contact@arcleap.ai`
+- Fig. 1 labels: `A CHANGE`, `FORECAST · BEFORE`, `SCORED · AFTER`, `FULL RANGE`, `ONE PLAUSIBLE GUESS`, `EACH PERSON`
+- Fig. 1 caption: `FIG. 1 — ILLUSTRATIVE` · *One change. Not one guess, but the full range of real people.*
 
-## Prediction approach
+## 01 Prediction, not generation
 
-- Lead with physicality and psychology modeled together.
-- Contrast prediction with generation.
-- Explain the full distribution across people, down to individuals.
-- Explain that forecasts are logged before outcomes and scored afterward.
-- State that the needed data is built with partners, change by change, with consent and clean rights.
-- Keep speed and scale framed as what the system is being built to achieve until measured.
+- **Most AI for the physical world makes one plausible guess. We predict the full range of what real people may do.**
 
-## Application order
+## 02 Physicality + psychology
+
+- Physicality — *How people move* — `MOVE` `REACH` `CARRY` `TIRE`
+- Psychology — *What they intend and feel* — `INTEND` `NOTICE` `FEEL`
+- **We model how people move and what they intend and feel, from whole populations to each person.**
+- Population figure labels: `WHOLE POPULATION`, `EACH PERSON`
+
+## 03 The loop
+
+- H2: **Predict. Measure. Learn.**
+- **Every forecast is made before a change and scored after. Each real outcome sharpens the next prediction, using data built with partners change by change.**
+- 01 Predict — Forecast the full range of responses before a change is made.
+- 02 Measure — Score the forecast against what real people actually do.
+- 03 Learn — Each real outcome sharpens the next prediction.
+- Figure labels: `OBSERVED`, `OUTCOME → NEXT PREDICTION`
+- Speed, scale, and improvement stay framed as what the system is being built to do until measured.
+
+## 04 Where it applies
 
 1. Robots that work around people
 2. Physical products and spaces
 3. Generated media that needs real human behavior
 
-## Contact and footer
+## 05 Work with us and footer
 
-- CTA: **Building robots that work around people, or physical products and spaces? We’re looking for data and design partners.**
+- **Building robots that work around people, or physical products and spaces?** *We’re looking for data and design partners.*
 - Display `contact@arcleap.ai`.
 - Include the low-profile attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
+
+## New copy in this revision
+
+Sentence-level copy is unchanged from the 2026-10-09 tightening. This revision adds only labels and short lines, pending Jin’s approval: the `NOW BUILDING` status, the **Work with us** hero link, the Fig. 1 labels and caption, the physicality and psychology questions and trait tags (drawn from earlier approved copy), the three loop step lines, and the `OBSERVED` and `OUTCOME → NEXT PREDICTION` figure labels.
 
 ## Metadata
 

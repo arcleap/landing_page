@@ -5,8 +5,9 @@ export const nav = [
 
 export const footer = {
   email: "contact@arcleap.ai",
-  contactNote:
-    "Building robots that work around people, or physical products and spaces? We’re looking for data and design partners.",
+  label: "WORK WITH US",
+  question: "Building robots that work around people, or physical products and spaces?",
+  ask: "We’re looking for data and design partners.",
   founders: [
     { role: "Founder & CEO", name: "Jin Miao" },
     { role: "Co-Founder", name: "Qi Guo" },
