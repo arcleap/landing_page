@@ -1,61 +1,66 @@
 # ArcLeap AI — Brand Spec
 
-**Status:** Human World Models landing page for protected review
-**Updated:** 2026-10-08
+**Status:** Stealth landing page in the Swiss × hairline style, for protected review
+**Updated:** 2026-10-09
 
 ## Identity
 
-ArcLeap AI is building Human World Models: predictive models of how people perceive, act, and adapt in the physical world.
+ArcLeap AI is building predictive intelligence for how real people respond when the physical world changes.
 
-- Category: **Human World Models.**
-- Explanatory line: **Predictive intelligence for how people interact with the physical world.**
-- Headline metaphor: **A physics engine for people.**
-- The metaphor is directional. It must be paired with “building,” “researching,” or predictive-language and must not imply a finished simulator.
-- Keep architecture, datasets, experiments, application choices, commercial wedges, and internal status private.
+- Public headline on this concise staging candidate: **Physicality and psychology, predicted together.**
+- Public pair: **Physicality and psychology.**
+- `Human World Models` is an internal and technical descriptor, not the public headline.
+- The public page stays deliberately vague: it names the question and where we begin, never how.
+- Keep method, the forecast-and-score loop, distributions, data strategy, partners, architecture, datasets, experiments, customers, pricing, fundraising, and unproven results private.
 
 ## Voice
 
-1. Calm, clear, and research-grade.
-2. Explain embodied human behavior in plain language.
-3. Aspirational claims use “building,” “researching,” and “with the goal of” until capability is demonstrated.
-4. Distinguish research questions from established results.
+1. Calm, brief, and clearly in progress (“currently in stealth”).
+2. Ask the question rather than explain the answer.
+3. Use “we’re building”; never imply the problem is solved.
 
-Avoid `text-to-CAD`, `text-to-3D`, `AI CAD tool`, product or market commitments, capability claims, hype, competitor callouts, and internal numbers.
+Avoid “crystal ball,” absolute claims, competitor callouts, technical method details, generic AI language, and retired company directions.
 
-## Visual direction
+## Visual direction: Swiss × hairline
 
-Plain and editorial, with language and proportion carrying the identity.
+Swiss supplies the page; hairline (github.com/lucasmarkes/hairline, MIT) supplies the figures. This matches the house style used for ArcLeap films.
 
-- Warm paper ground and charcoal typography.
-- Inter throughout, with weight and scale creating the hierarchy.
-- Simple horizontal rules organize the page without turning content into cards.
-- Quiet numbering and labels support a steady reading rhythm.
-- No diagrams, grids, glows, atmospheric gradients, glass panels, pill buttons, or decorative animation.
-- No orbital artwork, CAD objects, robots, glowing brains, anatomical imagery, or factory stock photography.
+- **Grid.** 12 columns, flush-left, asymmetric: text in columns 1–6, figures in 7–12.
+- **Section frame.** Every section opens on a 1px ink rule with its number in the accent, its name as a mono label, and a running label on the right.
+- **Type.** Inter Tight for display (300 for the large question, 500 elsewhere, tracking −0.035 to −0.055em); Inter for body; Geist Mono, uppercase with +0.08em tracking, for labels, buttons, navigation, and read-outs.
+- **One accent.** Swiss red-orange, with one meaning: the response — the headline’s “predicted together.”, the people who respond in a figure, and section numbers.
+- **Figures.** Isometric line drawings on a 2:1 camera: rounded prisms, opaque plates in the page colour painted back to front, 0.9px non-scaling strokes on a five-step grey ramp. The stroke is the only highlight (grey → ink → accent), no words inside figures (read-outs go in the mono caption), and every resting frame reads on its own.
+- No glows, shadows, gradients, glass, pills, cards, stock photography, or generic AI imagery.
 
 ### Palette
 
-| Role | Value |
-|---|---|
-| Ground | `#F2EFE7` |
-| Panel | `#F8F6F0` |
-| Ink | `#24231F` |
-| Ink dim | `#5E5B53` |
-| Ink faint | `#858178` |
-| Rule | `#CEC9BD` |
+| Role | Light | Dark |
+|---|---|---|
+| Background / plate | `#FFFFFF` | `#08090A` |
+| Ink | `#0A0A0A` | `#F2F3F5` |
+| Muted text | `#6B6B6B` | `#A3A7AF` |
+| Rule | `#E4E4E7` | `#1F2023` |
+| Accent (graphics, large type) | `#E0421A` | `#FF5A2C` |
+| Accent text (small type) | `#CC3A14` | `#FF5A2C` |
+| Figure hi / edge / mid / lo | `#232327` `#A4A4AC` `#C3C3C9` `#E0E0E4` | `#D0D6E0` `#5B5D64` `#3E3E44` `#29292D` |
+
+## Motion
+
+- Hairline’s curves: `cubic-bezier(.32,.72,0,1)` over 700ms for discrete moves, springs (k 100, c 18) for continuous ones, `cubic-bezier(.5,0,.1,1)` for stroke colour.
+- Fig. 01 answers the pointer: a change follows it across a crowd and the people near it rise, each by their own amount. Without a pointer the change wanders slowly; the figure stops when it is off screen.
+- Section rules draw in once; the focus figures lift their object off a dashed footprint on hover.
+- Content is visible without JavaScript; `prefers-reduced-motion` removes transitions, stops the wander, and keeps the pointer response instant.
 
 ## Interaction and accessibility
 
-- Hero CTA moves to the Research section.
-- Navigation contains Signals, Research, Contact, and a compact light/dark theme button. Signals links directly to `https://jinmiao.ai/signals`.
-- The selected theme persists locally and otherwise follows the visitor’s system preference.
-- Focus uses a visible 2px outline with offset.
-- Motion is limited to standard transitions and removed under `prefers-reduced-motion`.
+- Hero CTAs: **Get in touch** (mail) and **Our direction** (`#approach`).
+- Navigation is sticky: Signals, Direction, Contact, and a compact light/dark theme button. The theme persists locally and otherwise follows the system.
+- Focus uses a visible 1.5px outline with offset.
+- Each figure has a text alternative.
 
 ## Release boundaries
 
 - Protected Preview carries an explicit review banner and noindex controls.
 - Production never inherits Preview noindex headers.
-- Generalization, predictive accuracy, and transfer remain research goals until supported by evidence.
-- Wishlist and its mechanics remain private.
+- Speed, scale, prediction quality, and improvement remain goals until supported by scored evidence.
 - JinMiao Signals and `jinmiao.ai` remain separate from ArcLeap AI branding.

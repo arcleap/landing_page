@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter } from "next/font/google";
+import { Geist_Mono, Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,7 +9,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
 const themeInitScript = `
+  document.documentElement.classList.add("js");
   try {
     const stored = localStorage.getItem("arcleap-theme");
     const theme = stored === "light" || stored === "dark"
@@ -25,14 +38,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building Human World Models: predictive intelligence for how people interact with the physical world.";
+  "ArcLeap AI is building predictive intelligence for how people respond when the physical world changes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — Human World Models",
+  title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — Human World Models",
+    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -41,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — Human World Models",
+    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
     description: siteDescription,
   },
   alternates: {
@@ -67,10 +80,11 @@ const orgJsonLd = {
   legalName: "ArcLeap Inc.",
   url: "https://arcleap.ai/",
   description: siteDescription,
-  slogan: "A physics engine for people.",
+  slogan: "Predict how people will respond, before you change their world.",
   founder: [
-    { "@type": "Person", name: "Jin Miao", jobTitle: "Co-Founder & CEO" },
+    { "@type": "Person", name: "Jin Miao", jobTitle: "Founder & CEO" },
     { "@type": "Person", name: "Qi Guo", jobTitle: "Co-Founder" },
+    { "@type": "Person", name: "Yifan Wang", jobTitle: "Co-Founder" },
   ],
   foundingDate: "2026",
   foundingLocation: "Silicon Valley, California",
@@ -78,7 +92,7 @@ const orgJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={`${inter.variable} ${interTight.variable} ${geistMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
