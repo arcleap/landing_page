@@ -1,80 +1,60 @@
 # ArcLeap AI — Public Content Spec
 
-**Status:** Six-narrative positioning staging page, visual redesign · production publication requires Jin’s approval of the exact SHA
+**Status:** Stealth staging page, Swiss × hairline · production publication requires Jin’s approval of the exact SHA
 **Updated:** 2026-10-09
 **Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling revised 2026-10-09
 
-The page explains ArcLeap AI as predictive intelligence for human behavior around physical change. It carries physicality and psychology together, software-speed testing, the outcome flywheel, partner-built data, prediction rather than generation, and distributions from populations down to individuals. It does not publish architecture, datasets, named partners, experiments, customers, pricing, or fundraising.
+The page stays deliberately vague. It states the headline, asks the question, and names where we begin. It does not explain method, the forecast loop, distributions, data strategy, partners, architecture, datasets, experiments, customers, pricing, or fundraising.
 
 ## Page structure
 
-1. Hero with Fig. 1
-2. 01 Prediction, not generation
-3. 02 Physicality + psychology
-4. 03 The loop: Predict. Measure. Learn.
-5. 04 Where it applies
-6. 05 Work with us and footer
+1. 00 ArcLeap AI — hero with Fig. 01
+2. 01 Direction
+3. 02 Where we begin
+4. 03 Contact and footer
 
 ## Navigation
 
 - ArcLeap AI wordmark → `#top`
 - Signals → `https://jinmiao.ai/signals`
-- Approach → `#approach`
+- Direction → `#approach`
 - Contact → `mailto:contact@arcleap.ai`
 - Light/dark theme button
 
-## Hero
+## 00 Hero
 
-- Eyebrow: `ARCLEAP AI` with status `NOW BUILDING`
+- Frame: `00` `ARCLEAP AI` · `CURRENTLY IN STEALTH`
 - H1: **Physicality and psychology, predicted together.**
-- Body: **We’re building models that test robots, products, and spaces against real human behavior at software speed and scale.**
-- Primary CTA: **How prediction works** → `#approach`
-- Secondary CTA: **Work with us** → `mailto:contact@arcleap.ai`
-- Fig. 1 labels: `A CHANGE`, `FORECAST · BEFORE`, `SCORED · AFTER`, `FULL RANGE`, `ONE PLAUSIBLE GUESS`, `EACH PERSON`
-- Fig. 1 caption: `FIG. 1 — ILLUSTRATIVE` · *One change. Not one guess, but the full range of real people.*
+- Body: **We’re building predictive intelligence for how people respond when the physical world changes.**
+- CTAs: **Get in touch** → `mailto:contact@arcleap.ai` · **Our direction** → `#approach`
+- Fig. 01 caption: `FIG. 01` · `MOVE THE POINTER TO INTRODUCE A CHANGE` · live `X 000 · Y 000` read-out
 
-## 01 Prediction, not generation
+## 01 Direction
 
-- **Most AI for the physical world makes one plausible guess. We predict the full range of what real people may do.**
+- H2: **What happens next?**
+- **Every change to the physical world lands on people, and no two respond alike. We’re building models that anticipate how.**
 
-## 02 Physicality + psychology
+## 02 Where we begin
 
-- Physicality — *How people move* — `MOVE` `REACH` `CARRY` `TIRE`
-- Psychology — *What they intend and feel* — `INTEND` `NOTICE` `FEEL`
-- **We model how people move and what they intend and feel, from whole populations to each person.**
-- Population figure labels: `WHOLE POPULATION`, `EACH PERSON`
+1. Robots — Machines that share space with people.
+2. Products — Things people hold, wear, and use.
+3. Spaces — Places people move through.
 
-## 03 The loop
+## 03 Contact and footer
 
-- H2: **Predict. Measure. Learn.**
-- **Every forecast is made before a change and scored after. Each real outcome sharpens the next prediction, using data built with partners change by change.**
-- 01 Predict — Forecast the full range of responses before a change is made.
-- 02 Measure — Score the forecast against what real people actually do.
-- 03 Learn — Each real outcome sharpens the next prediction.
-- Figure labels: `OBSERVED`, `OUTCOME → NEXT PREDICTION`
-- Speed, scale, and improvement stay framed as what the system is being built to do until measured.
-
-## 04 Where it applies
-
-1. Robots that work around people
-2. Physical products and spaces
-3. Generated media that needs real human behavior
-
-## 05 Work with us and footer
-
-- **Building robots that work around people, or physical products and spaces?** *We’re looking for data and design partners.*
+- **Building something that works around people?** We’d like to hear from you.
 - Display `contact@arcleap.ai`.
 - Include the low-profile attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
 
-## New copy in this revision
+## Copy in this revision
 
-Sentence-level copy is unchanged from the 2026-10-09 tightening. This revision adds only labels and short lines, pending Jin’s approval: the `NOW BUILDING` status, the **Work with us** hero link, the Fig. 1 labels and caption, the physicality and psychology questions and trait tags (drawn from earlier approved copy), the three loop step lines, and the `OBSERVED` and `OUTCOME → NEXT PREDICTION` figure labels.
+The headline is unchanged. “Currently in stealth”, “Get in touch”, “What happens next?”, and “Where we begin” come from earlier approved stealth versions. New and pending Jin’s approval: the hero body (adapted from the brand identity line), the direction paragraph, the three one-line area descriptions, the contact question, and the figure caption.
 
 ## Metadata
 
 - Title: `ArcLeap AI — Physicality and Psychology, Predicted Together`
-- Description reflects physicality and psychology modeled together for software-speed testing.
+- Description: “ArcLeap AI is building predictive intelligence for how people respond when the physical world changes.”
 - Canonical: `https://arcleap.ai/`
 - Preview adds `noindex, nofollow` metadata and `X-Robots-Tag: noindex, nofollow, noarchive`.
 

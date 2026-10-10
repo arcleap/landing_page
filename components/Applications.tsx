@@ -1,28 +1,24 @@
 import { explorations } from "@/content/explorations";
-import { applicationGlyphs } from "@/components/figures/ApplicationGlyphs";
+import { site } from "@/content/links";
+import { FocusGlyph } from "@/components/figures/FocusGlyphs";
+import { SectionHead } from "@/components/SectionHead";
 
 export function Applications() {
+  const { focus } = explorations;
+
   return (
-    <section className="applications-section" aria-labelledby="applications-title">
-      <div className="container-page">
-        <p id="applications-title" className="section-kicker">
-          <span className="kicker-number">04</span>
-          {explorations.applicationLabel}
-        </p>
-        <ol className="application-list">
-          {explorations.items.map((item, i) => {
-            const Glyph = applicationGlyphs[i];
-            return (
-              <li className="application-row" key={item.number} data-reveal>
-                <span className="application-number">{item.number}</span>
-                <div className="application-entry">
-                  <p className="application-signal">{item.signal}</p>
-                  <h3>{item.title}</h3>
-                </div>
-                <Glyph />
-              </li>
-            );
-          })}
+    <section className="section" aria-labelledby="focus-title">
+      <div className="container">
+        <SectionHead number={focus.number} name={focus.eyebrow} aside={site.running} id="focus-title" />
+        <ol className="grid focus-list">
+          {focus.items.map((item, i) => (
+            <li className="focus-item" key={item.number} data-reveal>
+              <FocusGlyph index={i} />
+              <p className="focus-num">{item.number}</p>
+              <h3>{item.title}</h3>
+              <p className="focus-line">{item.line}</p>
+            </li>
+          ))}
         </ol>
       </div>
     </section>

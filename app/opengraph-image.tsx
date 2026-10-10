@@ -13,41 +13,44 @@ export default function OpenGraphImage() {
         justifyContent: "space-between",
         width: "100%",
         height: "100%",
-        padding: "68px 76px",
-        background: "#f2efe7",
-        color: "#24231f",
+        padding: "64px 72px",
+        background: "#ffffff",
+        color: "#0a0a0a",
         fontFamily: "Arial, sans-serif",
       }}
     >
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          gap: 16,
-          fontSize: 19,
-          fontWeight: 600,
-          letterSpacing: 4,
+          justifyContent: "space-between",
+          borderTop: "1.5px solid #0a0a0a",
+          paddingTop: 16,
+          fontSize: 17,
+          letterSpacing: 2,
         }}
       >
-        <div style={{ display: "flex", width: 42, height: 1, background: "#24231f" }} />
-        ARCLEAP AI
+        <div style={{ display: "flex", gap: 28 }}>
+          <span style={{ color: "#cc3a14" }}>00</span>
+          <span>ARCLEAP AI</span>
+        </div>
+        <span style={{ color: "#6b6b6b" }}>CURRENTLY IN STEALTH</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", maxWidth: 1060 }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            fontSize: 74,
+            fontSize: 80,
             fontWeight: 500,
             lineHeight: 1,
             letterSpacing: -3.5,
           }}
         >
           Physicality and psychology,
-          <span>predicted together.</span>
+          <span style={{ color: "#e0421a" }}>predicted together.</span>
         </div>
-        <div style={{ marginTop: 32, fontSize: 23, color: "#5e5b53" }}>
-          Test physical change against real human behavior.
+        <div style={{ marginTop: 32, fontSize: 24, color: "#6b6b6b" }}>
+          Predictive intelligence for how people respond when the physical world changes.
         </div>
       </div>
     </div>,

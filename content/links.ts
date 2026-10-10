@@ -1,13 +1,18 @@
 export const nav = [
   { label: "Signals", href: "https://jinmiao.ai/signals" },
-  { label: "Approach", href: "#approach" },
+  { label: "Direction", href: "#approach" },
 ] as const;
+
+export const site = {
+  running: "ARCLEAP AI",
+} as const;
 
 export const footer = {
   email: "contact@arcleap.ai",
-  label: "WORK WITH US",
-  question: "Building robots that work around people, or physical products and spaces?",
-  ask: "We’re looking for data and design partners.",
+  number: "03",
+  label: "CONTACT",
+  question: "Building something that works around people?",
+  ask: "We’d like to hear from you.",
   founders: [
     { role: "Founder & CEO", name: "Jin Miao" },
     { role: "Co-Founder", name: "Qi Guo" },

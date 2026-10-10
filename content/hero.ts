@@ -1,29 +1,22 @@
 export const hero = {
   eyebrow: "ARCLEAP AI",
-  status: "NOW BUILDING",
+  status: "CURRENTLY IN STEALTH",
   h1: {
-    lead: "Physicality and",
-    emphasis: "psychology,",
+    lead: "Physicality and psychology,",
     accent: "predicted together.",
   },
-  body:
-    "We’re building models that test robots, products, and spaces against real human behavior at software speed and scale.",
+  body: "We’re building predictive intelligence for how people respond when the physical world changes.",
   cta: {
-    label: "How prediction works",
-    href: "#approach",
-  },
-  secondary: {
-    label: "Work with us",
+    label: "Get in touch",
     href: "mailto:contact@arcleap.ai",
   },
+  secondary: {
+    label: "Our direction",
+    href: "#approach",
+  },
   figure: {
-    label: "FIG. 1 — ILLUSTRATIVE",
-    caption: "One change. Not one guess, but the full range of real people.",
-    change: "A CHANGE",
-    before: "FORECAST · BEFORE",
-    after: "SCORED · AFTER",
-    guess: "ONE PLAUSIBLE GUESS",
-    person: "EACH PERSON",
-    range: "FULL RANGE",
+    label: "FIG. 01",
+    hint: "MOVE THE POINTER TO INTRODUCE A CHANGE",
+    alt: "An isometric line drawing of a crowd on a platform. Where a change appears, the people nearby respond, each by a different amount.",
   },
 } as const;

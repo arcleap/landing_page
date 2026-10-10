@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { Geist_Mono, Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,17 +9,15 @@ const inter = Inter({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
+const interTight = Inter_Tight({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument",
+  variable: "--font-inter-tight",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -40,7 +38,7 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building models that test robots, products, and spaces against real human behavior at software speed and scale.";
+  "ArcLeap AI is building predictive intelligence for how people respond when the physical world changes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
@@ -94,7 +92,7 @@ const orgJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={`${inter.variable} ${interTight.variable} ${geistMono.variable}`}>
       <head>
         <script
           type="application/ld+json"

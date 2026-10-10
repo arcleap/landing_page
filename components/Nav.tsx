@@ -12,12 +12,12 @@ export function Nav() {
         <div className="preview-banner">Private preview · not indexed or linked from the live site</div>
       ) : null}
       <header className="site-header">
-        <div className="container-page nav-inner">
+        <div className="container nav-inner">
           <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
             <span className="brand-mark" aria-hidden="true">
               <Image src={arcleapMark} alt="" fill sizes="42px" className="brand-mark-image" />
             </span>
-            <span>ARCLEAP AI</span>
+            <span>ArcLeap AI</span>
           </a>
           <nav aria-label="Primary" className="nav-links">
             {nav.map((item) => (
