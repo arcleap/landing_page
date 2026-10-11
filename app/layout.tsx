@@ -82,7 +82,7 @@ const orgJsonLd = {
   description: siteDescription,
   slogan: "Predict how people will respond, before you change their world.",
   founder: [
-    { "@type": "Person", name: "Jin Miao", jobTitle: "Founder & CEO" },
+    { "@type": "Person", name: "Jin Miao", jobTitle: "Co-Founder & CEO" },
     { "@type": "Person", name: "Qi Guo", jobTitle: "Co-Founder" },
     { "@type": "Person", name: "Yifan Wang", jobTitle: "Co-Founder" },
   ],

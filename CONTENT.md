@@ -44,7 +44,7 @@ The page stays deliberately vague. It states the headline, asks the question, an
 
 - **Building something that works around people?** We’d like to hear from you.
 - Display `contact@arcleap.ai`.
-- Include the low-profile attribution `Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
+- Include the low-profile attribution `Co-Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
 
 ## Copy in this revision
