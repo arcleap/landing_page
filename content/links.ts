@@ -14,7 +14,7 @@ export const footer = {
   question: "Building something that works around people?",
   ask: "We’d like to hear from you.",
   founders: [
-    { role: "Founder & CEO", name: "Jin Miao" },
+    { role: "Co-Founder & CEO", name: "Jin Miao" },
     { role: "Co-Founder", name: "Qi Guo" },
     { role: "Co-Founder", name: "Yifan Wang" },
   ],
