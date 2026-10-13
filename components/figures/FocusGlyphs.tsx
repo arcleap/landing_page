@@ -22,7 +22,6 @@ const scenes: Scene[] = [
     object: [
       { rect: [34, 24, 60, 48], z0: 0, z1: 24, r: 4 },
       { cyl: [47, 36, 7], z0: 24, z1: 34 },
-      { rect: [60, 33, 84, 39], z0: 14, z1: 18, r: 1.5 },
     ],
     footprint: [34, 24, 60, 48],
     people: [
