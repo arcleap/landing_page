@@ -36,7 +36,7 @@ The page stays deliberately vague. It states the headline, asks the question, an
 
 ## 02 Where we begin
 
-1. Agents — AI that acts alongside people.
+1. Robots — Machines that share space with people.
 2. Products — Things people hold, wear, and use.
 3. Spaces — Places people move through.
 

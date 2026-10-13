@@ -7,7 +7,7 @@ export const explorations = {
     number: "02",
     eyebrow: "WHERE WE BEGIN",
     items: [
-      { number: "01", title: "Agents", line: "AI that acts alongside people." },
+      { number: "01", title: "Robots", line: "Machines that share space with people." },
       { number: "02", title: "Products", line: "Things people hold, wear, and use." },
       { number: "03", title: "Spaces", line: "Places people move through." },
     ],
