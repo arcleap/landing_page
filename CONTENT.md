@@ -36,9 +36,9 @@ The page stays deliberately vague. It states the headline, asks the question, an
 
 ## 02 Where we begin
 
-1. Robots — Machines that share space with people.
-2. Products — Things people hold, wear, and use.
-3. Spaces — Places people move through.
+1. Products — Things people hold, wear, and use.
+2. Spaces — Places people move through.
+3. Robots — Machines that share space with people.
 
 ## 03 Contact and footer
 
