@@ -7,9 +7,9 @@ export const explorations = {
     number: "02",
     eyebrow: "WHERE WE BEGIN",
     items: [
-      { number: "01", title: "Robots", line: "Machines that share space with people." },
-      { number: "02", title: "Products", line: "Things people hold, wear, and use." },
-      { number: "03", title: "Spaces", line: "Places people move through." },
+      { number: "01", title: "Products", line: "Things people hold, wear, and use." },
+      { number: "02", title: "Spaces", line: "Places people move through." },
+      { number: "03", title: "Robots", line: "Machines that share space with people." },
     ],
   },
 } as const;
