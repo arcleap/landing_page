@@ -51,6 +51,14 @@ The page stays deliberately vague. It states the headline, asks the question, an
 
 The headline is unchanged. “Currently in stealth”, “Get in touch”, “What happens next?”, and “Where we begin” come from earlier approved stealth versions. New and pending Jin’s approval: the hero body (adapted from the brand identity line), the direction paragraph, the three one-line area descriptions, the contact question, and the figure caption.
 
+## Private room (`/room`)
+
+A locked page Jin uses to play demos live in pitches and on video calls. It isn't shared with anyone, linked from the site, indexed, or cached. One passcode unlocks it for 30 days on that browser; videos are unlisted YouTube embeds. The passcode, video IDs, and signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_PASSCODE`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
+
+- Locked: **Private.** “This page is locked.”
+- Unlocked: **Demos.** with the videos, marked Confidential.
+- Each video resizes by dragging its corner handle, from 320px up to the window's size; double-click resets. Sizes are remembered in that browser.
+
 ## Metadata
 
 - Title: `ArcLeap AI — Physicality and Psychology, Predicted Together`
