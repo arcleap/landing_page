@@ -58,6 +58,7 @@ A locked page Jin uses to play demos live in pitches and on video calls. It isn'
 - Locked: **Private.** “This page is locked.”
 - Unlocked: **Demos.** with the videos, marked Confidential.
 - Each video resizes by dragging its corner handle, from 320px up to the window's size; double-click resets. Sizes are remembered in that browser.
+- Videos play through our own surface and controls (YouTube IFrame API), so YouTube's hover chrome never shows: click the video to play or pause, scrub the timeline below it, and use Play, Mute and Full screen in the caption. If YouTube refuses to start from our button, the surface steps aside for a direct click; if the API can't load, it falls back to a plain embed.
 
 ## Metadata
 
