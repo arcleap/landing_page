@@ -4,6 +4,7 @@ import Link from "next/link";
 import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Gate } from "@/components/room/Gate";
+import { RoomVideo } from "@/components/room/RoomVideo";
 import { footer } from "@/content/links";
 import { isUnlocked, videos } from "@/lib/room";
 import { lock } from "./actions";
@@ -13,8 +14,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
   alternates: { canonical: null },
 };
-
-const pad = (n: number) => String(n).padStart(2, "0");
 
 export default async function RoomPage() {
   const unlocked = await isUnlocked();
@@ -56,25 +55,9 @@ export default async function RoomPage() {
                 <h1 className="room-title">Demos.</h1>
               </div>
               {list.length ? (
-                <ol className="grid room-videos">
+                <ol className="room-videos">
                   {list.map((video, i) => (
-                    <li className="room-video" key={video.id}>
-                      <div className="room-frame">
-                        <iframe
-                          src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&playsinline=1`}
-                          title={video.title}
-                          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                          referrerPolicy="strict-origin-when-cross-origin"
-                          allowFullScreen
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="figure-caption">
-                        <span className="figure-label">FIG. {pad(i + 1)}</span>
-                        <span className="room-video-title">{video.title}</span>
-                        <span>{video.note}</span>
-                      </div>
-                    </li>
+                    <RoomVideo key={video.id} video={video} index={i} />
                   ))}
                 </ol>
               ) : (

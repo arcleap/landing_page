@@ -57,6 +57,7 @@ A locked page Jin uses to play demos live in pitches and on video calls. It isn'
 
 - Locked: **Private.** “This page is locked.”
 - Unlocked: **Demos.** with the videos, marked Confidential.
+- Each video resizes by dragging its corner handle, from 320px up to the window's size; double-click resets. Sizes are remembered in that browser.
 
 ## Metadata
 
