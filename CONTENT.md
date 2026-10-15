@@ -51,6 +51,13 @@ The page stays deliberately vague. It states the headline, asks the question, an
 
 The headline is unchanged. “Currently in stealth”, “Get in touch”, “What happens next?”, and “Where we begin” come from earlier approved stealth versions. New and pending Jin’s approval: the hero body (adapted from the brand identity line), the direction paragraph, the three one-line area descriptions, the contact question, and the figure caption.
 
+## Private room (`/room`)
+
+Invite-only page for sharing demos with investors. Not linked from the site, `noindex`, never cached. Guests enter a per-firm access code; videos are unlisted YouTube embeds. Codes, video IDs, and the signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_CODES`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
+
+- Locked: **By invitation.** “Enter the access code from your invitation.”
+- Open: **Welcome, {firm}.** “These are shared with you in confidence. Please don’t forward them or their links.”
+
 ## Metadata
 
 - Title: `ArcLeap AI — Physicality and Psychology, Predicted Together`
