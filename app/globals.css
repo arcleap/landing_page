@@ -832,160 +832,12 @@ a {
   background: var(--hl-plate);
 }
 
-.room-player {
-  position: absolute;
-  inset: 0;
-}
-
 .room-frame iframe {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-}
-
-/* Sits over the player so YouTube never sees the pointer (and never shows its
-   hover chrome); a click plays or pauses through the API. */
-.room-surface {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-
-.room-surface:disabled {
-  cursor: progress;
-}
-
-.room-surface:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: -1px;
-}
-
-.room-poster {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.room-play {
-  position: relative;
-  width: clamp(44px, 7%, 72px);
-  fill: none;
-  stroke: #ffffff;
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 6px rgb(0 0 0 / 0.35));
-  transition: stroke 260ms var(--ease-stroke), transform 700ms var(--ease);
-}
-
-.room-surface:hover .room-play {
-  stroke: var(--accent);
-  transform: scale(1.06);
-}
-
-.room-track {
-  position: relative;
-  height: 14px;
-  cursor: pointer;
-  touch-action: none;
-}
-
-.room-track::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  height: 1px;
-  background: var(--rule);
-}
-
-.room-track-fill {
-  position: absolute;
-  top: calc(50% - 1px);
-  left: 0;
-  height: 2px;
-  background: var(--accent);
-}
-
-.room-caption {
-  margin-top: 0.4rem;
-}
-
-.room-note {
-  color: var(--muted);
-}
-
-.room-controls {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.4rem 1.25rem;
-}
-
-.room-controls button {
-  border: 0;
-  background: none;
-  padding: 0;
-  color: var(--ink);
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  cursor: pointer;
-  transition: color 260ms var(--ease-stroke);
-}
-
-.room-controls button:hover,
-.room-controls button:focus-visible {
-  color: var(--accent-text);
-}
-
-.room-controls button:disabled {
-  color: var(--faint);
-  cursor: progress;
-}
-
-.room-time {
-  font-variant-numeric: tabular-nums;
-}
-
-/* Full screen: the video, its timeline and controls, centred on black. */
-.room-video:fullscreen {
-  --ink: #f2f3f5;
-  --muted: #a3a7af;
-  --faint: #5d616a;
-  --rule: #2a2b2f;
-  --accent-text: #ff5a2c;
-  --full-w: min(calc(100vw - 64px), calc((100vh - 96px) * 16 / 9));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  margin: 0;
-  background: #000000;
-  color: var(--muted);
-}
-
-.room-video:fullscreen > * {
-  width: var(--full-w);
-  margin-inline: auto;
-}
-
-.room-video:fullscreen .room-frame {
-  border-color: transparent;
-  background: #000000;
-}
-
-.room-video:fullscreen .room-handle {
-  display: none;
 }
 
 /* The iframe would swallow the pointer mid-drag. */
@@ -1148,11 +1000,6 @@ a {
 
   .figure-hint {
     display: none;
-  }
-
-  .room-controls {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
   }
 
   .footer-bottom {
