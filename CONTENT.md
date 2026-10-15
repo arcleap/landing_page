@@ -53,10 +53,10 @@ The headline is unchanged. “Currently in stealth”, “Get in touch”, “Wh
 
 ## Private room (`/room`)
 
-Invite-only page for sharing demos with investors. Not linked from the site, `noindex`, never cached. Guests enter a per-firm access code; videos are unlisted YouTube embeds. Codes, video IDs, and the signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_CODES`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
+A locked page Jin uses to play demos live in pitches and on video calls. It isn't shared with anyone, linked from the site, indexed, or cached. One passcode unlocks it for 30 days on that browser; videos are unlisted YouTube embeds. The passcode, video IDs, and signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_PASSCODE`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
 
-- Locked: **By invitation.** “Enter the access code from your invitation.”
-- Open: **Welcome, {firm}.** “These are shared with you in confidence. Please don’t forward them or their links.”
+- Locked: **Private.** “This page is locked.”
+- Unlocked: **Demos.** with the videos, marked Confidential.
 
 ## Metadata
 

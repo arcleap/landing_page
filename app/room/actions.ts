@@ -2,12 +2,12 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { endSession, match, startSession } from "@/lib/room";
+import { checkPasscode, endSession, startSession } from "@/lib/room";
 
 export type EnterState = { error?: string };
 
-// Best-effort per-instance limit on wrong guesses. The real defence is code
-// length: at 1,000 guesses a second, a 12-character code takes millions of years.
+// Best-effort per-instance limit on wrong guesses. The real defence is length:
+// at 1,000 guesses a second, a 12-character passcode takes millions of years.
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_MISSES = 8;
 const misses = new Map<string, number[]>();
@@ -29,21 +29,20 @@ export async function enter(_: EnterState, formData: FormData): Promise<EnterSta
   }
 
   const code = String(formData.get("code") ?? "").slice(0, 64);
-  const guest = code ? match(code) : null;
-  if (!guest) {
+  if (!code || !checkPasscode(code)) {
     misses.set(ip, [...recentMisses(ip, now), now]);
-    console.warn(`[room] wrong code from ${ip}`);
+    console.warn(`[room] wrong passcode from ${ip}`);
     await new Promise((resolve) => setTimeout(resolve, 600));
-    return { error: "That code didn’t work. Check it and try again." };
+    return { error: "That passcode didn’t work." };
   }
 
   misses.delete(ip);
-  await startSession(guest);
-  console.info(`[room] ${guest} entered`);
+  await startSession();
+  console.info(`[room] unlocked from ${ip}`);
   redirect("/room");
 }
 
-export async function leave() {
+export async function lock() {
   await endSession();
   redirect("/room");
 }

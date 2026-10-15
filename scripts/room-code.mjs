@@ -1,4 +1,4 @@
-// Prints a fresh access code for the private room, e.g. `K7Q2-M9XD-4TRP`.
+// Prints a fresh passcode for the private room, e.g. `K7Q2-M9XD-4TRP`.
 // Usage: node scripts/room-code.mjs [count]
 import { randomInt } from "node:crypto";
 

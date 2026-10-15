@@ -9,25 +9,24 @@ export function Gate() {
   return (
     <form className="gate" action={action}>
       <label className="gate-label" htmlFor="room-code">
-        Access code
+        Passcode
       </label>
       <div className="gate-row">
+        {/* Masked, so it can't be read off a shared screen; a password manager can keep it. */}
         <input
           id="room-code"
           className="gate-input"
           name="code"
-          type="text"
+          type="password"
           required
           maxLength={64}
-          autoComplete="off"
-          autoCapitalize="characters"
+          autoComplete="current-password"
           spellCheck={false}
-          placeholder="XXXX-XXXX-XXXX"
           aria-invalid={state.error ? true : undefined}
           aria-describedby={state.error ? "room-error" : undefined}
         />
         <button className="button gate-button" type="submit" disabled={pending}>
-          <span>{pending ? "Checking" : "Enter"}</span>
+          <span>{pending ? "Checking" : "Unlock"}</span>
           <span aria-hidden="true">→</span>
         </button>
       </div>

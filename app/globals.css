@@ -788,7 +788,7 @@ a {
   font-size: 0.9rem;
 }
 
-.room-leave {
+.room-lock {
   border: 0;
   background: none;
   padding: 0;
@@ -800,8 +800,8 @@ a {
   transition: color 260ms var(--ease-stroke);
 }
 
-.room-leave:hover,
-.room-leave:focus-visible {
+.room-lock:hover,
+.room-lock:focus-visible {
   color: var(--ink);
 }
 

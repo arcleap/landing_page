@@ -5,8 +5,8 @@ import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Gate } from "@/components/room/Gate";
 import { footer } from "@/content/links";
-import { currentGuest, videos } from "@/lib/room";
-import { leave } from "./actions";
+import { isUnlocked, videos } from "@/lib/room";
+import { lock } from "./actions";
 
 export const metadata: Metadata = {
   title: "Private room — ArcLeap AI",
@@ -17,9 +17,8 @@ export const metadata: Metadata = {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export default async function RoomPage() {
-  const guest = await currentGuest();
-  const list = guest ? videos() : [];
-  if (guest) console.info(`[room] ${guest} viewed the room`);
+  const unlocked = await isUnlocked();
+  const list = unlocked ? videos() : [];
 
   return (
     <>
@@ -32,9 +31,9 @@ export default async function RoomPage() {
             <span>ArcLeap AI</span>
           </Link>
           <div className="nav-links">
-            {guest ? (
-              <form action={leave}>
-                <button className="room-leave" type="submit">Leave</button>
+            {unlocked ? (
+              <form action={lock}>
+                <button className="room-lock" type="submit">Lock</button>
               </form>
             ) : null}
             <ThemeToggle />
@@ -48,16 +47,13 @@ export default async function RoomPage() {
           <div className="sec-head" data-revealed="">
             <span className="sec-num">00</span>
             <span className="sec-name">Private room</span>
-            <span className="sec-aside">{guest ? `For ${guest}` : "By invitation"}</span>
+            <span className="sec-aside">{unlocked ? "Confidential" : "Locked"}</span>
           </div>
 
-          {guest ? (
+          {unlocked ? (
             <>
               <div className="grid room-intro">
-                <h1 className="room-title">Welcome, {guest}.</h1>
-                <p className="room-body">
-                  These are shared with you in confidence. Please don’t forward them or their links.
-                </p>
+                <h1 className="room-title">Demos.</h1>
               </div>
               {list.length ? (
                 <ol className="grid room-videos">
@@ -87,9 +83,9 @@ export default async function RoomPage() {
             </>
           ) : (
             <div className="grid room-intro">
-              <h1 className="room-title">By invitation.</h1>
+              <h1 className="room-title">Private.</h1>
               <div className="room-side">
-                <p className="room-body">Enter the access code from your invitation.</p>
+                <p className="room-body">This page is locked.</p>
                 <Gate />
               </div>
             </div>
