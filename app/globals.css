@@ -724,6 +724,14 @@ a {
   line-height: 1.6;
 }
 
+.room-deck {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  padding-bottom: 0.25rem;
+}
+
 .gate {
   margin-top: 1.5rem;
 }

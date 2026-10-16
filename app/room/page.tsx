@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Gate } from "@/components/room/Gate";
 import { RoomVideo } from "@/components/room/RoomVideo";
 import { footer } from "@/content/links";
+import { hasDeck } from "@/lib/deck";
 import { isUnlocked, videos } from "@/lib/room";
 import { lock } from "./actions";
 
@@ -53,6 +54,19 @@ export default async function RoomPage() {
             <>
               <div className="grid room-intro">
                 <h1 className="room-title">Demos.</h1>
+                {hasDeck() ? (
+                  // Plain links: these are route handlers, not pages.
+                  <div className="room-side room-deck">
+                    <a className="button" href="/room/deck">
+                      <span>Deck</span>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                    <a className="text-link" href="/room/deck.pdf">
+                      <span>PDF</span>
+                      <span aria-hidden="true">↓</span>
+                    </a>
+                  </div>
+                ) : null}
               </div>
               {list.length ? (
                 <ol className="room-videos">

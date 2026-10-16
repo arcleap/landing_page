@@ -26,8 +26,8 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // The private room is never indexed or cached by anyone in between.
-        source: "/room",
+        // The private room and its deck are never indexed or cached by anyone in between.
+        source: "/room/:path*",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
           { key: "Cache-Control", value: "private, no-store" },
