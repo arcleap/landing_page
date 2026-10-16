@@ -26,6 +26,35 @@ const PRIVATE = {
   "X-Robots-Tag": "noindex, nofollow, noarchive",
 };
 
+// The site's light/dark switch, added to the deck as it's served so the vault
+// file stays as it is (the deck already themes itself from data-theme on
+// <html>). It shares the site's stored choice ("arcleap-theme", as in
+// ThemeToggle) and otherwise starts light, whatever the system setting.
+const THEME_HEAD =
+  `<script>try{document.documentElement.dataset.theme=localStorage.getItem("arcleap-theme")==="dark"?"dark":"light"}catch(e){document.documentElement.dataset.theme="light"}</script>` +
+  `<style>#theme svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}#theme .sun,:root[data-theme="dark"] #theme .moon{display:none}:root[data-theme="dark"] #theme .sun{display:block}</style>`;
+
+const THEME_BUTTON =
+  `<button type="button" id="theme" aria-label="Toggle light and dark theme" title="Toggle light and dark theme">` +
+  `<svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.4 8.4 0 0 1 8.8 4 8.4 8.4 0 1 0 20 15.2Z"/></svg>` +
+  `<svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v2M12 19.5v2M4.5 12h-2M21.5 12h-2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></svg>` +
+  `</button>` +
+  `<script>document.getElementById("theme").addEventListener("click",function(){var d=document.documentElement,t=d.dataset.theme==="dark"?"light":"dark";d.dataset.theme=t;try{localStorage.setItem("arcleap-theme",t)}catch(e){}})</script>`;
+
+// The switch goes last in the deck's top-bar controls, after Full screen (or
+// after Next if a later deck drops Full screen). Without those, the deck still
+// starts light, just without the switch.
+function withTheme(html: string): string {
+  const head = /<head\b[^>]*>/i;
+  if (!head.test(html)) return html;
+  html = html.replace(head, (tag) => tag + THEME_HEAD);
+  for (const id of ["fs", "next"]) {
+    const control = new RegExp(`<button\\b[^>]*\\bid="${id}"[^>]*>[\\s\\S]*?</button>`);
+    if (control.test(html)) return html.replace(control, (tag) => tag + THEME_BUTTON);
+  }
+  return html;
+}
+
 function deckKey(): Buffer | null {
   const hex = process.env.ROOM_DECK_KEY?.trim() ?? "";
   return /^[0-9a-f]{64}$/i.test(hex) ? Buffer.from(hex, "hex") : null;
@@ -64,5 +93,6 @@ export async function serveDeck(name: DeckFile): Promise<Response> {
       headers: { ...PRIVATE, "Content-Type": "text/plain; charset=utf-8" },
     });
   }
-  return new Response(new Uint8Array(file), { headers: { ...PRIVATE, ...TYPES[name] } });
+  const body = name === "deck.html" ? withTheme(file.toString("utf8")) : new Uint8Array(file);
+  return new Response(body, { headers: { ...PRIVATE, ...TYPES[name] } });
 }

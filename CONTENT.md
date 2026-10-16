@@ -57,7 +57,7 @@ A locked page for the demos and the investor deck. Jin plays the demos live in p
 
 - Locked: **Private.** “This page is locked.”
 - Unlocked: **Demos.** with **Deck** and **PDF** links and the videos, marked Confidential.
-- Deck: Jin's investor deck at `/room/deck` (HTML) and `/room/deck.pdf`. Its source of truth is the vault (`VC & Fundraising/BPs/ArcLeap AI — Investor Deck (YYYY-MM-DD).html` and `.pdf`); content changes happen there, not here. Only AES-256-GCM ciphertext is committed (`content/private/*.enc`); the server checks the passcode session, then decrypts with `ROOM_DECK_KEY` (format in `lib/deck.ts`). Signed-out requests get a redirect to `/room` and no deck bytes. To refresh it: `node scripts/room-deck.mjs <deck.html> <deck.pdf>`, commit the two `.enc` files, deploy.
+- Deck: Jin's investor deck at `/room/deck` (HTML) and `/room/deck.pdf`. Its source of truth is the vault (`VC & Fundraising/BPs/ArcLeap AI — Investor Deck (YYYY-MM-DD).html` and `.pdf`); content changes happen there, not here. Only AES-256-GCM ciphertext is committed (`content/private/*.enc`); the server checks the passcode session, then decrypts with `ROOM_DECK_KEY` (format in `lib/deck.ts`). Signed-out requests get a redirect to `/room` and no deck bytes. The deck opens light whatever the system setting, with the site's light/dark switch added to its top bar as it's served; the choice is shared with the rest of arcleap.ai. To refresh it: `node scripts/room-deck.mjs <deck.html> <deck.pdf>`, commit the two `.enc` files, deploy.
 - Each video resizes by dragging its corner handle, from 320px up to the window's size; double-click resets. Sizes are remembered in that browser.
 
 ## Metadata
