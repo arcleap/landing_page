@@ -1,44 +1,23 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { checkPasscode, endSession, startSession } from "@/lib/room";
+import { checkInvitePasscode, checkPasscode, endSession, startSession, track } from "@/lib/room";
+import { attempt, WRONG, type EnterState } from "@/lib/room-gate";
+import { inviteByToken, SHARED } from "@/lib/room-store";
 
-export type EnterState = { error?: string };
-
-// Best-effort per-instance limit on wrong guesses. The real defence is length:
-// at 1,000 guesses a second, a 12-character passcode takes millions of years.
-const WINDOW_MS = 15 * 60 * 1000;
-const MAX_MISSES = 8;
-const misses = new Map<string, number[]>();
-
-function recentMisses(ip: string, now: number) {
-  const list = (misses.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  if (list.length) misses.set(ip, list);
-  else misses.delete(ip);
-  return list;
-}
-
+// From /room with the shared passcode, or from an investor's link with theirs.
 export async function enter(_: EnterState, formData: FormData): Promise<EnterState> {
-  const h = await headers();
-  const ip = h.get("x-real-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const now = Date.now();
-  if (recentMisses(ip, now).length >= MAX_MISSES) {
-    console.warn(`[room] locked out ${ip}`);
-    return { error: "Too many attempts. Try again in 15 minutes." };
-  }
+  const token = String(formData.get("invite") ?? "");
+  const invite = token ? await inviteByToken(token) : null;
+  if (token && (!invite || invite.revoked)) return { error: "This link isn’t active anymore." };
 
-  const code = String(formData.get("code") ?? "").slice(0, 64);
-  if (!code || !checkPasscode(code)) {
-    misses.set(ip, [...recentMisses(ip, now), now]);
-    console.warn(`[room] wrong passcode from ${ip}`);
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    return { error: "That passcode didn’t work." };
+  const failed = await attempt(formData, (code) => (invite ? checkInvitePasscode(invite, code) : checkPasscode(code)));
+  if (failed) {
+    if (invite && failed.error === WRONG) await track(invite.id, "fail");
+    return failed;
   }
-
-  misses.delete(ip);
-  await startSession();
-  console.info(`[room] unlocked from ${ip}`);
+  const device = await startSession(invite ?? undefined);
+  await track(invite?.id ?? SHARED, "unlock", device ? { d: device } : undefined);
   redirect("/room");
 }
 

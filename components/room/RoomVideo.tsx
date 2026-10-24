@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type KeyboardEvent, type PointerEvent } from "react";
+import { watch } from "@/components/room/watch";
 import type { Video } from "@/lib/room";
 
 // A video whose size is set by dragging its corner handle, from MIN up to the
@@ -17,6 +18,34 @@ const STEP = 0.05;
 const storageKey = (id: string) => `arcleap-room-size:${id}`;
 const pad = (n: number) => String(n).padStart(2, "0");
 
+// The parts of the YouTube IFrame API used to follow playback. The player
+// itself stays YouTube's own, with its usual controls.
+type YouTubePlayer = { getCurrentTime(): number; getDuration(): number };
+type YouTubeApi = {
+  Player: new (frame: HTMLIFrameElement, options: { events: { onStateChange(event: { data: number }): void } }) => YouTubePlayer;
+};
+const PLAYING = 1;
+const ENDED = 0;
+
+let youtubeApi: Promise<YouTubeApi> | undefined;
+
+function loadYouTube(): Promise<YouTubeApi> {
+  youtubeApi ??= new Promise((resolve) => {
+    const w = window as Window & { YT?: YouTubeApi; onYouTubeIframeAPIReady?: () => void };
+    if (w.YT?.Player) return resolve(w.YT);
+    const previous = w.onYouTubeIframeAPIReady;
+    w.onYouTubeIframeAPIReady = () => {
+      previous?.();
+      if (w.YT) resolve(w.YT);
+    };
+    const script = document.createElement("script");
+    script.src = "https://www.youtube.com/iframe_api";
+    script.async = true;
+    document.head.append(script);
+  });
+  return youtubeApi;
+}
+
 function remember(id: string, width: number | null) {
   try {
     if (width === null) localStorage.removeItem(storageKey(id));
@@ -29,6 +58,8 @@ function remember(id: string, width: number | null) {
 export function RoomVideo({ video, index }: { video: Video; index: number }) {
   const itemRef = useRef<HTMLLIElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const limit = (w: number) =>
     Math.min(Math.max(w, MIN), window.innerWidth - EDGE, ((window.innerHeight - ABOVE_BELOW) * 16) / 9);
@@ -43,12 +74,66 @@ export function RoomVideo({ video, index }: { video: Video; index: number }) {
 
   useEffect(() => {
     try {
-      const stored = Number(localStorage.getItem(storageKey(video.id)));
+      const stored = Number(localStorage.getItem(storageKey(video.key)));
       if (stored >= MIN) setSize(stored);
     } catch {
       // Default size.
     }
-  }, [video.id]);
+  }, [video.key]);
+
+  // Reports how much of the video is watched, for the room's activity log.
+  useEffect(() => {
+    const file = videoRef.current;
+    if (file) {
+      const tracker = watch(video.key, () => file.duration);
+      const handlers: [string, () => void][] = [
+        ["playing", () => tracker.playing(file.currentTime)],
+        ["timeupdate", () => tracker.time(file.currentTime)],
+        ["pause", () => tracker.paused()],
+        ["waiting", () => tracker.paused()],
+        ["ended", () => tracker.ended()],
+      ];
+      for (const [type, handler] of handlers) file.addEventListener(type, handler);
+      return () => {
+        for (const [type, handler] of handlers) file.removeEventListener(type, handler);
+        tracker.close();
+      };
+    }
+
+    const frame = iframeRef.current;
+    if (!frame) return;
+    let player: YouTubePlayer | undefined;
+    let poll: ReturnType<typeof setInterval> | undefined;
+    let closed = false;
+    const tracker = watch(video.key, () => player?.getDuration() ?? 0);
+    const stopPolling = () => {
+      clearInterval(poll);
+      poll = undefined;
+    };
+    loadYouTube().then((api) => {
+      if (closed) return;
+      player = new api.Player(frame, {
+        events: {
+          onStateChange({ data }) {
+            if (!player) return;
+            if (data === PLAYING) {
+              tracker.playing(player.getCurrentTime());
+              poll ??= setInterval(() => player && tracker.time(player.getCurrentTime()), 1000);
+              return;
+            }
+            stopPolling();
+            if (data === ENDED) tracker.ended();
+            else tracker.paused();
+          },
+        },
+      });
+    });
+    return () => {
+      closed = true;
+      stopPolling();
+      tracker.close();
+    };
+  }, [video.key]);
 
   const onPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return;
@@ -75,7 +160,7 @@ export function RoomVideo({ video, index }: { video: Video; index: number }) {
       handle.removeEventListener("pointercancel", end);
       frame?.removeAttribute("data-resizing");
       if (width === startWidth) return;
-      remember(video.id, width);
+      remember(video.key, width);
       itemRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     };
     handle.addEventListener("pointermove", move);
@@ -98,25 +183,40 @@ export function RoomVideo({ video, index }: { video: Video; index: number }) {
     event.preventDefault();
     const width = limit(next());
     setSize(width);
-    remember(video.id, width);
+    remember(video.key, width);
   };
 
   const reset = () => {
     setSize(null);
-    remember(video.id, null);
+    remember(video.key, null);
   };
 
   return (
     <li ref={itemRef} className="room-video">
       <div ref={frameRef} className="room-frame">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&playsinline=1`}
-          title={video.title}
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          loading="lazy"
-        />
+        {video.file ? (
+          // Served only to an unlocked room, from a link that expires (app/room/video).
+          <video
+            ref={videoRef}
+            src={`/room/video/${index + 1}`}
+            aria-label={video.title}
+            controls
+            controlsList="nodownload"
+            playsInline
+            preload="metadata"
+            onContextMenu={(event) => event.preventDefault()}
+          />
+        ) : (
+          <iframe
+            ref={iframeRef}
+            src={`https://www.youtube-nocookie.com/embed/${video.youtube}?rel=0&playsinline=1&enablejsapi=1`}
+            title={video.title}
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            loading="lazy"
+          />
+        )}
         <button
           type="button"
           className="room-handle"
