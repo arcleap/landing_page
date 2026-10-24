@@ -1,8 +1,7 @@
 import { createDecipheriv } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { roomSession, track } from "@/lib/room";
-import { SHARED } from "@/lib/room-store";
+import { isUnlocked } from "@/lib/room";
 
 // The investor deck in the private room, at /room/deck and /room/deck.pdf.
 // This repo is public, so only AES-256-GCM ciphertext is committed
@@ -84,11 +83,9 @@ async function readDeck(name: DeckFile): Promise<Buffer | null> {
 
 // Visitors who haven't unlocked the room are sent back to it without a byte of the deck.
 export async function serveDeck(name: DeckFile): Promise<Response> {
-  const session = await roomSession();
-  if (!session) {
+  if (!(await isUnlocked())) {
     return new Response(null, { status: 303, headers: { ...PRIVATE, Location: "/room" } });
   }
-  await track(session.invite ?? SHARED, name === "deck.html" ? "deck" : "pdf");
   const file = await readDeck(name);
   if (!file) {
     return new Response("The deck isn’t available right now.", {

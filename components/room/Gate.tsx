@@ -1,25 +1,15 @@
 "use client";
 
 import { useActionState } from "react";
-import type { EnterState } from "@/lib/room-gate";
+import { enter, type EnterState } from "@/app/room/actions";
 
-// A passcode form. `invite` is the token of the investor link it was opened from.
-export function Gate({
-  action: enter,
-  invite,
-  label = "Passcode",
-}: {
-  action: (state: EnterState, formData: FormData) => Promise<EnterState>;
-  invite?: string;
-  label?: string;
-}) {
+export function Gate() {
   const [state, action, pending] = useActionState<EnterState, FormData>(enter, {});
 
   return (
     <form className="gate" action={action}>
-      {invite ? <input type="hidden" name="invite" value={invite} /> : null}
       <label className="gate-label" htmlFor="room-code">
-        {label}
+        Passcode
       </label>
       <div className="gate-row">
         {/* Masked, so it can't be read off a shared screen; a password manager can keep it. */}
