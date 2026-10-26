@@ -1,5 +1,3 @@
-import Image from "next/image";
-import arcleapMark from "@/design-assets/arcleap-logo-source.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { nav } from "@/content/links";
 
@@ -14,9 +12,7 @@ export function Nav() {
       <header className="site-header">
         <div className="container nav-inner">
           <a href="#top" className="brand-link" aria-label="ArcLeap AI home">
-            <span className="brand-mark" aria-hidden="true">
-              <Image src={arcleapMark} alt="" fill sizes="42px" className="brand-mark-image" />
-            </span>
+            <span className="brand-mark" aria-hidden="true" />
             <span>ArcLeap AI</span>
           </a>
           <nav aria-label="Primary" className="nav-links">

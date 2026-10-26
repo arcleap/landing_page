@@ -5,23 +5,26 @@
  * grotesk, mono labels, numbered sections under a rule, one accent. Hairline
  * (github.com/lucasmarkes/hairline) supplies the figures: isometric line
  * drawings, opaque plates in the page colour, a five-step grey ramp, and the
- * stroke as the only highlight.
+ * stroke as the highlight (the most moved also get a pale accent plate). The
+ * accent is the brand's racing green.
  */
 
 :root {
   --bg: #ffffff;
-  --ink: #0a0a0a;
-  --muted: #6b6b6b;
-  --faint: #a3a3a3;
-  --rule: #e4e4e7;
-  --accent: #e0421a;
-  --accent-text: #cc3a14;
-  --on-accent: #ffffff;
+  --ink: #1a1f1d;
+  --muted: #69716d;
+  --faint: #88908c;
+  --rule: #e1e6e3;
+  --accent: #0b4430;
+  --accent-text: #0b4430;
+  --on-accent: #f4f3ef;
+  --logo: var(--accent);
   --hl-plate: #ffffff;
-  --hl-hi: #232327;
-  --hl-edge: #a4a4ac;
-  --hl-mid: #c3c3c9;
-  --hl-lo: #e0e0e4;
+  --hl-lit: #eff3f2;
+  --hl-hi: #262c29;
+  --hl-edge: #a3aba7;
+  --hl-mid: #c3c9c6;
+  --hl-lo: #e1e6e3;
   --hl-stroke: 0.9px;
   --display: var(--font-inter-tight), var(--font-inter), Arial, sans-serif;
   --sans: var(--font-inter), Arial, sans-serif;
@@ -35,19 +38,21 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #08090a;
-  --ink: #f2f3f5;
-  --muted: #a3a7af;
-  --faint: #5d616a;
-  --rule: #1f2023;
-  --accent: #ff5a2c;
-  --accent-text: #ff5a2c;
-  --on-accent: #08090a;
-  --hl-plate: #08090a;
-  --hl-hi: #d0d6e0;
-  --hl-edge: #5b5d64;
-  --hl-mid: #3e3e44;
-  --hl-lo: #29292d;
+  --bg: #080b0a;
+  --ink: #eef2f0;
+  --muted: #a2aba7;
+  --faint: #5c6561;
+  --rule: #1c2220;
+  --accent: #6db099;
+  --accent-text: #6db099;
+  --on-accent: #080b0a;
+  --logo: var(--ink);
+  --hl-plate: #080b0a;
+  --hl-lit: #0e1d17;
+  --hl-hi: #cfd8d4;
+  --hl-edge: #5a635f;
+  --hl-mid: #3c4441;
+  --hl-lo: #272e2b;
   color-scheme: dark;
 }
 
@@ -209,25 +214,19 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  color: var(--logo);
   font: 600 0.98rem/1 var(--display);
   letter-spacing: -0.02em;
 }
 
 .brand-mark {
-  position: relative;
   display: block;
   width: 2.1rem;
   aspect-ratio: 3 / 2;
-}
-
-.brand-mark-image {
-  object-fit: contain;
-  filter: invert(1);
+  background: var(--logo);
+  -webkit-mask: url("/arcleap-mark.png") center / contain no-repeat;
+  mask: url("/arcleap-mark.png") center / contain no-repeat;
   transform: scaleX(0.86);
-}
-
-:root[data-theme="dark"] .brand-mark-image {
-  filter: none;
 }
 
 .nav-links {
@@ -472,6 +471,7 @@ a {
 }
 
 .hl .lit {
+  fill: var(--hl-lit);
   stroke: var(--accent);
 }
 
@@ -724,6 +724,14 @@ a {
   line-height: 1.6;
 }
 
+.room-deck {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  padding-bottom: 0.25rem;
+}
+
 .gate {
   margin-top: 1.5rem;
 }
@@ -898,6 +906,21 @@ a {
 
 .room-foot a:hover {
   color: var(--ink);
+}
+
+/* A Papermark link shown in the room (app/room/[id]), as tall as the window allows. */
+.room-viewer {
+  height: max(32rem, calc(100svh - 11rem));
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  border: 1px solid var(--rule);
+  background: var(--hl-plate);
+}
+
+.room-viewer iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* Reveal: only hides content once JavaScript is known to be running. */

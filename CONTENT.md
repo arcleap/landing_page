@@ -1,7 +1,7 @@
 # ArcLeap AI — Public Content Spec
 
 **Status:** Stealth staging page, Swiss × hairline · production publication requires Jin’s approval of the exact SHA
-**Updated:** 2026-10-09
+**Updated:** 2026-10-24
 **Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling revised 2026-10-09
 
 The page stays deliberately vague. It states the headline, asks the question, and names where we begin. It does not explain method, the forecast loop, distributions, data strategy, partners, architecture, datasets, experiments, customers, pricing, or fundraising.
@@ -53,11 +53,13 @@ The headline is unchanged. “Currently in stealth”, “Get in touch”, “Wh
 
 ## Private room (`/room`)
 
-A locked page Jin uses to play demos live in pitches and on video calls. It isn't shared with anyone, linked from the site, indexed, or cached. One passcode unlocks it for 30 days on that browser; videos are unlisted YouTube embeds. The passcode, video IDs, and signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_PASSCODE`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
+A locked page for the demos and the investor deck. Jin plays the demos live in pitches and on video calls, and may give the passcode to investors to read the deck; it then opens the demos too. The room isn't linked from the site, indexed, or cached. One passcode unlocks it for 30 days on that browser; videos are unlisted YouTube embeds. The passcode, video IDs, and signing key live only in Vercel environment variables (`ROOM_SECRET`, `ROOM_PASSCODE`, `ROOM_VIDEOS`; format in `lib/room.ts`), because this repo is public.
 
 - Locked: **Private.** “This page is locked.”
-- Unlocked: **Demos.** with the videos, marked Confidential.
+- Unlocked: **Demos.** with **Deck** and **PDF** links and the videos, marked Confidential.
+- Deck: Jin's investor deck at `/room/deck` (HTML) and `/room/deck.pdf`. Its source of truth is the vault (`VC & Fundraising/BPs/ArcLeap AI — Investor Deck (YYYY-MM-DD).html` and `.pdf`); content changes happen there, not here. Only AES-256-GCM ciphertext is committed (`content/private/*.enc`); the server checks the passcode session, then decrypts with `ROOM_DECK_KEY` (format in `lib/deck.ts`). Signed-out requests get a redirect to `/room` and no deck bytes. The deck opens light whatever the system setting, with the site's light/dark switch added to its top bar as it's served; the choice is shared with the rest of arcleap.ai. To refresh it: `node scripts/room-deck.mjs <deck.html> <deck.pdf>`, commit the two `.enc` files, deploy.
 - Each video resizes by dragging its corner handle, from 320px up to the window's size; double-click resets. Sizes are remembered in that browser.
+- Investor links: `arcleap.ai/room/<id>` shows the Papermark link `papermark.com/view/<id>` inside the room's frame (Papermark's embed, `app/room/[id]`). Jin makes one Papermark link per investor, with a password (and email check, if wanted), and sends the arcleap.ai form of it. Papermark asks for the password, plays the video or shows the document, and records who viewed, when and for how long; Jin reads that, and gets view emails, in Papermark. Nothing about these links is stored here.
 
 ## Metadata
 
