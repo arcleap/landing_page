@@ -1,7 +1,7 @@
 # ArcLeap AI — Brand Spec
 
 **Status:** Stealth landing page in the Swiss × hairline style, for protected review
-**Updated:** 2026-10-09
+**Updated:** 2026-10-26
 
 ## Identity
 
@@ -28,21 +28,24 @@ Swiss supplies the page; hairline (github.com/lucasmarkes/hairline, MIT) supplie
 - **Grid.** 12 columns, flush-left, asymmetric: text in columns 1–6, figures in 7–12.
 - **Section frame.** Every section opens on a 1px ink rule with its number in the accent, its name as a mono label, and a running label on the right.
 - **Type.** Inter Tight for display (300 for the large question, 500 elsewhere, tracking −0.035 to −0.055em); Inter for body; Geist Mono, uppercase with +0.08em tracking, for labels, buttons, navigation, and read-outs.
-- **One accent.** Swiss red-orange, with one meaning: the response — the headline’s “predicted together.”, the people who respond in a figure, and section numbers.
-- **Figures.** Isometric line drawings on a 2:1 camera: rounded prisms, opaque plates in the page colour painted back to front, 0.9px non-scaling strokes on a five-step grey ramp. The stroke is the only highlight (grey → ink → accent), no words inside figures (read-outs go in the mono caption), and every resting frame reads on its own.
+- **One accent.** Racing green, the brand color, with one meaning: the response — the headline’s “predicted together.”, the people who respond in a figure (green stroke on a pale green plate), and section numbers. The logo and wordmark are racing green on light and off-white on dark.
+- **Figures.** Isometric line drawings on a 2:1 camera: rounded prisms, opaque plates in the page colour painted back to front, 0.9px non-scaling strokes on a five-step grey ramp. The stroke carries the highlight (grey → ink → accent, the last on a pale accent plate), no words inside figures (read-outs go in the mono caption), and every resting frame reads on its own.
 - No glows, shadows, gradients, glass, pills, cards, stock photography, or generic AI imagery.
 
 ### Palette
 
 | Role | Light | Dark |
 |---|---|---|
-| Background / plate | `#FFFFFF` | `#08090A` |
-| Ink | `#0A0A0A` | `#F2F3F5` |
-| Muted text | `#6B6B6B` | `#A3A7AF` |
-| Rule | `#E4E4E7` | `#1F2023` |
-| Accent (graphics, large type) | `#E0421A` | `#FF5A2C` |
-| Accent text (small type) | `#CC3A14` | `#FF5A2C` |
-| Figure hi / edge / mid / lo | `#232327` `#A4A4AC` `#C3C3C9` `#E0E0E4` | `#D0D6E0` `#5B5D64` `#3E3E44` `#29292D` |
+| Background / plate | `#FFFFFF` | `#080B0A` |
+| Ink | `#1A1F1D` | `#EEF2F0` |
+| Muted text | `#69716D` | `#A2ABA7` |
+| Faint | `#88908C` | `#5C6561` |
+| Rule | `#E1E6E3` | `#1C2220` |
+| Accent, racing green (type and graphics) | `#0B4430` | `#6DB099` |
+| Text on accent | `#F4F3EF` | `#080B0A` |
+| Logo | `#0B4430` | `#EEF2F0` |
+| Figure lit plate | `#EFF3F2` | `#0E1D17` |
+| Figure hi / edge / mid / lo | `#262C29` `#A3ABA7` `#C3C9C6` `#E1E6E3` | `#CFD8D4` `#5A635F` `#3C4441` `#272E2B` |
 
 ## Motion
 

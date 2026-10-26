@@ -15,7 +15,7 @@ export default function OpenGraphImage() {
         height: "100%",
         padding: "64px 72px",
         background: "#ffffff",
-        color: "#0a0a0a",
+        color: "#1a1f1d",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -23,17 +23,17 @@ export default function OpenGraphImage() {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          borderTop: "1.5px solid #0a0a0a",
+          borderTop: "1.5px solid #1a1f1d",
           paddingTop: 16,
           fontSize: 17,
           letterSpacing: 2,
         }}
       >
         <div style={{ display: "flex", gap: 28 }}>
-          <span style={{ color: "#cc3a14" }}>00</span>
+          <span style={{ color: "#0b4430" }}>00</span>
           <span>ARCLEAP AI</span>
         </div>
-        <span style={{ color: "#6b6b6b" }}>CURRENTLY IN STEALTH</span>
+        <span style={{ color: "#69716d" }}>CURRENTLY IN STEALTH</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", maxWidth: 1060 }}>
         <div
@@ -47,9 +47,9 @@ export default function OpenGraphImage() {
           }}
         >
           Physicality and psychology,
-          <span style={{ color: "#e0421a" }}>predicted together.</span>
+          <span style={{ color: "#0b4430" }}>predicted together.</span>
         </div>
-        <div style={{ marginTop: 32, fontSize: 24, color: "#6b6b6b" }}>
+        <div style={{ marginTop: 32, fontSize: 24, color: "#69716d" }}>
           Predictive intelligence for how people respond when the physical world changes.
         </div>
       </div>
