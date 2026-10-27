@@ -36,7 +36,6 @@ export default async function RoomPage() {
         {hasDeck() ? (
           // Plain links: these are route handlers, not pages.
           <div className="room-side room-deck">
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- a route handler, not the [id] page */}
             <a className="button" href="/room/deck">
               <span>Deck</span>
               <span aria-hidden="true">→</span>
