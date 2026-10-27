@@ -9,9 +9,10 @@ export const metadata: Metadata = {
 };
 
 // An investor's own link, arcleap.ai/room/<id>, showing the Papermark link with
-// that id (papermark.com/view/<id>) inside the room. Papermark asks for the
-// link's password (and email, if set), plays the video, and records who
-// watched, when and for how long; Jin reads that in Papermark.
+// that id (papermark.com/view/<id>) inside the room. It skips the room passcode
+// on purpose: Papermark asks for whatever the link is set to (an email), plays
+// the video, and records who watched, when and for how long; Jin reads that in
+// Papermark.
 export default async function PapermarkPage({ params }: PageProps<"/room/[id]">) {
   const { id } = await params;
   if (!/^[A-Za-z0-9_-]{10,64}$/.test(id)) notFound();
