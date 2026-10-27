@@ -38,14 +38,14 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI is building predictive intelligence for how people respond when the physical world changes.";
+  "ArcLeap AI builds the human layer of any world: one model that predicts how people respond, physically and psychologically, when their world changes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
-  title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
+  title: "ArcLeap AI — The Human Layer of Any World",
   description: siteDescription,
   openGraph: {
-    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
+    title: "ArcLeap AI — The Human Layer of Any World",
     description: siteDescription,
     url: "https://arcleap.ai/",
     siteName: "ArcLeap AI",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ArcLeap AI — Physicality and Psychology, Predicted Together",
+    title: "ArcLeap AI — The Human Layer of Any World",
     description: siteDescription,
   },
   alternates: {

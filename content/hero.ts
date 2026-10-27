@@ -2,10 +2,10 @@ export const hero = {
   eyebrow: "ARCLEAP AI",
   status: "CURRENTLY IN STEALTH",
   h1: {
-    lead: "Physicality and psychology,",
-    accent: "predicted together.",
+    lead: "The human layer",
+    accent: "of any world.",
   },
-  body: "We’re building predictive intelligence for how people respond when the physical world changes.",
+  body: "We’re building one model that predicts how people respond, physically and psychologically, when their world changes.",
   cta: {
     label: "Get in touch",
     href: "mailto:contact@arcleap.ai",

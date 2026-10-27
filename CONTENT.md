@@ -4,13 +4,13 @@
 **Updated:** 2026-10-27
 **Authority:** `_ARCLEAP — Source of Truth.md` public positioning and homepage ruling revised 2026-10-09
 
-The page stays deliberately vague. It states the headline, asks the question, and names where we begin. It does not explain method, the forecast loop, distributions, data strategy, partners, architecture, datasets, experiments, customers, pricing, or fundraising.
+The page stays deliberately vague. It states the headline, says who it is for, and how far it reaches. It does not explain method, the forecast loop, distributions, data strategy, partners, architecture, datasets, experiments, customers, pricing, or fundraising.
 
 ## Page structure
 
 1. 00 ArcLeap AI — hero with Fig. 01
 2. 01 Direction
-3. 02 Where we begin
+3. 02 Any world
 4. 03 Contact and footer
 
 ## Navigation
@@ -24,32 +24,33 @@ The page stays deliberately vague. It states the headline, asks the question, an
 ## 00 Hero
 
 - Frame: `00` `ARCLEAP AI` · `CURRENTLY IN STEALTH`
-- H1: **Physicality and psychology, predicted together.**
-- Body: **We’re building predictive intelligence for how people respond when the physical world changes.**
+- H1: **The human layer of any world.** (“of any world.” in the accent)
+- Body: **We’re building one model that predicts how people respond, physically and psychologically, when their world changes.**
 - CTAs: **Get in touch** → `mailto:contact@arcleap.ai` · **Our direction** → `#approach`
 - Fig. 01 caption: `FIG. 01` · `MOVE THE POINTER TO INTRODUCE A CHANGE` · live `X 000 · Y 000` read-out
 
 ## 01 Direction
 
-- H2: **What happens next?**
-- **Every change to the physical world lands on people, and no two respond alike. We’re building models that anticipate how.**
+- H2: **Built for people.**
+- **Almost everything that gets built is built for people. Today’s AI is learning to make things. We work on the other side: how people will respond, before anything is built.**
 
-## 02 Where we begin
+## 02 Any world
 
-1. Products — Things people hold, wear, and use.
-2. Spaces — Places people move through.
-3. Robots — Machines that share space with people.
+- H2: **1 cm to 1 km.**
+- **From something held in a hand to a whole city, every change lands on someone. We predict how they’ll respond, in body and mind, at any scale.**
+- Fig. 02 caption: `FIG. 02` · `POINT AT A RING TO READ ITS SCALE` · live read-out from `1 CM` to `1 KM`
+- No list of sectors (products, spaces, robots): Jin ruled them too concrete on 2026-10-27.
 
 ## 03 Contact and footer
 
-- **Building something that works around people?** We’d like to hear from you.
+- **Building something for people?** We’d like to hear from you.
 - Display `contact@arcleap.ai`.
 - Include the low-profile attribution `Co-Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
 
 ## Copy in this revision
 
-The headline is unchanged. “Currently in stealth”, “Get in touch”, “What happens next?”, and “Where we begin” come from earlier approved stealth versions. New and pending Jin’s approval: the hero body (adapted from the brand identity line), the direction paragraph, the three one-line area descriptions, the contact question, and the figure caption.
+Staging proposal of 2026-10-27, pending Jin’s approval. The headline and hero body come from Jin’s positioning line; “Built for people.” and its paragraph from the trailer’s opening; “1 cm to 1 km.” from the trailer’s scale scene; the contact question follows the new direction. “Currently in stealth” and “Get in touch” are unchanged. Nothing else from the trailer goes on the page.
 
 ## Private room (`/room`)
 

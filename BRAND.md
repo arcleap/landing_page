@@ -1,13 +1,13 @@
 # ArcLeap AI — Brand Spec
 
 **Status:** Stealth landing page in the Swiss × hairline style, for protected review
-**Updated:** 2026-10-26
+**Updated:** 2026-10-27
 
 ## Identity
 
 ArcLeap AI is building predictive intelligence for how real people respond when the physical world changes.
 
-- Public headline on this concise staging candidate: **Physicality and psychology, predicted together.**
+- Public headline: **The human layer of any world.** (from the positioning line “ArcLeap AI builds the human layer of any world: one model that predicts people’s physical and psychological response when their world changes”, 2026-10-27)
 - Public pair: **Physicality and psychology.**
 - `Human World Models` is an internal and technical descriptor, not the public headline.
 - The public page stays deliberately vague: it names the question and where we begin, never how.
@@ -28,7 +28,7 @@ Swiss supplies the page; hairline (github.com/lucasmarkes/hairline, MIT) supplie
 - **Grid.** 12 columns, flush-left, asymmetric: text in columns 1–6, figures in 7–12.
 - **Section frame.** Every section opens on a 1px ink rule with its number in the accent, its name as a mono label, and a running label on the right.
 - **Type.** Inter Tight for display (300 for the large question, 500 elsewhere, tracking −0.035 to −0.055em); Inter for body; Geist Mono, uppercase with +0.08em tracking, for labels, buttons, navigation, and read-outs.
-- **One accent.** Racing green, the brand color, with one meaning: the response — the headline’s “predicted together.”, the people who respond in a figure (green stroke on a pale green plate), and section numbers. The logo and wordmark are racing green on light and off-white on dark.
+- **One accent.** Racing green, the brand color, with one meaning: the response — the headline’s “of any world.”, the people who respond in a figure (green stroke on a pale green plate), and section numbers. The logo and wordmark are racing green on light and off-white on dark.
 - **Figures.** Isometric line drawings on a 2:1 camera: rounded prisms, opaque plates in the page colour painted back to front, 0.9px non-scaling strokes on a five-step grey ramp. The stroke carries the highlight (grey → ink → accent, the last on a pale accent plate), no words inside figures (read-outs go in the mono caption), and every resting frame reads on its own.
 - No glows, shadows, gradients, glass, pills, cards, stock photography, or generic AI imagery.
 
@@ -51,7 +51,8 @@ Swiss supplies the page; hairline (github.com/lucasmarkes/hairline, MIT) supplie
 
 - Hairline’s curves: `cubic-bezier(.32,.72,0,1)` over 700ms for discrete moves, springs (k 100, c 18) for continuous ones, `cubic-bezier(.5,0,.1,1)` for stroke colour.
 - Fig. 01 answers the pointer: a change follows it across a crowd and the people near it rise, each by their own amount. Without a pointer the change wanders slowly; the figure stops when it is off screen.
-- Section rules draw in once; the focus figures lift their object off a dashed footprint on hover.
+- Fig. 02 spreads a change from the middle, ring by ring from 1 cm to 1 km, and each person rises as it reaches them; pointing at a ring reads its scale and lifts the people in it.
+- Section rules draw in once.
 - Content is visible without JavaScript; `prefers-reduced-motion` removes transitions, stops the wander, and keeps the pointer response instant.
 
 ## Interaction and accessibility
