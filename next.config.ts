@@ -46,13 +46,6 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        // A link straight to the trailer: arcleap.ai/watch/<id> opens the
-        // DocSend document link docsend.com/view/<id>, skipping the Space.
-        source: "/watch/:id([a-z0-9]{16})",
-        destination: "https://docsend.com/view/:id",
-        permanent: false,
-      },
-      {
         source: "/signals",
         destination: "https://jinmiao.ai/signals",
         permanent: true,
