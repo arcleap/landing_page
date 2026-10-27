@@ -38,6 +38,14 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // An investor's trailer link: arcleap.ai/room/<id> opens the DocSend
+        // link docsend.com/view/s/<id>. DocSend can't be shown in a frame, so
+        // this is a redirect; which link went to which firm lives only in DocSend.
+        source: "/room/:id([a-z0-9]{16})",
+        destination: "https://docsend.com/view/s/:id",
+        permanent: false,
+      },
+      {
         source: "/signals",
         destination: "https://jinmiao.ai/signals",
         permanent: true,
