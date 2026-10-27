@@ -11,7 +11,7 @@ export const footer = {
   email: "contact@arcleap.ai",
   number: "03",
   label: "CONTACT",
-  question: "Building something that works around people?",
+  question: "Building something for people?",
   ask: "We’d like to hear from you.",
   founders: [
     { role: "Co-Founder & CEO", name: "Jin Miao" },

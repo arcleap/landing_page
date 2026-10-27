@@ -527,80 +527,57 @@ a {
   line-height: 1.6;
 }
 
-/* Where we begin */
+/* Any world */
 
-.focus-list {
-  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-  padding: 0;
-  list-style: none;
+.scale-grid {
+  row-gap: 3rem;
+  align-items: center;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
-.focus-item {
-  position: relative;
-  grid-column: span 4;
+.scale-copy {
+  grid-column: 1 / span 5;
 }
 
-/* Dividers sit in the gutter so every column keeps the same width. */
-.focus-item + .focus-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(var(--gutter) / -2);
-  width: 1px;
-  background: var(--rule);
+.scale-figure {
+  grid-column: 7 / span 6;
 }
 
-.focus-item:nth-child(2) {
-  transition-delay: 90ms;
-}
-
-.focus-item:nth-child(3) {
-  transition-delay: 180ms;
-}
-
-.focus-num {
-  margin: 1.25rem 0 0;
-  color: var(--accent-text);
-  font: 400 0.72rem/1 var(--mono);
-  letter-spacing: 0.08em;
-}
-
-.focus-item h3 {
-  margin: 0.6rem 0 0;
+.scale-title {
+  margin: 0;
   font-family: var(--display);
-  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  font-size: clamp(3.2rem, 7.4vw, 7rem);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  font-variant-numeric: tabular-nums;
 }
 
-.focus-line {
-  margin: 0.6rem 0 0;
+.scale-body {
+  max-width: 26rem;
+  margin: 2rem 0 0;
   color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.5;
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
 
-.glyph-object {
+.scale {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scale-person {
   transition: transform 700ms var(--ease);
 }
 
-.glyph-ghost {
-  opacity: 0;
-  transition: opacity 400ms var(--ease-stroke);
+.scale-person.is-hit {
+  transform: translateY(-6px);
 }
 
-.focus-item:hover .glyph-object {
-  transform: translateY(-14px);
-}
-
-.focus-item:hover .glyph-object .sil {
-  stroke: var(--hl-hi);
-}
-
-.focus-item:hover .glyph-ghost {
-  opacity: 1;
+.scale-person.is-hit .sil {
+  fill: var(--hl-lit);
+  stroke: var(--accent);
 }
 
 /* Contact and footer */
@@ -963,25 +940,12 @@ a {
     grid-column: 1 / -1;
   }
 
-  .focus-item,
+  .scale-copy,
+  .scale-figure,
   .room-title,
   .room-side,
   .room-intro > .room-body {
     grid-column: 1 / -1;
-  }
-
-  .focus-item + .focus-item {
-    margin-top: 2.5rem;
-    border-top: 1px solid var(--rule);
-    padding-top: 2.5rem;
-  }
-
-  .focus-item + .focus-item::before {
-    display: none;
-  }
-
-  .glyph {
-    max-width: 26rem;
   }
 }
 

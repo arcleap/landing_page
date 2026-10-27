@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ArcLeap AI — Physicality and psychology, predicted together";
+export const alt = "ArcLeap AI — The human layer of any world";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -46,11 +46,11 @@ export default function OpenGraphImage() {
             letterSpacing: -3.5,
           }}
         >
-          Physicality and psychology,
-          <span style={{ color: "#0b4430" }}>predicted together.</span>
+          The human layer
+          <span style={{ color: "#0b4430" }}>of any world.</span>
         </div>
         <div style={{ marginTop: 32, fontSize: 24, color: "#69716d" }}>
-          Predictive intelligence for how people respond when the physical world changes.
+          One model that predicts how people respond, physically and psychologically, when their world changes.
         </div>
       </div>
     </div>,
