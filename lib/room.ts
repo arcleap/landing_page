@@ -17,7 +17,7 @@ import { cookies } from "next/headers";
 
 export type Video = { title: string; id: string; note?: string };
 
-const COOKIE = "arcleap_room";
+export const COOKIE = "arcleap_room";
 const PATH = "/room";
 const SESSION_DAYS = 30;
 const MIN_PASSCODE = 10;
@@ -92,7 +92,11 @@ export async function endSession() {
 
 // True if the session cookie is signed, unexpired, and the passcode hasn't changed since.
 export async function isUnlocked(): Promise<boolean> {
-  const raw = (await cookies()).get(COOKIE)?.value;
+  return isValidSession((await cookies()).get(COOKIE)?.value);
+}
+
+// The same check on the cookie's value, for proxy.ts, which has the request rather than cookies().
+export function isValidSession(raw: string | undefined): boolean {
   const room = raw ? config() : null;
   if (!raw || !room) return false;
   const [body, signature] = raw.split(".");
