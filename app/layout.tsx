@@ -87,7 +87,12 @@ const orgJsonLd = {
     { "@type": "Person", name: "Yifan Wang", jobTitle: "Co-Founder" },
   ],
   foundingDate: "2026",
-  foundingLocation: "Silicon Valley, California",
+  foundingLocation: {
+    "@type": "Place",
+    name: "Silicon Valley, California, United States",
+    address: { "@type": "PostalAddress", addressRegion: "CA", addressCountry: "US" },
+  },
+  address: { "@type": "PostalAddress", addressRegion: "CA", addressCountry: "US" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
