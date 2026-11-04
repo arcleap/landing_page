@@ -24,6 +24,7 @@ The page stays deliberately vague. It states the headline, says who it is for, a
 ## 00 Hero
 
 - Frame: `00` `ARCLEAP AI` · `CURRENTLY IN STEALTH`
+- Above the H1: `A US COMPANY · FOUNDED IN SILICON VALLEY` (Jin asked on 2026-11-04 for the page to say plainly that ArcLeap is a US company founded in Silicon Valley; the footer and the link-preview image say it too)
 - H1: **The human layer of any world.** (“of any world.” in the accent)
 - Body: **We’re building one model that predicts how people respond, physically and psychologically, when their world changes.**
 - CTAs: **Get in touch** → `mailto:contact@arcleap.ai` · **Our direction** → `#approach`
@@ -45,6 +46,7 @@ The page stays deliberately vague. It states the headline, says who it is for, a
 
 - **Building something for people?** We’d like to hear from you.
 - Display `contact@arcleap.ai`.
+- Footer line under the copyright: `A US COMPANY · FOUNDED IN SILICON VALLEY, CALIFORNIA`.
 - Include the low-profile attribution `Co-Founder & CEO: Jin Miao`, `Co-Founder: Qi Guo`, and `Co-Founder: Yifan Wang`.
 - No founder biographies, portraits, hiring copy, request form, or public uploads.
 

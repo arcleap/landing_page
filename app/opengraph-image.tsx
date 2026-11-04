@@ -33,7 +33,7 @@ export default function OpenGraphImage() {
           <span style={{ color: "#0b4430" }}>00</span>
           <span>ARCLEAP AI</span>
         </div>
-        <span style={{ color: "#69716d" }}>CURRENTLY IN STEALTH</span>
+        <span style={{ color: "#69716d" }}>SILICON VALLEY, USA · CURRENTLY IN STEALTH</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", maxWidth: 1060 }}>
         <div

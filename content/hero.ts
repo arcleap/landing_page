@@ -1,6 +1,7 @@
 export const hero = {
   eyebrow: "ARCLEAP AI",
   status: "CURRENTLY IN STEALTH",
+  origin: "A US company · Founded in Silicon Valley",
   h1: {
     lead: "The human layer",
     accent: "of any world.",

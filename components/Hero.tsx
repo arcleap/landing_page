@@ -18,6 +18,7 @@ export function Hero() {
         />
         <div className="grid hero-grid">
           <div className="hero-copy">
+            <p className="hero-origin">{hero.origin}</p>
             <h1 id="hero-title">
               <span>{hero.h1.lead}</span> <span className="accent-text">{hero.h1.accent}</span>
             </h1>

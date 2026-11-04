@@ -19,4 +19,5 @@ export const footer = {
     { role: "Co-Founder", name: "Yifan Wang" },
   ],
   rights: `© ${new Date().getFullYear()} ArcLeap AI, Inc.`,
+  origin: "A US company · Founded in Silicon Valley, California",
 } as const;

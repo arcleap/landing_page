@@ -318,6 +318,15 @@ a {
   grid-column: 7 / span 6;
 }
 
+.hero-origin {
+  margin: 0 0 1.5rem;
+  color: var(--ink);
+  font: 400 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: rise 900ms var(--ease) both;
+}
+
 .hero h1 {
   margin: 0;
   font-family: var(--display);
@@ -650,6 +659,11 @@ a {
 
 .footer-bottom p {
   margin: 0;
+}
+
+.footer-legal {
+  display: grid;
+  gap: 0.35rem;
 }
 
 .footer-founders {
