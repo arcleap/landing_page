@@ -33,7 +33,7 @@ The page stays deliberately vague. It states the headline, says who it is for, a
 ## 01 Direction
 
 - H2: **Built for people.**
-- **Almost everything that gets built is built for people. Today’s AI is learning to make things. We work on the other side: what people will physically do with those things, and how they’ll feel, before anything is built.**
+- **Almost everything that gets built is built for people. Today’s AI is learning to make things and to model what people say and choose. We work on the other side: what people will physically do, and how they’ll feel, before anything is built.**
 
 ## 02 Any world
 
@@ -54,7 +54,7 @@ The page stays deliberately vague. It states the headline, says who it is for, a
 
 Staging proposal of 2026-10-27, pending Jin’s approval. The headline and hero body come from Jin’s positioning line; “Built for people.” and its paragraph from the trailer’s opening; “1 cm to 1 km.” from the trailer’s scale scene; the contact question follows the new direction. “Currently in stealth” and “Get in touch” are unchanged. Nothing else from the trailer goes on the page.
 
-Staging revision of 2026-11-06, pending Jin’s approval. Visitors read “predicts how people respond” as surveys or chatbot personas, so the hero body and the Direction paragraph now say what people physically do (“move”, “physically do”, “feel”) and name a product, a space and a robot as examples of a change (examples in one sentence, not sections). The meta description and the link-preview image follow the hero. Write it plainly: no “not X, but Y” contrasts and no “no this, no that” lists.
+Staging revision of 2026-11-06, pending Jin’s approval. Visitors read “predicts how people respond” as surveys or chatbot personas, so the hero body and the Direction paragraph now say what people physically do (“move”, “physically do”, “feel”) and name a product, a space and a robot as examples of a change (examples in one sentence, not sections). The Direction paragraph also says what others model (what people say and choose), inside the existing sentence. The meta description names the three examples (“ArcLeap AI predicts how people will move and feel when their world changes: a new product, a new space or a robot at their side.”); the title keeps “The human layer of any world”, and the link-preview image follows the hero. Write it plainly: no “not X, but Y” contrasts and no “no this, no that” lists.
 
 ## Private room (`/room`)
 
