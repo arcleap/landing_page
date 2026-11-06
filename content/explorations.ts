@@ -2,7 +2,7 @@ export const explorations = {
   number: "01",
   eyebrow: "DIRECTION",
   h2: "Built for people.",
-  body: "Almost everything that gets built is built for people. Today’s AI is learning to make things. We work on the other side: how people will respond, before anything is built.",
+  body: "Almost everything that gets built is built for people. Today’s AI is learning to make things. We work on the other side: what people will physically do with those things, and how they’ll feel, before anything is built.",
   scale: {
     number: "02",
     eyebrow: "ANY WORLD",

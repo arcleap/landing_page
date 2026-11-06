@@ -50,7 +50,7 @@ export default function OpenGraphImage() {
           <span style={{ color: "#0b4430" }}>of any world.</span>
         </div>
         <div style={{ marginTop: 32, fontSize: 24, color: "#69716d" }}>
-          One model that predicts how people respond, physically and psychologically, when their world changes.
+          One model that predicts how people will move and feel when their world changes, whether that’s a new product, a new space or a robot at their side.
         </div>
       </div>
     </div>,

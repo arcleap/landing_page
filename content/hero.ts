@@ -6,7 +6,7 @@ export const hero = {
     lead: "The human layer",
     accent: "of any world.",
   },
-  body: "We’re building one model that predicts how people respond, physically and psychologically, when their world changes.",
+  body: "We’re building one model that predicts how people will move and feel when their world changes, whether that’s a new product, a new space or a robot at their side.",
   cta: {
     label: "Get in touch",
     href: "mailto:contact@arcleap.ai",

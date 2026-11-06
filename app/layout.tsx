@@ -38,7 +38,7 @@ const themeInitScript = `
 
 const isPreview = process.env.VERCEL_ENV === "preview";
 const siteDescription =
-  "ArcLeap AI builds the human layer of any world: one model that predicts how people respond, physically and psychologically, when their world changes.";
+  "ArcLeap AI builds the human layer of any world: one model that predicts how people will move and feel when their world changes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://arcleap.ai"),
